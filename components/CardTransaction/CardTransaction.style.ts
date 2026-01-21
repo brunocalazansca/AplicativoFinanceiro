@@ -1,18 +1,22 @@
-import { StyleSheet } from 'react-native';
-import { shadow } from "@/styles/shadow";
+import { StyleSheet, Dimensions } from 'react-native';
+import { shadow } from '@/styles/shadow';
+
+const { width, height } = Dimensions.get('window');
+const wp = (percent: number) => (width * percent) / 100;
+const hp = (percent: number) => (height * percent) / 100;
 
 export const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        borderRadius: 20,
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-        marginBottom: 8,
+        borderRadius: wp(6),
+        paddingHorizontal: wp(5),
+        paddingVertical: hp(2),
+        marginBottom: hp(1.4),
         borderWidth: 1,
         borderColor: '#E5E7EB',
-        ...shadow
+        ...shadow,
     },
     leftArea: {
         flexDirection: 'row',
@@ -20,12 +24,12 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
     iconContainer: {
-        width: 32,
-        height: 32,
-        borderRadius: 12,
+        width: wp(10),
+        height: wp(10),
+        borderRadius: wp(4),
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 12,
+        marginRight: wp(4),
     },
     iconEntrada: {
         backgroundColor: '#E8F6ED',
@@ -37,25 +41,25 @@ export const styles = StyleSheet.create({
         flexShrink: 1,
     },
     descricao: {
-        fontSize: 14,
+        fontSize: wp(4),
         fontWeight: '600',
         color: '#111827',
     },
     banco: {
-        fontSize: 12,
+        fontSize: wp(3.4),
         color: '#6B7280',
-        marginTop: 2,
+        marginTop: hp(0.4),
     },
     rightArea: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 12,
+        marginLeft: wp(4),
     },
     valueDateContainer: {
         alignItems: 'flex-end',
     },
     valor: {
-        fontSize: 14,
+        fontSize: wp(4),
         fontWeight: '700',
     },
     valorEntrada: {
@@ -64,17 +68,12 @@ export const styles = StyleSheet.create({
     valorDespesa: {
         color: '#EF4343',
     },
-    dateRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 4,
-    },
     data: {
-        fontSize: 12,
+        fontSize: wp(3.3),
         color: '#6B7280',
-        marginTop: 2,
+        marginTop: hp(0.4),
     },
     trashButton: {
-        marginLeft: 8,
+        marginLeft: wp(3),
     },
 });

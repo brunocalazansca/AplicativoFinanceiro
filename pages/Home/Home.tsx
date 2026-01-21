@@ -2,6 +2,7 @@ import { StatusBar, View } from 'react-native';
 import { styles } from './Home.style';
 import Card from '../../components/Card/Card';
 import CardTransaction from "@/components/CardTransaction/CardTransaction";
+import Footer from "@/components/Footer/Footer";
 
 export default function Home() {
     return (
@@ -67,6 +68,7 @@ export default function Home() {
                     />
                 </View>
             </View>
+            <Footer/>
         </View>
     );
 }

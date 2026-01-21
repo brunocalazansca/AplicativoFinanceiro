@@ -1,10 +1,11 @@
-import { SafeAreaView, StatusBar, View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { styles } from './Home.style';
 import Card from '../../components/Card/Card';
+import CardTransaction from "@/components/CardTransaction/CardTransaction";
 
 export default function Home() {
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <StatusBar barStyle="dark-content" />
 
             <View style={styles.content}>
@@ -12,6 +13,7 @@ export default function Home() {
                     title="Saldo Total"
                     icon="credit-card"
                     valor={2330}
+                    valorColor="#000000"
                     color="#E6EEFF"
                     borderColor="#CADBFF"
                     iconBackgroundColor="#CBD9FF"
@@ -44,7 +46,27 @@ export default function Home() {
                         style={[styles.smallCard, styles.smallCardRight]}
                     />
                 </View>
+
+                <View style={styles.cardTransactionList}>
+                    <CardTransaction
+                        type="Entrada"
+                        descricao="INSS"
+                        banco="Nubank"
+                        valor={1000}
+                        data="2026-01-19"
+                        onDelete={() => console.log('Remover entrada')}
+                    />
+
+                    <CardTransaction
+                        type="Despesa"
+                        descricao="Internet"
+                        banco="Nubank"
+                        valor={100}
+                        data="2026-01-19"
+                        onDelete={() => console.log('Remover despesa')}
+                    />
+                </View>
             </View>
-        </SafeAreaView>
+        </View>
     );
 }

@@ -27,4 +27,8 @@ export const styles = StyleSheet.create({
     smallCardRight: {
         marginLeft: 8,
     },
+    cardTransactionList: {
+        flex: 1,
+        marginTop: 16,
+    },
 });

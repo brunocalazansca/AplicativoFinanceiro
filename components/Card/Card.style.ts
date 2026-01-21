@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {shadow} from "@/styles/shadow";
 
 export const styles = StyleSheet.create({
     container: {
@@ -10,6 +11,7 @@ export const styles = StyleSheet.create({
         borderColor: '#CDEFD6',
         backgroundColor: '#E8F6ED',
         flexDirection: 'column',
+        ...shadow
     },
     headerRow: {
         flexDirection: 'row',

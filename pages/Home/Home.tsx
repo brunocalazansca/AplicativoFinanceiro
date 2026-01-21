@@ -1,13 +1,20 @@
-import { StatusBar, View } from 'react-native';
-import { styles } from './Home.style';
+import { StatusBar, View, Text } from 'react-native';
+import { styles } from './HomeStyle';
 import Card from '../../components/Card/Card';
 import CardTransaction from "@/components/CardTransaction/CardTransaction";
 import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
     return (
-        <View style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+        <SafeAreaView style={styles.container}>
+            <Header/>
+            <StatusBar
+                barStyle="dark-content"
+                backgroundColor="#FFFFFF"
+                translucent={false}
+            />
 
             <View style={styles.content}>
                 <Card
@@ -21,6 +28,10 @@ export default function Home() {
                     iconColor="#3654B3"
                     style={styles.balanceCard}
                 />
+
+                <View>
+                    <Text style={styles.title}>Transações Recentes</Text>
+                </View>
 
                 <View style={styles.row}>
                     <Card
@@ -69,6 +80,6 @@ export default function Home() {
                 </View>
             </View>
             <Footer/>
-        </View>
+        </SafeAreaView>
     );
 }

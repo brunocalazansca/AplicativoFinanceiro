@@ -8,12 +8,10 @@ export const styles = StyleSheet.create({
     content: {
         flex: 1,
         paddingHorizontal: 16,
-        marginTop: '20%',
-        paddingBottom: 24,
+        marginTop: '7%',
     },
     balanceCard: {
         width: '100%',
-        marginBottom: 16,
     },
     row: {
         flexDirection: 'row',
@@ -31,4 +29,10 @@ export const styles = StyleSheet.create({
         flex: 1,
         marginTop: 16,
     },
+    title: {
+        fontSize: 18,
+        color: '#000000',
+        fontWeight: 'bold',
+        padding: 15
+    }
 });

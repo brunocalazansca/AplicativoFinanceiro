@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
-import { styles } from './Footer.style';
+import { styles } from './FooterStyle';
 
 export default function Footer() {
     const handleHome = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity,} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { TipoMovimentacao } from '@/_utils/typeTransaction';
-import { styles } from './CardTransaction.style';
+import { styles } from './CardTransactionStyle';
 import { formatDateLabel } from "@/_utils/formatDate";
 
 interface CardTransactionProps {

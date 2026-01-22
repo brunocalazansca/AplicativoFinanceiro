@@ -5,10 +5,9 @@ import Input from '../../components/Input/Input'
 import Button from "../../components/Button/Button";
 import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
-import {useState} from "react";
-import {Feather} from "@expo/vector-icons";
-
-type AuthMode = "login" | "register";
+import { useState } from "react";
+import { Feather } from "@expo/vector-icons";
+import {AuthMode} from "@/_utils/typeAuthMode";
 
 export default function LoginForm () {
     const [mode, setMode] = useState<AuthMode>("login");
@@ -31,7 +30,7 @@ export default function LoginForm () {
                         <Switch value={mode} onChange={setMode} />
                     </View>
 
-                    {mode === "register" && (
+                    {mode === "cadastro" && (
                         <>
                             <Text style={styles.textUser}>Nome completo</Text>
                             <Input
@@ -56,13 +55,25 @@ export default function LoginForm () {
                         secureTextEntry
                     />
 
-                    <Button
-                        title="Entrar"
-                        onPress={() =>
-                            router.replace('/home' as Href)
-                        }
-                        style={styles.button}
-                    />
+                    {mode === "cadastro" ? (
+                        <Button
+                            title="Cadastrar"
+                            onPress={() =>
+                                router.replace('/home' as Href)
+                            }
+                            style={styles.button}
+                        />
+                    ) : (
+                        <Button
+                            title="Entrar"
+                            onPress={() =>
+                                router.replace('/home' as Href)
+                            }
+                            style={styles.button}
+                        />
+                    )}
+
+
                 </View>
             </CardLogin>
         </View>

@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./SwitchStyle";
-
-type AuthMode = "login" | "register";
+import { AuthMode } from "@/_utils/typeAuthMode";
 
 interface SwitchProps {
     value: AuthMode;
@@ -33,15 +32,15 @@ export default function Switch({ value, onChange }: SwitchProps) {
             <TouchableOpacity
                 style={[
                     styles.tab,
-                    value === "register" && styles.tabActive,
+                    value === "cadastro" && styles.tabActive,
                 ]}
-                onPress={() => onChange("register")}
+                onPress={() => onChange("cadastro")}
                 activeOpacity={0.8}
             >
                 <Text
                     style={[
                         styles.text,
-                        value === "register" && styles.textActive,
+                        value === "cadastro" && styles.textActive,
                     ]}
                 >
                     Cadastrar

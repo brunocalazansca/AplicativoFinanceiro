@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: '#000000',
         alignSelf: 'flex-start',
-        marginBottom: 5,
+        paddingVertical: 12,
         marginLeft: '5%'
     },
     textDescricao: {
@@ -62,7 +62,8 @@ export const styles = StyleSheet.create({
     },
     switch: {
         width: '100%',
-        padding: 10
+        padding: 8,
+        marginBottom: 3
     },
     login: {
         height: '45%'

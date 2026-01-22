@@ -1,7 +1,8 @@
-import {View, Text} from "react-native";
-import { styles } from './LoginStyle'
+// app/login.tsx
+import { View, Text } from "react-native";
+import { styles } from "./LoginStyle";
 import { router, type Href } from "expo-router";
-import Input from '../../components/Input/Input'
+import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
@@ -9,22 +10,28 @@ import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { AuthMode } from "@/_utils/typeAuthMode";
 
-export default function LoginForm () {
+export default function LoginForm() {
     const [mode, setMode] = useState<AuthMode>("login");
-    const styleCard = mode === "login" ? styles.login : styles.register
+    const styleCard = mode === "login" ? styles.login : styles.register;
+
+    const goToHome = () => {
+        router.replace("/(tabs)/home" as Href);
+    };
 
     return (
         <View style={styles.container}>
             <Feather name="briefcase" size={80} color="#2A6DF4" />
             <Text style={styles.textNome}>FinnanceApp</Text>
-            <Text style={styles.textDescricao}>Gerencie suas finanças de forma simples</Text>
+            <Text style={styles.textDescricao}>
+                Gerencie suas finanças de forma simples
+            </Text>
 
-            <CardLogin
-                style={styleCard}
-            >
+            <CardLogin style={styleCard}>
                 <View style={styles.content}>
                     <Text style={styles.textBemVindo}>Bem-vindo</Text>
-                    <Text style={styles.textContinuar}>Entre ou crie sua conta para continuar</Text>
+                    <Text style={styles.textContinuar}>
+                        Entre ou crie sua conta para continuar
+                    </Text>
 
                     <View style={styles.switch}>
                         <Switch value={mode} onChange={setMode} />
@@ -49,33 +56,23 @@ export default function LoginForm () {
                     />
 
                     <Text style={styles.textSenha}>Sua senha</Text>
-                    <Input
-                        icon="lock"
-                        placeholder="••••••••"
-                        secureTextEntry
-                    />
+                    <Input icon="lock" placeholder="••••••••" secureTextEntry />
 
                     {mode === "cadastro" ? (
                         <Button
                             title="Cadastrar"
-                            onPress={() =>
-                                router.replace('/home' as Href)
-                            }
+                            onPress={goToHome}
                             style={styles.button}
                         />
                     ) : (
                         <Button
                             title="Entrar"
-                            onPress={() =>
-                                router.replace('/home' as Href)
-                            }
+                            onPress={goToHome}
                             style={styles.button}
                         />
                     )}
-
-
                 </View>
             </CardLogin>
         </View>
-    )
+    );
 }

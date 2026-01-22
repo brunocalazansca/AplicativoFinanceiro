@@ -2,16 +2,11 @@ import { StatusBar, View, Text } from 'react-native';
 import { styles } from './HomeStyle';
 import Card from '../../components/Card/Card';
 import CardTransaction from "@/components/CardTransaction/CardTransaction";
-import Footer from "@/components/Footer/Footer";
-import Header from "@/components/Header/Header";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.headerWrapper}>
-                <Header />
-            </View>
             <StatusBar
                 barStyle="dark-content"
                 backgroundColor="#FFFFFF"
@@ -81,7 +76,6 @@ export default function Home() {
                     />
                 </View>
             </View>
-            <Footer/>
         </SafeAreaView>
     );
 }

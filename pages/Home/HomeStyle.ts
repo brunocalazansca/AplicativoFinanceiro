@@ -4,11 +4,11 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        marginTop: -15
     },
     content: {
         flex: 1,
         paddingHorizontal: 16,
-        marginTop: '7%',
     },
     balanceCard: {
         width: '100%',

@@ -1,73 +1,108 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
-import { styles } from './FooterStyle';
+// components/Footer/Footer.tsx
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { styles } from "./FooterStyle";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
-export default function Footer() {
-    const handleHome = () => {
-        console.log('Ir para Início');
-    };
+export default function Footer({ state, navigation }: BottomTabBarProps) {
+    const currentRouteName = state.routeNames[state.index];
 
-    const handleBanks = () => {
-        console.log('Ir para Bancos');
-    };
+    const isActive = (name: string) => currentRouteName === name;
 
-    const handleCategories = () => {
-        console.log('Ir para Categorias');
-    };
-
-    const handleReports = () => {
-        console.log('Ir para Relatórios');
-    };
-
-    const handleAdd = () => {
-        console.log('Adicionar nova transação');
+    const handleNavigate = (name: string) => {
+        if (currentRouteName === name) return;
+        navigation.navigate(name as never);
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.bar}>
                 <View style={styles.navRow}>
-                    <TouchableOpacity style={styles.navItem} onPress={handleHome}>
+                    <TouchableOpacity
+                        style={styles.navItem}
+                        onPress={() => handleNavigate("home")}
+                    >
                         <Feather
                             name="home"
                             size={18}
-                            color="#2563EB"
+                            color={isActive("home") ? "#2563EB" : "#6B7280"}
                         />
-                        <Text style={[styles.navLabel, styles.navLabelActive]}>
+                        <Text
+                            style={[
+                                styles.navLabel,
+                                isActive("home") && styles.navLabelActive,
+                            ]}
+                        >
                             Início
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.navItem} onPress={handleBanks}>
+                    {/* Bancos */}
+                    <TouchableOpacity
+                        style={styles.navItem}
+                        onPress={() => handleNavigate("bancos")}
+                    >
                         <MaterialCommunityIcons
                             name="office-building"
                             size={18}
-                            color="#6B7280"
+                            color={isActive("bancos") ? "#2563EB" : "#6B7280"}
                         />
-                        <Text style={styles.navLabel}>Bancos</Text>
+                        <Text
+                            style={[
+                                styles.navLabel,
+                                isActive("bancos") && styles.navLabelActive,
+                            ]}
+                        >
+                            Bancos
+                        </Text>
                     </TouchableOpacity>
 
+                    {/* Categorias */}
                     <TouchableOpacity
                         style={styles.navItem}
-                        onPress={handleCategories}
+                        onPress={() => handleNavigate("categorias")}
                     >
-                        <Feather name="tag" size={18} color="#6B7280" />
-                        <Text style={styles.navLabel}>Categorias</Text>
+                        <Feather
+                            name="tag"
+                            size={18}
+                            color={isActive("categorias") ? "#2563EB" : "#6B7280"}
+                        />
+                        <Text
+                            style={[
+                                styles.navLabel,
+                                isActive("categorias") && styles.navLabelActive,
+                            ]}
+                        >
+                            Categorias
+                        </Text>
                     </TouchableOpacity>
 
+                    {/* Relatórios */}
                     <TouchableOpacity
                         style={styles.navItem}
-                        onPress={handleReports}
+                        onPress={() => handleNavigate("relatorios")}
                     >
-                        <Feather name="file-text" size={18} color="#6B7280" />
-                        <Text style={styles.navLabel}>Relatórios</Text>
+                        <Feather
+                            name="file-text"
+                            size={18}
+                            color={isActive("relatorios") ? "#2563EB" : "#6B7280"}
+                        />
+                        <Text
+                            style={[
+                                styles.navLabel,
+                                isActive("relatorios") && styles.navLabelActive,
+                            ]}
+                        >
+                            Relatórios
+                        </Text>
                     </TouchableOpacity>
                 </View>
 
+                {/* FAB */}
                 <TouchableOpacity
                     style={styles.fab}
-                    onPress={handleAdd}
+                    onPress={() => handleNavigate("transacoes")}
                     activeOpacity={0.9}
                 >
                     <Feather name="plus" size={24} color="#FFFFFF" />

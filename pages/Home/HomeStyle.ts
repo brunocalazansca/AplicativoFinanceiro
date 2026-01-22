@@ -34,5 +34,9 @@ export const styles = StyleSheet.create({
         color: '#000000',
         fontWeight: 'bold',
         padding: 15
-    }
+    },
+    headerWrapper: {
+        zIndex: 20,
+        elevation: 20,
+    },
 });

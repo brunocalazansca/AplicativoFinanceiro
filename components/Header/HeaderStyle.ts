@@ -11,12 +11,19 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderBottomWidth: 1,
         borderBottomColor: '#D1D5DB',
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     title: {
         fontSize: wp(5),
         fontWeight: '700',
         color: '#111827',
     },
+    userButton: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        backgroundColor: '#1D47C6',
+        marginLeft: 'auto'
+    }
 });

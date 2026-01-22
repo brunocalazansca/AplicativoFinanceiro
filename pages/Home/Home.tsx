@@ -9,7 +9,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function Home() {
     return (
         <SafeAreaView style={styles.container}>
-            <Header/>
+            <View style={styles.headerWrapper}>
+                <Header />
+            </View>
             <StatusBar
                 barStyle="dark-content"
                 backgroundColor="#FFFFFF"

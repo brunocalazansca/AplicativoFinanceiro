@@ -7,7 +7,7 @@ import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
 import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import {AuthMode} from "@/_utils/typeAuthMode";
+import { AuthMode } from "@/_utils/typeAuthMode";
 
 export default function LoginForm () {
     const [mode, setMode] = useState<AuthMode>("login");

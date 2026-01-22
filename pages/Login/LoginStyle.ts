@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
         fontSize: 28,
         color: '#000000',
         fontWeight: 'bold',
-        alignSelf: 'flex-start',
+        alignItems: 'center',
         marginLeft: '5%'
     },
     textNome: {
@@ -58,7 +58,8 @@ export const styles = StyleSheet.create({
     textDescricao: {
         fontSize: 16,
         color: '#000000',
-        marginBottom: 12,
+        marginBottom: 13,
+        alignItems: 'center'
     },
     switch: {
         width: '100%',
@@ -66,9 +67,9 @@ export const styles = StyleSheet.create({
         marginBottom: 3
     },
     login: {
-        height: '45%'
+        height: '50%'
     },
     register: {
-        height: '55%'
+        height: '60%'
     }
 });

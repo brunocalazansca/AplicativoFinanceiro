@@ -3,6 +3,7 @@ import { styles } from './HomeStyle';
 import Card from '../../components/Card/Card';
 import CardTransaction from "@/components/CardTransaction/CardTransaction";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { HOME_MOCK } from "@/data/home";
 
 export default function Home() {
     return (
@@ -17,7 +18,7 @@ export default function Home() {
                 <Card
                     title="Saldo Total"
                     icon="credit-card"
-                    valor={2330}
+                    valor={HOME_MOCK.saldoTotal}
                     valorColor="#000000"
                     color="#E6EEFF"
                     borderColor="#CADBFF"
@@ -32,48 +33,28 @@ export default function Home() {
 
                 <View style={styles.row}>
                     <Card
-                        title="Entradas"
-                        icon="arrow-up"
-                        valor={2430}
-                        valorColor="#16A249"
-                        color="#E8F6ED"
-                        borderColor="#CDEFD6"
-                        iconBackgroundColor="#B6DEC7"
-                        iconColor="#0F9153"
+                        {...HOME_MOCK.cards.entradas}
                         style={[styles.smallCard, styles.smallCardLeft]}
                     />
 
                     <Card
-                        title="Despesas"
-                        icon="arrow-down"
-                        valor={100}
-                        valorColor="#EF4343"
-                        color="#FDEEEF"
-                        borderColor="#F5C2C4"
-                        iconBackgroundColor="#F7C9CB"
-                        iconColor="#E05252"
+                        {...HOME_MOCK.cards.despesas}
                         style={[styles.smallCard, styles.smallCardRight]}
                     />
                 </View>
 
                 <View style={styles.cardTransactionList}>
-                    <CardTransaction
-                        type="Entrada"
-                        descricao="INSS"
-                        banco="Nubank"
-                        valor={1000}
-                        data="2026-01-19"
-                        onDelete={() => console.log('Remover entrada')}
-                    />
-
-                    <CardTransaction
-                        type="Despesa"
-                        descricao="Internet"
-                        banco="Nubank"
-                        valor={100}
-                        data="2026-01-19"
-                        onDelete={() => console.log('Remover despesa')}
-                    />
+                    {HOME_MOCK.recentes.map((t) => (
+                        <CardTransaction
+                            key={t.id}
+                            type={t.type}
+                            descricao={t.descricao}
+                            banco={t.banco}
+                            valor={t.valor}
+                            data={t.data}
+                            onDelete={() => console.log("Remover", t.id)}
+                        />
+                    ))}
                 </View>
             </View>
         </SafeAreaView>

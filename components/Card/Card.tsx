@@ -1,15 +1,15 @@
 import { View, Text, ViewStyle, StyleProp } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { styles } from './Card.style';
 import { ComponentProps } from 'react';
 
-type FontAwesomeIconName = ComponentProps<typeof FontAwesome>['name'];
+type FeatherIconName = ComponentProps<typeof Feather>['name'];
 
 interface CardProps {
     title: string;
     valor?: number;
     valorColor: string;
-    icon: FontAwesomeIconName;
+    icon: FeatherIconName;
     iconColor?: string;
     iconBackgroundColor?: string;
     color?: string;
@@ -48,7 +48,7 @@ export default function Card({
                     styles.iconWrapper,
                     iconBackgroundColor && { backgroundColor: iconBackgroundColor
                 }]}>
-                    <FontAwesome
+                    <Feather
                         name={icon}
                         size={18}
                         color={iconColor || '#0F9153'}

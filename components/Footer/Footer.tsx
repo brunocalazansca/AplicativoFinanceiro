@@ -1,4 +1,3 @@
-// components/Footer/Footer.tsx
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -38,7 +37,6 @@ export default function Footer({ state, navigation }: BottomTabBarProps) {
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Bancos */}
                     <TouchableOpacity
                         style={styles.navItem}
                         onPress={() => handleNavigate("bancos")}
@@ -58,7 +56,6 @@ export default function Footer({ state, navigation }: BottomTabBarProps) {
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Categorias */}
                     <TouchableOpacity
                         style={styles.navItem}
                         onPress={() => handleNavigate("categorias")}
@@ -78,7 +75,6 @@ export default function Footer({ state, navigation }: BottomTabBarProps) {
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Relatórios */}
                     <TouchableOpacity
                         style={styles.navItem}
                         onPress={() => handleNavigate("relatorios")}
@@ -99,7 +95,6 @@ export default function Footer({ state, navigation }: BottomTabBarProps) {
                     </TouchableOpacity>
                 </View>
 
-                {/* FAB */}
                 <TouchableOpacity
                     style={styles.fab}
                     onPress={() => handleNavigate("transacoes")}

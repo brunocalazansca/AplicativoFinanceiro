@@ -42,7 +42,9 @@ export default function CardTransaction({
 
                 <View style={styles.middleContent}>
                     <Text style={styles.descricao}>{descricao}</Text>
-                    <Text style={styles.banco}>{banco}</Text>
+                    {banco && (
+                        <Text style={styles.banco}>{banco}</Text>
+                    )}
                 </View>
             </View>
 

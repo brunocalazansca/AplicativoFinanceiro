@@ -1,4 +1,5 @@
 import {StyleSheet} from "react-native";
+import {shadow} from "@/styles/shadow";
 
 export const styles = StyleSheet.create({
     backdrop: {
@@ -17,13 +18,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         borderRadius: 16,
         padding: 18,
-
-        // sombra
-        shadowColor: "#000",
-        shadowOpacity: 0.18,
-        shadowRadius: 16,
-        shadowOffset: { width: 0, height: 8 },
-        elevation: 8,
+        ...shadow
     },
     header: {
         flexDirection: "row",

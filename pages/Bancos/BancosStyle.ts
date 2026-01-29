@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     },
     button: {
         width: "40%",
+        marginHorizontal: '3%'
     },
     buttonContainer: {
         position: "absolute",
@@ -18,7 +19,23 @@ export const styles = StyleSheet.create({
         left: 0,
         right: 0,
         zIndex: 10,
-        alignItems: "flex-end",
         paddingHorizontal: 16,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
     },
+    countText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: "#6B7280",
+        marginTop: '5%',
+        marginHorizontal: '3%'
+    },
+    cardsContainer: {
+        marginTop: '13%',
+        alignItems: "center",
+    },
+    card: {
+        width: '90%'
+    }
 });

@@ -5,6 +5,8 @@ import Button from "../../components/Button/Button";
 import ModalBancos from "@/pages/Bancos/_components/ModalBancos";
 import BankCard from "@/components/BankCard/BankCard";
 import { useState } from "react";
+import {router} from "expo-router";
+import { BANKS } from "@/data/bancos";
 
 export default function Bancos() {
     const [open, setOpen] = useState(false);
@@ -29,25 +31,23 @@ export default function Bancos() {
             </View>
 
             <View style={styles.cardsContainer}>
-                <BankCard
-                    name="Banco do Brasil"
-                    amount={1430}
-                    transactionsCount={1}
-                    color="#F59E0B"
-                    onPress={() => console.log("Abrir banco")}
-                    onDelete={() => console.log("Excluir banco")}
-                    style={styles.card}
-                />
-
-                <BankCard
-                    name="Nubank"
-                    amount={900}
-                    transactionsCount={2}
-                    color="#8B5CF6"
-                    onPress={() => console.log("Abrir banco")}
-                    onDelete={() => console.log("Excluir banco")}
-                    style={styles.card}
-                />
+                {BANKS.map((b) => (
+                    <BankCard
+                        key={b.id}
+                        name={b.nome}
+                        amount={b.saldo}
+                        transactionsCount={b.transacoes.length}
+                        color={b.cor}
+                        onPress={() =>
+                            router.push({
+                                pathname: "/bancos/[nome]",
+                                params: { nome: b.nome },
+                            })
+                        }
+                        onDelete={() => console.log("Excluir banco")}
+                        style={styles.card}
+                    />
+                ))}
             </View>
 
             <ModalBancos

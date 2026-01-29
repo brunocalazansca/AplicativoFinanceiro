@@ -8,7 +8,7 @@ import { formatDateLabel } from "@/_utils/formatDate";
 interface CardTransactionProps {
     type: TipoMovimentacao;
     descricao: string;
-    banco: string;
+    banco?: string;
     valor: number;
     data: string;
     onDelete?: () => void;

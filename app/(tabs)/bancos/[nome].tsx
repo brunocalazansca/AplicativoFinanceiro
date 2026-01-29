@@ -47,7 +47,6 @@ export default function BancoDetalhe() {
                     <CardTransaction
                         type={item.type}
                         descricao={item.descricao}
-                        // banco={item.banco}
                         valor={item.valor}
                         data={item.data}
                         onDelete={() => console.log("Remover transação", item.id)}

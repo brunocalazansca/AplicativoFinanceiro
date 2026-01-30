@@ -1,1 +1,1 @@
-export type AuthMode = "login" | "cadastro";
+export type SwitchMode = "login" | "cadastro" | "entrada" | "despesa";

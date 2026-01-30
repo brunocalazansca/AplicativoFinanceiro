@@ -1,4 +1,3 @@
-// app/login.tsx
 import { View, Text } from "react-native";
 import { styles } from "./LoginStyle";
 import { router, type Href } from "expo-router";
@@ -8,10 +7,10 @@ import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
 import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { AuthMode } from "@/_utils/typeAuthMode";
+import { SwitchMode } from "@/_utils/typeAuthMode";
 
 export default function LoginForm() {
-    const [mode, setMode] = useState<AuthMode>("login");
+    const [mode, setMode] = useState<SwitchMode>("login");
     const styleCard = mode === "login" ? styles.login : styles.register;
 
     const goToHome = () => {
@@ -34,7 +33,12 @@ export default function LoginForm() {
                     </Text>
 
                     <View style={styles.switch}>
-                        <Switch value={mode} onChange={setMode} />
+                        <Switch
+                            textEsquerda="Entrar"
+                            textDireita="Cadastro"
+                            value={mode}
+                            onChange={setMode}
+                        />
                     </View>
 
                     {mode === "cadastro" && (

@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity,} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { TipoMovimentacao } from '@/_utils/typeTransaction';
 import { styles } from './CardTransactionStyle';
-import { formatDateLabel } from "@/_utils/formatDate";
+import { formatDateLabel } from "@/_utils/formatUtils";
 
 interface CardTransactionProps {
     type: TipoMovimentacao;

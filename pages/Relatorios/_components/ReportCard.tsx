@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleProp, ViewStyle } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { formatBRL } from "@/_utils/formatValue";
+import { formatBRL } from "@/_utils/formatUtils";
 import { styles } from './ReportCardStyle'
 
 type FeatherName = React.ComponentProps<typeof Feather>["name"];

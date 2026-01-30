@@ -1,14 +1,21 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./SwitchStyle";
-import { AuthMode } from "@/_utils/typeAuthMode";
+import { SwitchMode } from "@/_utils/typeAuthMode";
 
 interface SwitchProps {
-    value: AuthMode;
-    onChange: (value: AuthMode) => void;
+    textEsquerda: string;
+    textDireita: string;
+    value: SwitchMode;
+    onChange: (value: SwitchMode) => void;
 }
 
-export default function Switch({ value, onChange }: SwitchProps) {
+export default function Switch({
+    textEsquerda,
+    textDireita,
+    value,
+    onChange
+}: SwitchProps) {
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -25,7 +32,7 @@ export default function Switch({ value, onChange }: SwitchProps) {
                         value === "login" && styles.textActive,
                     ]}
                 >
-                    Entrar
+                    {textEsquerda}
                 </Text>
             </TouchableOpacity>
 
@@ -43,7 +50,7 @@ export default function Switch({ value, onChange }: SwitchProps) {
                         value === "cadastro" && styles.textActive,
                     ]}
                 >
-                    Cadastrar
+                    {textDireita}
                 </Text>
             </TouchableOpacity>
         </View>

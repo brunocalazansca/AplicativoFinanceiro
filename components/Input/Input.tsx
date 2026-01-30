@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, TextInput } from 'react-native';
+import {View, TextInput, StyleProp, ViewStyle} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { styles } from './InputStyle'
+import { InputType, inputMask } from "@/_utils/typeInput";
 
 interface InputProps {
-    icon: React.ComponentProps<typeof Feather>['name'];
+    icon?: React.ComponentProps<typeof Feather>['name'];
     placeholder: string;
     value?: string;
     onChangeText?: (text: string) => void;
     secureTextEntry?: boolean;
-    keyboardType?: 'default' | 'email-address';
+    type?: InputType;
+    style?: StyleProp<ViewStyle>
 }
 
 export default function Input({
@@ -18,10 +20,16 @@ export default function Input({
     value,
     onChangeText,
     secureTextEntry = false,
-    keyboardType = 'default',
+    type = 'none',
+    style
 }: InputProps) {
+    const handleChangeText = (text: string) => {
+        const masked = inputMask(text, type);
+        onChangeText?.(masked);
+    };
+
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <Feather
                 name={icon}
                 size={18}
@@ -34,10 +42,10 @@ export default function Input({
                 placeholder={placeholder}
                 placeholderTextColor="#9CA3AF"
                 value={value}
-                onChangeText={onChangeText}
+                onChangeText={handleChangeText}
                 secureTextEntry={secureTextEntry}
-                keyboardType={keyboardType}
-                autoCapitalize="none"
+                inputMode={type}
+                autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             />
         </View>
     );

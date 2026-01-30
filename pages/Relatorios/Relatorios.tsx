@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {StatusBar, View, Text, Pressable, Animated} from "react-native";
+import { StatusBar, View, Text, Pressable, Animated } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import ReportCard from "./_components/ReportCard";
 import { styles } from './RelatoriosStyle'

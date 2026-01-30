@@ -13,7 +13,7 @@ import { listaBancos, listaCategorias } from "@/data/listSelect";
 import Button from "@/components/Button/Button";
 
 export default function Transacoes() {
-    const [mode, setMode] = useState<SwitchMode>("despesa");
+    const [mode, setMode] = useState<SwitchMode>("entrada");
     const [valor, setValor] = useState('');
     const [descricao, setDescricao] = useState('');
     const [selectResetKey, setSelectResetKey] = useState(0);

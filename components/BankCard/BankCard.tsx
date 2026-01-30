@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Pressable, StyleProp, ViewStyle } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { styles } from './BankCardStyle';
+import { formatBRL } from "@/_utils/formatValue";
 
 type FeatherName = React.ComponentProps<typeof Feather>["name"];
 
@@ -29,20 +30,6 @@ function withAlpha(hex: string, alpha: number) {
     const b = parseInt(full.slice(4, 6), 16);
 
     return `rgba(${r},${g},${b},${alpha})`;
-}
-
-function formatBRL(value: number) {
-    try {
-        return new Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-        }).format(value);
-    } catch {
-        const fixed = value.toFixed(2).replace(".", ",");
-        const parts = fixed.split(",");
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        return `R$ ${parts.join(",")}`;
-    }
 }
 
 export default function BankCard({

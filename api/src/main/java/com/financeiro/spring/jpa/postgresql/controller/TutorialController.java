@@ -1,4 +1,4 @@
-package com.bezkoder.spring.jpa.postgresql.controller;
+package com.financeiro.spring.jpa.postgresql.controller;
 
 import java.util.ArrayList;
 import java.util.List;

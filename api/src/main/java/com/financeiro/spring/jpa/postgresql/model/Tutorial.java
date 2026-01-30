@@ -1,4 +1,4 @@
-package com.bezkoder.spring.jpa.postgresql.model;
+package com.financeiro.spring.jpa.postgresql.model;
 
 import jakarta.persistence.*;
 

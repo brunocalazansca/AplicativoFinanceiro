@@ -9,7 +9,7 @@ const TITLES: Record<string, string> = {
     bancos: "Bancos",
     categorias: "Categorias",
     relatorios: "Relatórios",
-    transacoes: "Transações",
+    transacoes: "Nova Transação",
 };
 
 function safeDecode(value: string) {
@@ -26,7 +26,7 @@ function capitalize(text: string) {
 }
 
 export default function Header() {
-    const segments = useSegments(); // ex: ["(tabs)", "bancos", "Nubank"]
+    const segments = useSegments();
     const params = useGlobalSearchParams<{ nome?: string }>();
 
     const title = useMemo(() => {

@@ -1,19 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-    Modal,
-    View,
-    Text,
-    Pressable,
-    Platform,
-    KeyboardAvoidingView,
-} from "react-native";
+import {Modal, View, Text, Pressable, Platform, KeyboardAvoidingView,} from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { styles } from './ModalBancosStyle'
-import Button from "../../../components/Button/Button";
-import Input from "../../../components/Input/Input";
+import { styles } from './AdditionModalStyle'
+import Button from "../Button/Button";
+import Input from "../Input/Input";
 import { AddBankPayload } from "@/_utils/typeBankPayload";
 
 interface AddBankModalProps {
+    title: string;
+    placeholder: string;
+    descricao: string;
     visible: boolean;
     onClose: () => void;
     onAdd: (payload: AddBankPayload) => void | Promise<void>;
@@ -23,7 +19,10 @@ interface AddBankModalProps {
     colors?: string[];
 }
 
-export default function ModalBancos({
+export default function AdditionModal({
+    title,
+    placeholder,
+    descricao,
     visible,
     onClose,
     onAdd,
@@ -80,7 +79,7 @@ export default function ModalBancos({
                 >
                     <Pressable style={styles.card} onPress={() => {}}>
                         <View style={styles.header}>
-                            <Text style={styles.title}>Adicionar Banco</Text>
+                            <Text style={styles.title}>Adicionar {title}</Text>
 
                             <Pressable
                                 onPress={onClose}
@@ -91,10 +90,10 @@ export default function ModalBancos({
                             </Pressable>
                         </View>
 
-                        <Text style={styles.label}>Nome do Banco</Text>
+                        <Text style={styles.label}>Nome {descricao}</Text>
                         <Input
                             icon="edit-3"
-                            placeholder="Ex: Nubank, Itaú..."
+                            placeholder={placeholder}
                             value={name}
                             onChangeText={setName}
                             keyboardType="default"

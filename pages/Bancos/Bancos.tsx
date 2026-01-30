@@ -2,7 +2,7 @@ import { styles } from './BancosStyle';
 import {StatusBar, Text, View} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Button/Button";
-import ModalBancos from "@/pages/Bancos/_components/ModalBancos";
+import AdditionModal from "@/components/AdditionModal/AdditionModal";
 import BankCard from "@/components/BankCard/BankCard";
 import { useState } from "react";
 import {router} from "expo-router";
@@ -50,7 +50,10 @@ export default function Bancos() {
                 ))}
             </View>
 
-            <ModalBancos
+            <AdditionModal
+                title="Banco"
+                placeholder="Ex: Nubank, Itaú..."
+                descricao="do Banco"
                 visible={open}
                 onClose={() => setOpen(false)}
                 onAdd={async ({ name, color }) => {

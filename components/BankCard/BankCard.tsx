@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, Pressable, StyleProp, ViewStyle,} from "react-native";
+import { View, Text, Pressable, StyleProp, ViewStyle } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { styles } from './BankCardStyle';
 
@@ -38,7 +38,6 @@ function formatBRL(value: number) {
             currency: "BRL",
         }).format(value);
     } catch {
-        // fallback simples
         const fixed = value.toFixed(2).replace(".", ",");
         const parts = fixed.split(",");
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -90,7 +89,11 @@ export default function BankCard({
                     hitSlop={12}
                     style={styles.trashButton}
                 >
-                    <Feather name="trash-2" size={18} color="#6B7280" />
+                    <Feather
+                        name="trash-2"
+                        size={18}
+                        color="#6B7280"
+                    />
                 </Pressable>
             </View>
         </Pressable>

@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     amount: {
         fontSize: 20,
         fontWeight: "800",
-        color: "#16A34A", // verde do print
+        color: "#16A34A",
         marginBottom: 4,
     },
     subtitle: {
@@ -61,7 +61,9 @@ export const styles = StyleSheet.create({
         color: "#6B7280",
     },
     trashButton: {
-        paddingTop: 2,
-        paddingLeft: 8,
+        alignSelf: 'center'
     },
+    trash: {
+        alignSelf: 'center'
+    }
 });

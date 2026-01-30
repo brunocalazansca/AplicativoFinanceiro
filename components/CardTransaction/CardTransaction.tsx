@@ -67,7 +67,11 @@ export default function CardTransaction({
                         onPress={onDelete}
                         style={styles.trashButton}
                     >
-                        <Feather name="trash-2" size={16} color="#9CA3AF" />
+                        <Feather
+                            name="trash-2"
+                            size={16}
+                            color="#9CA3AF"
+                        />
                     </TouchableOpacity>
                 )}
             </View>

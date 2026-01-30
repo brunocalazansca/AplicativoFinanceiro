@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
         marginRight: 'auto',
         marginLeft: '5%',
         marginTop: 6,
-        fontSize: 14,
+        fontSize: 16,
     },
     scrollContainer: {
         flex: 1,
@@ -40,5 +40,9 @@ export const styles = StyleSheet.create({
         width: '90%',
         alignSelf: 'center',
         marginBottom: '25%'
+    },
+    textData: {
+        fontSize: 16,
+        marginBottom: 10
     }
 });

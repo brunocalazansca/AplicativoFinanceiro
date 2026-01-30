@@ -14,7 +14,7 @@ interface SelectProps {
 export default function Select({
     options,
     onSelect,
-    placeholder = 'Selecione uma opção...',
+    placeholder,
     style,
 }: SelectProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -26,14 +26,32 @@ export default function Select({
         setModalVisible(false);
     };
 
-    const renderOption: ListRenderItem<SelectOption> = ({ item }) => (
-        <TouchableOpacity
-            style={styles.optionItem}
-            onPress={() => handleSelect(item)}
-        >
-            <Text style={styles.optionText}>{item.nome}</Text>
-        </TouchableOpacity>
-    );
+    const renderOption: ListRenderItem<SelectOption> = ({ item }) => {
+        const isSelected = selectedItem?.id === item.id;
+
+        return (
+            <TouchableOpacity
+                style={[
+                    styles.optionItem,
+                    { backgroundColor: item.cor },
+                    isSelected && {
+                        borderWidth: 2,
+                        borderColor: '#00000060',
+                    },
+                ]}
+                onPress={() => handleSelect(item)}
+            >
+                <Text
+                    style={[
+                        styles.optionText,
+                        isSelected && { fontWeight: '600' },
+                    ]}
+                >
+                    {item.nome}
+                </Text>
+            </TouchableOpacity>
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -54,17 +72,6 @@ export default function Select({
                     style={styles.icon}
                 />
             </TouchableOpacity>
-
-            {selectedItem && (
-                <View style={[
-                    styles.selectedDisplayButton,
-                    { backgroundColor: selectedItem.cor }
-                ]}>
-                    <Text style={styles.selectedDisplayText}>
-                        {selectedItem.nome}
-                    </Text>
-                </View>
-            )}
 
             <Modal
                 animationType="fade"

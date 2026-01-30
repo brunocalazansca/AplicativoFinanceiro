@@ -3,7 +3,7 @@ import {StatusBar, View, Text, ScrollView} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Switch from '@/components/Switch/Switch'
 import Input from "@/components/Input/Input";
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
 import { SwitchMode } from "@/_utils/typeAuthMode";
 import Select from '@/components/Select/Select'
 import { SelectOption } from "@/_utils/selectOptions";
@@ -51,9 +51,11 @@ export default function Transacoes() {
             >
                 <View style={styles.switch}>
                     <Switch
-                        textEsquerda="Despesa"
-                        textDireita="Entrada"
+                        textEsquerda="Entrada"
+                        textDireita="Despesa"
                         value={mode}
+                        leftValue="entrada"
+                        rightValue="despesa"
                         onChange={setMode}
                     />
                 </View>
@@ -87,19 +89,24 @@ export default function Transacoes() {
                         style={styles.size}
                     />
 
-                    <Text style={styles.text}>Categoria (Opcional)</Text>
-                    <Select
-                        key={`categoria-${selectResetKey}`}
-                        options={listaCategorias}
-                        onSelect={handleCategoriaSelecionada}
-                        placeholder="Selecione a categoria"
-                        style={styles.size}
-                    />
+                    {mode === 'despesa' && (
+                        <>
+                            <Text style={styles.text}>Categoria (Opcional)</Text>
+                            <Select
+                                key={`categoria-${selectResetKey}`}
+                                options={listaCategorias}
+                                onSelect={handleCategoriaSelecionada}
+                                placeholder="Selecione a categoria"
+                                style={styles.size}
+                            />
+                        </>
+                    )}
+
                 </View>
 
                 <View style={styles.footer}>
+                    <Text style={styles.textData}>Data</Text>
                     <DateTimePicker
-                        label="Data"
                         mode="date"
                         value={dataTransacao}
                         onChange={setDataTransacao}

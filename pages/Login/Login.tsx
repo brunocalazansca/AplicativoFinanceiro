@@ -37,6 +37,8 @@ export default function LoginForm() {
                             textEsquerda="Entrar"
                             textDireita="Cadastro"
                             value={mode}
+                            leftValue="login"
+                            rightValue="cadastro"
                             onChange={setMode}
                         />
                     </View>
@@ -47,7 +49,7 @@ export default function LoginForm() {
                             <Input
                                 icon="user"
                                 placeholder="Seu nome completo"
-                                keyboardType="default"
+                                type="text"
                             />
                         </>
                     )}
@@ -56,7 +58,7 @@ export default function LoginForm() {
                     <Input
                         icon="mail"
                         placeholder="seu@email.com"
-                        keyboardType="email-address"
+                        type="email"
                     />
 
                     <Text style={styles.textSenha}>Sua senha</Text>

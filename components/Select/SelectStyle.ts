@@ -5,8 +5,8 @@ export const styles = StyleSheet.create({
         marginTop: 10
     },
     dropdownSelector: {
-        backgroundColor: '#F3F4F6',
-        borderRadius: 8,
+        backgroundColor: '#F9FAFB',
+        borderRadius: 14,
         borderWidth: 1,
         borderColor: '#E5E7EB',
         paddingVertical: 14,
@@ -21,10 +21,10 @@ export const styles = StyleSheet.create({
         color: '#1F2937',
     },
     placeholderText: {
-        color: '#6B7280',
+        color: '#9CA3AF',
     },
     selectedDisplayButton: {
-        borderRadius: 8,
+        borderRadius: 14,
         paddingVertical: 14,
         paddingHorizontal: 16,
         alignItems: 'center',
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'white',
         width: '80%',
         maxHeight: '60%',
-        borderRadius: 12,
+        borderRadius: 14,
         padding: 20,
         elevation: 5,
         shadowColor: '#000',
@@ -75,19 +75,21 @@ export const styles = StyleSheet.create({
     },
     optionItem: {
         paddingVertical: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f0f0f0',
+        marginVertical: 6,
+        borderRadius: 14,
+        alignItems: 'center',
     },
     optionText: {
         fontSize: 16,
-        color: '#333',
+        color: '#FFFFFF',
         textAlign: 'center',
+        fontWeight: 'bold'
     },
     closeButton: {
         marginTop: 15,
         padding: 10,
         backgroundColor: '#eee',
-        borderRadius: 8,
+        borderRadius: 14,
         alignItems: 'center',
     },
     closeButtonText: {
@@ -96,6 +98,7 @@ export const styles = StyleSheet.create({
     },
     icon: {
         marginLeft: 5,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color: '#6B7280'
     }
 });

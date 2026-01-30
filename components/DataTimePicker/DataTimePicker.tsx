@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, TouchableOpacity, Platform, StyleSheet, StyleProp, ViewStyle, TextInput,} from "react-native";
+import {View, Text, TouchableOpacity, Platform, StyleProp, ViewStyle, TextInput,} from "react-native";
 import DateTimePicker, {DateTimePickerEvent,} from "@react-native-community/datetimepicker";
 import { Feather } from "@expo/vector-icons";
 import { formatDate, parseDateFromString } from "@/_utils/formatUtils";
+import { styles } from './DataTimePickerStyle'
 
 type Mode = "date" | "time";
 
@@ -22,7 +23,7 @@ export default function DateTimePickerInput({
     mode = "date",
     value,
     onChange,
-    placeholder = "Selecionar data",
+    placeholder,
     minimumDate,
     maximumDate,
     style,
@@ -115,7 +116,7 @@ export default function DateTimePickerInput({
                     onPress={() => setShow(true)}
                     style={styles.iconButton}
                 >
-                    <Feather name="calendar" size={16} color="#6B7280" />
+                    <Feather name="calendar" size={18} color="#6B7280" />
                 </TouchableOpacity>
             </View>
 
@@ -133,38 +134,3 @@ export default function DateTimePickerInput({
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        width: "100%",
-        marginBottom: 12,
-    },
-    label: {
-        fontSize: 14,
-        color: "#374151",
-        marginBottom: 4,
-    },
-    input: {
-        borderRadius: 9999,
-        borderWidth: 1,
-        borderColor: "#E5E7EB",
-        backgroundColor: "#F9FAFB",
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    inputText: {
-        fontSize: 14,
-        color: "#111827",
-        flex: 1,
-        paddingVertical: 6,
-    },
-    placeholder: {
-        color: "#9CA3AF",
-    },
-    iconButton: {
-        marginLeft: 8,
-        paddingHorizontal: 4,
-        paddingVertical: 4,
-    },
-});

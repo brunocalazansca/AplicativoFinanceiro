@@ -7,6 +7,8 @@ interface SwitchProps {
     textEsquerda: string;
     textDireita: string;
     value: SwitchMode;
+    leftValue: SwitchMode;
+    rightValue: SwitchMode;
     onChange: (value: SwitchMode) => void;
 }
 
@@ -14,22 +16,24 @@ export default function Switch({
     textEsquerda,
     textDireita,
     value,
-    onChange
+    leftValue,
+    rightValue,
+    onChange,
 }: SwitchProps) {
     return (
         <View style={styles.container}>
             <TouchableOpacity
                 style={[
                     styles.tab,
-                    value === "login" && styles.tabActive,
+                    value === leftValue && styles.tabActive,
                 ]}
-                onPress={() => onChange("login")}
+                onPress={() => onChange(leftValue)}
                 activeOpacity={0.8}
             >
                 <Text
                     style={[
                         styles.text,
-                        value === "login" && styles.textActive,
+                        value === leftValue && styles.textActive,
                     ]}
                 >
                     {textEsquerda}
@@ -39,15 +43,15 @@ export default function Switch({
             <TouchableOpacity
                 style={[
                     styles.tab,
-                    value === "cadastro" && styles.tabActive,
+                    value === rightValue && styles.tabActive,
                 ]}
-                onPress={() => onChange("cadastro")}
+                onPress={() => onChange(rightValue)}
                 activeOpacity={0.8}
             >
                 <Text
                     style={[
                         styles.text,
-                        value === "cadastro" && styles.textActive,
+                        value === rightValue && styles.textActive,
                     ]}
                 >
                     {textDireita}
@@ -56,4 +60,3 @@ export default function Switch({
         </View>
     );
 }
-

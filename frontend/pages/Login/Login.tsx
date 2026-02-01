@@ -1,21 +1,85 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator, Alert } from "react-native";
 import { styles } from "./LoginStyle";
 import { router, type Href } from "expo-router";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
+import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
 import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { SwitchMode } from "@/_utils/typeAuthMode";
+import { cadastrarUsuario , loginUsuario } from "@/services/userService";
+import { FeedbackState } from '@/_utils/typeFeedback'
+
 
 export default function LoginForm() {
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState<SwitchMode>("login");
+
     const styleCard = mode === "login" ? styles.login : styles.register;
+
+    const [feedback, setFeedback] = useState<FeedbackState | null>(null);
 
     const goToHome = () => {
         router.replace("/(tabs)/home" as Href);
     };
+
+    async function handleSubmit() {
+        if (mode === "cadastro" && !nome.trim()) {
+            Alert.alert("Atenção", "Informe seu nome completo.");
+            return;
+        }
+        if (!email.trim()) {
+            Alert.alert("Atenção", "Informe seu e-mail.");
+            return;
+        }
+        if (!senha.trim() || senha.length < 6) {
+            Alert.alert("Atenção", "Sua senha deve ter pelo menos 6 caracteres.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            if (mode === "cadastro") {
+                await cadastrarUsuario(nome.trim(), email.trim(), senha);
+
+                setFeedback({
+                    title: "Cadastro realizado!",
+                    description: "Sua conta foi criada com sucesso.",
+                    color: "#22C55E",
+                });
+
+                setTimeout(() => {
+                    setFeedback(null);
+                    goToHome();
+                }, 2500);
+
+                return;
+            }
+
+            await loginUsuario(email.trim(), senha);
+
+            goToHome();
+        } catch (err: any) {
+            const msg =
+                err?.response?.data?.message ||
+                err?.response?.data?.error ||
+                err?.message ||
+                "Erro ao comunicar com o servidor.";
+
+            setFeedback({
+                title: msg,
+                color: "#EF4444",
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -39,7 +103,10 @@ export default function LoginForm() {
                             value={mode}
                             leftValue="login"
                             rightValue="cadastro"
-                            onChange={setMode}
+                            onChange={(val) => {
+                                setMode(val);
+                                setNome(""); setEmail(""); setSenha("");
+                            }}
                         />
                     </View>
 
@@ -50,6 +117,8 @@ export default function LoginForm() {
                                 icon="user"
                                 placeholder="Seu nome completo"
                                 type="text"
+                                value={nome}
+                                onChangeText={setNome}
                             />
                         </>
                     )}
@@ -59,24 +128,39 @@ export default function LoginForm() {
                         icon="mail"
                         placeholder="seu@email.com"
                         type="email"
+                        value={email}
+                        onChangeText={setEmail}
                     />
 
                     <Text style={styles.textSenha}>Sua senha</Text>
-                    <Input icon="lock" placeholder="••••••••" secureTextEntry />
+                    <Input
+                        icon="lock"
+                        placeholder="••••••••"
+                        secureTextEntry
+                        value={senha}
+                        onChangeText={setSenha}
+                    />
 
-                    {mode === "cadastro" ? (
-                        <Button
-                            title="Cadastrar"
-                            onPress={goToHome}
-                            style={styles.button}
-                        />
-                    ) : (
-                        <Button
-                            title="Entrar"
-                            onPress={goToHome}
-                            style={styles.button}
-                        />
+                    <Button
+                        title={loading ? "Aguarde..." : mode === "cadastro" ? "Cadastrar" : "Entrar"}
+                        onPress={handleSubmit}
+                        style={styles.button}
+                        disabled={loading}
+                    />
+
+                    {loading && (
+                        <View style={{ marginTop: 12 }}>
+                            <ActivityIndicator />
+                        </View>
                     )}
+
+                    <FeedbackModal
+                        visible={!!feedback}
+                        title={feedback?.title ?? ""}
+                        description={feedback?.description ?? ""}
+                        backgroundColor={feedback?.color ?? "#EF4444"}
+                        onClose={() => setFeedback(null)}
+                    />
                 </View>
             </CardLogin>
         </View>

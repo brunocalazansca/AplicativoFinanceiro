@@ -13,9 +13,8 @@ services:
       - db:/var/lib/postgresql/data
 
   app:
-    depends_on:
-      - postgresdb
     build: .
+    working_dir: /financeiro
     restart: on-failure
     env_file: .env
     ports:
@@ -27,9 +26,11 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
     volumes:
+      - .:/financeiro
       - m2_cache:/root/.m2
-    stdin_open: true
-    tty: true
+    command: sh -lc "chmod +x dev.sh && ./dev.sh"
+    depends_on:
+      - postgresdb
 
 volumes:
   db:

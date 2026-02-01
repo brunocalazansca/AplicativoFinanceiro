@@ -1,8 +1,8 @@
-# FROM maven:3.8.2-jdk-8 # for Java 8
-FROM maven:3.8.5-openjdk-17
+FROM maven:3.8.5-eclipse-temurin-17
 
-WORKDIR /bezkoder-app
-COPY . .
-RUN mvn clean install
+RUN apt-get update \
+  && apt-get install -y inotify-tools \
+  && rm -rf /var/lib/apt/lists/*
 
-CMD mvn spring-boot:run
+WORKDIR /financeiro
+CMD ["sh", "-lc", "chmod +x dev.sh && ./dev.sh"]

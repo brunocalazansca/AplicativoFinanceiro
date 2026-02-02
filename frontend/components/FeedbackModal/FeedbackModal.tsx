@@ -4,9 +4,7 @@ import { styles } from "./FeedbackModalStyles";
 type FeedbackModalProps = {
     visible: boolean;
     title: string;
-    colorTitle?: string;
     description?: string;
-    backgroundColor?: string;
     onClose?: () => void;
     containerStyle?: ViewStyle;
 };
@@ -14,9 +12,7 @@ type FeedbackModalProps = {
 export default function FeedbackModal({
     visible,
     title,
-    colorTitle = '#FFFFFF',
     description,
-    backgroundColor = "#EF4444",
     onClose,
     containerStyle,
 }: FeedbackModalProps) {
@@ -35,16 +31,12 @@ export default function FeedbackModal({
                     onPress={() => {}}
                     style={[
                         styles.card,
-                        { backgroundColor },
-                        !hasDescription && styles.cardCenterVertically,
                         containerStyle,
                     ]}
                 >
-                    <Text style={[styles.title, { color: colorTitle }]}>{title}</Text>
-
-                    {hasDescription && (
-                        <Text style={styles.description}>{description}</Text>
-                    )}
+                    <Text style={[styles.title, !hasDescription && styles.titleNoDescription]}>
+                        {title}
+                    </Text>
                 </Pressable>
             </Pressable>
         </Modal>

@@ -6,12 +6,12 @@ import Button from "../../components/Button/Button";
 import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Feather } from "@expo/vector-icons";
 import { SwitchMode } from "@/_utils/typeAuthMode";
 import { cadastrarUsuario, login } from "@/services/userService";
 import { FeedbackState } from '@/_utils/typeFeedback'
-
+import { validateAuthForm } from "@/_utils/validationFormData";
 
 export default function LoginForm() {
     const [nome, setNome] = useState("");
@@ -28,31 +28,33 @@ export default function LoginForm() {
         router.replace("/(tabs)/home" as Href);
     };
 
+    function aguardar() {
+        setTimeout(() => {
+            setFeedback(null);
+            goToHome();
+        }, 3000);
+    }
+
+    useEffect(() => {
+        if (!feedback) return;
+
+        setTimeout(() =>{
+            setFeedback(null)
+        }, 2500)
+    })
+
+
+
     async function handleSubmit() {
-        if (mode === "cadastro" && !nome.trim()) {
-            setFeedback({
-                title: "Informe seu nome completo.",
-                colorTitle: "#000000",
-                color: "#FBBF24",
-            });
+        const err = validateAuthForm({
+            mode,
+            nome,
+            email,
+            senha
+        });
 
-            return;
-        }
-        if (!email.trim()) {
-            setFeedback({
-                title: "Informe seu e-mail.",
-                colorTitle: "#000000",
-                color: "#FBBF24",
-            });
-
-            return;
-        }
-        if (!senha.trim() || senha.length < 6) {
-            setFeedback({
-                title: "Sua senha deve ter pelo menos 6 caracteres.",
-                colorTitle: "#000000",
-                color: "#FBBF24",
-            });
+        if (err) {
+            setFeedback({ title: err });
             return;
         }
 
@@ -64,14 +66,10 @@ export default function LoginForm() {
 
                 setFeedback({
                     title: "Cadastro realizado!",
-                    description: "Sua conta foi criada com sucesso.",
-                    color: "#22C55E",
+                    description: "Sua conta foi criada com sucesso"
                 });
 
-                setTimeout(() => {
-                    setFeedback(null);
-                    goToHome();
-                }, 2500);
+                aguardar();
 
                 return;
             } else {
@@ -79,14 +77,12 @@ export default function LoginForm() {
 
                 setFeedback({
                     title: "Login realizado!",
-                    description: "Bem-vindo de volta.",
-                    color: "#22C55E",
+                    description: "Bem-vindo de volta."
                 });
 
-                setTimeout(() => {
-                    setFeedback(null);
-                    goToHome();
-                }, 2500);
+                aguardar();
+
+                return
             }
         } catch (err: any) {
             const msg =
@@ -97,7 +93,6 @@ export default function LoginForm() {
 
             setFeedback({
                 title: msg,
-                color: "#EF4444",
             });
         } finally {
             setLoading(false);
@@ -181,8 +176,6 @@ export default function LoginForm() {
                         visible={!!feedback}
                         title={feedback?.title ?? ""}
                         description={feedback?.description ?? ""}
-                        backgroundColor={feedback?.color ?? "#EF4444"}
-                        colorTitle={feedback?.colorTitle ?? "#FFFFFF"}
                         onClose={() => setFeedback(null)}
                     />
                 </View>

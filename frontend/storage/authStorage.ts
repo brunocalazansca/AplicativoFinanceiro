@@ -9,7 +9,6 @@ export type AuthSession = {
         id: number;
         nome: string;
         email: string;
-        iniciais?: string;
     };
 };
 

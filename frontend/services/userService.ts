@@ -8,6 +8,11 @@ export async function cadastrarUsuario(nome: string, email: string, senha: strin
         email,
         senha
     })
+
+    if (res?.data?.id) {
+        await login(email, senha);
+    }
+
     return res.data
 }
 
@@ -18,6 +23,9 @@ export async function login(email: string, senha: string) {
     });
 
     await saveSession(res.data);
+
+    const type = res.data.tokenType ?? "Bearer";
+    api.defaults.headers.common.Authorization = `${type} ${res.data.token}`;
 
     return res.data;
 }
@@ -32,7 +40,6 @@ export async function getNomeUsuarioLogado() {
 export async function logout() {
     await clearSession();
 }
-
 
 export async function skipLogin() {
     const session = await getSession();

@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, Alert } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { styles } from "./LoginStyle";
 import { router, type Href } from "expo-router";
 import Input from "../../components/Input/Input";
@@ -61,8 +61,6 @@ export default function LoginForm() {
 
             if (mode === "cadastro") {
                 await cadastrarUsuario(nome.trim(), email.trim(), senha);
-
-                // await login(email.trim(), senha);
 
                 setFeedback({
                     title: "Cadastro realizado!",

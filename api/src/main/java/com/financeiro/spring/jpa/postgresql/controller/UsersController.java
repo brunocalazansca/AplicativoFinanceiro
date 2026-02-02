@@ -1,10 +1,12 @@
 package com.financeiro.spring.jpa.postgresql.controller;
 
+import com.financeiro.spring.jpa.postgresql.dto.JwtDTO;
 import com.financeiro.spring.jpa.postgresql.dto.UsersDTO;
 import com.financeiro.spring.jpa.postgresql.model.Users;
 import com.financeiro.spring.jpa.postgresql.repository.UsersRepository;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ public class UsersController {
     public UsersController(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
+
+    @Autowired
+    private JwtDTO jwtDTO;
 
     @PostMapping("/users")
     public ResponseEntity<?> create(@Valid @RequestBody UsersDTO dto) {
@@ -47,5 +52,32 @@ public class UsersController {
         resp.put("email", saved.getEmail());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> login(@RequestBody UsersDTO dto) {
+        Users user = usersRepository.findByEmail(dto.getEmail()).orElse(null);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("status", 404, "error", "Usuário não encontrado", "field", "email"));
+        }
+
+        if (!user.getSenha().equals(dto.getSenha())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", 401, "error", "Senha incorreta", "field", "senha"));
+        }
+
+        String token = jwtDTO.generateToken(user.getId(), user.getEmail());
+
+        return ResponseEntity.ok(Map.of(
+                "token", token,
+                "tokenType", "Bearer",
+                "user", Map.of(
+                        "id", user.getId(),
+                        "nome", user.getNome(),
+                        "email", user.getEmail()
+                )
+        ));
     }
 }

@@ -4,6 +4,7 @@ import { styles } from "./FeedbackModalStyles";
 type FeedbackModalProps = {
     visible: boolean;
     title: string;
+    colorTitle?: string;
     description?: string;
     backgroundColor?: string;
     onClose?: () => void;
@@ -13,6 +14,7 @@ type FeedbackModalProps = {
 export default function FeedbackModal({
     visible,
     title,
+    colorTitle = '#FFFFFF',
     description,
     backgroundColor = "#EF4444",
     onClose,
@@ -38,7 +40,7 @@ export default function FeedbackModal({
                         containerStyle,
                     ]}
                 >
-                    <Text style={styles.title}>{title}</Text>
+                    <Text style={[styles.title, { color: colorTitle }]}>{title}</Text>
 
                     {hasDescription && (
                         <Text style={styles.description}>{description}</Text>

@@ -47,7 +47,7 @@ export default function Header() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
-            <UserButton nome="BC" />
+            <UserButton />
         </View>
     );
 }

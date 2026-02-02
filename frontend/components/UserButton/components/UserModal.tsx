@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, TouchableOpacity, Pressable} from 'react-native';
 import { styles } from './UserModalStyle';
 import { Feather } from "@expo/vector-icons";
+import { logout } from "@/services/userService";
+import { getSession } from "@/storage/authStorage";
 
 interface UserModalProps {
-    email: string;
+    email?: string;
     visible: boolean;
     loggout?: () => void;
     close?: () => void;
@@ -16,7 +18,26 @@ export default function UserModal({
     loggout,
     close
 }: UserModalProps) {
+    const [storedEmail, setStoredEmail] = React.useState<string>("");
+
+    useEffect(() => {
+        if (!visible) return;
+
+        (async () => {
+            const session = await getSession();
+            setStoredEmail(session?.user?.email ?? "");
+        })();
+    }, [visible]);
+
+    const emailToShow = email ?? storedEmail;
+
     if (!visible) return null;
+
+    async function handleLoggout() {
+        await logout();
+        close?.();
+        loggout?.();
+    }
 
     return (
         <>
@@ -31,11 +52,11 @@ export default function UserModal({
                         size={25}
                         color='black'
                     />
-                    <Text style={styles.usernameText}>{email}</Text>
+                    <Text style={styles.usernameText}>{emailToShow}</Text>
                 </View>
 
                 <TouchableOpacity
-                    onPress={loggout}
+                    onPress={handleLoggout}
                     style={styles.logoutRow}
                 >
                     <Feather

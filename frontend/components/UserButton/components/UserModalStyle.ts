@@ -5,8 +5,6 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         top: 60,
         right: 0,
-        width: 240,
-        height: 90,
         padding: 16,
         borderRadius: 12,
         backgroundColor: '#FFFFFF',
@@ -16,11 +14,14 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 6,
         marginRight: '14%',
-        marginTop: '60%'
+        marginTop: '60%',
+        maxWidth: "85%"
     },
     usernameText: {
         fontSize: 16,
         fontWeight: '500',
+        flexShrink: 1,
+        flexWrap: "wrap"
     },
     logoutButton: {
         paddingVertical: 10,

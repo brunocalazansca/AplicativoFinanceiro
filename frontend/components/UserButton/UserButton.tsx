@@ -1,17 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { styles } from './UserButtonStyle';
 import UserModal from "@/components/UserButton/components/UserModal";
 import {Href, router} from "expo-router";
+import { getNomeUsuarioLogado } from "@/services/userService";
 
-interface UserButtonProps {
-    nome: string;
-}
-
-export default function UserButton({
-    nome,
-}: UserButtonProps) {
+export default function UserButton() {
     const [visibleModal, setVisibleModal] = useState(false);
+    const [nome, setNome] = useState("");
+
+    useEffect(() => {
+        (async () => {
+            const n = await getNomeUsuarioLogado();
+            setNome(n);
+        })();
+    }, []);
 
     const openModal = () => {
         setVisibleModal(true);
@@ -32,7 +35,6 @@ export default function UserButton({
             </TouchableOpacity>
 
             <UserModal
-                email='bruno@gmail.com'
                 visible={visibleModal}
                 loggout={logout}
                 close={() => setVisibleModal(false)}

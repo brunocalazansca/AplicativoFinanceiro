@@ -9,7 +9,7 @@ import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
 import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { SwitchMode } from "@/_utils/typeAuthMode";
-import { cadastrarUsuario , loginUsuario } from "@/services/userService";
+import { cadastrarUsuario, login } from "@/services/userService";
 import { FeedbackState } from '@/_utils/typeFeedback'
 
 
@@ -30,15 +30,29 @@ export default function LoginForm() {
 
     async function handleSubmit() {
         if (mode === "cadastro" && !nome.trim()) {
-            Alert.alert("Atenção", "Informe seu nome completo.");
+            setFeedback({
+                title: "Informe seu nome completo.",
+                colorTitle: "#000000",
+                color: "#FBBF24",
+            });
+
             return;
         }
         if (!email.trim()) {
-            Alert.alert("Atenção", "Informe seu e-mail.");
+            setFeedback({
+                title: "Informe seu e-mail.",
+                colorTitle: "#000000",
+                color: "#FBBF24",
+            });
+
             return;
         }
         if (!senha.trim() || senha.length < 6) {
-            Alert.alert("Atenção", "Sua senha deve ter pelo menos 6 caracteres.");
+            setFeedback({
+                title: "Sua senha deve ter pelo menos 6 caracteres.",
+                colorTitle: "#000000",
+                color: "#FBBF24",
+            });
             return;
         }
 
@@ -47,6 +61,8 @@ export default function LoginForm() {
 
             if (mode === "cadastro") {
                 await cadastrarUsuario(nome.trim(), email.trim(), senha);
+
+                // await login(email.trim(), senha);
 
                 setFeedback({
                     title: "Cadastro realizado!",
@@ -60,11 +76,20 @@ export default function LoginForm() {
                 }, 2500);
 
                 return;
+            } else {
+                await login(email.trim(), senha);
+
+                setFeedback({
+                    title: "Login realizado!",
+                    description: "Bem-vindo de volta.",
+                    color: "#22C55E",
+                });
+
+                setTimeout(() => {
+                    setFeedback(null);
+                    goToHome();
+                }, 2500);
             }
-
-            await loginUsuario(email.trim(), senha);
-
-            goToHome();
         } catch (err: any) {
             const msg =
                 err?.response?.data?.message ||
@@ -159,6 +184,7 @@ export default function LoginForm() {
                         title={feedback?.title ?? ""}
                         description={feedback?.description ?? ""}
                         backgroundColor={feedback?.color ?? "#EF4444"}
+                        colorTitle={feedback?.colorTitle ?? "#FFFFFF"}
                         onClose={() => setFeedback(null)}
                     />
                 </View>

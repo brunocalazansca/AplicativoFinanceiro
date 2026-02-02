@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -20,9 +21,14 @@ import java.util.Map;
 public class UsersController {
 
     private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsersController(UsersRepository usersRepository) {
+    public UsersController(
+        UsersRepository usersRepository,
+        PasswordEncoder passwordEncoder
+    ) {
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Autowired
@@ -42,7 +48,7 @@ public class UsersController {
         Users user = new Users();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
-        user.setSenha(dto.getSenha());
+        user.setSenha(passwordEncoder.encode(dto.getSenha()));
 
         Users saved = usersRepository.save(user);
 
@@ -63,7 +69,7 @@ public class UsersController {
                     .body(Map.of("status", 404, "error", "Usuário não encontrado", "field", "email"));
         }
 
-        if (!user.getSenha().equals(dto.getSenha())) {
+        if (!passwordEncoder.matches(dto.getSenha(), user.getSenha())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("status", 401, "error", "Senha incorreta", "field", "senha"));
         }

@@ -1,4 +1,4 @@
-package com.financeiro.spring.jpa.postgresql.dto;
+package com.financeiro.spring.jpa.postgresql.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-public class JwtDTO {
+public class JwtTokenProvider implements TokenProvider {
+
     private final SecretKey key;
     private final long expirationMs;
 
-    public JwtDTO(@Value("${app.jwt.secret:}") String secret,
-                  @Value("${app.jwt.expiration-ms:86400000}") long expirationMs) {
+    public JwtTokenProvider(@Value("${app.jwt.secret:}") String secret,
+                            @Value("${app.jwt.expiration-ms:86400000}") long expirationMs) {
 
         if (secret == null || secret.isBlank() || secret.getBytes(StandardCharsets.UTF_8).length < 32) {
             this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
@@ -30,6 +31,7 @@ public class JwtDTO {
         this.expirationMs = expirationMs;
     }
 
+    @Override
     public String generateToken(Long userId, String email) {
         Date now = new Date();
         Date exp = new Date(now.getTime() + expirationMs);
@@ -43,7 +45,7 @@ public class JwtDTO {
                 .compact();
     }
 
-    public Claims parseClaims(String token) {
+    private Claims parseClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -51,6 +53,7 @@ public class JwtDTO {
                 .getBody();
     }
 
+    @Override
     public boolean isTokenValid(String token) {
         try {
             parseClaims(token);
@@ -60,6 +63,7 @@ public class JwtDTO {
         }
     }
 
+    @Override
     public String getEmailFromToken(String token) {
         return parseClaims(token).getSubject();
     }

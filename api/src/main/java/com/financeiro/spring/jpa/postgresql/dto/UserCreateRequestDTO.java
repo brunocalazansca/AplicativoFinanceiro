@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UsersDTO {
+public class UserCreateRequestDTO {
     @NotBlank(message = "Campo nome é obrigatório.")
     private String nome;
 

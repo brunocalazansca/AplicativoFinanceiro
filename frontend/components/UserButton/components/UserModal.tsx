@@ -25,7 +25,7 @@ export default function UserModal({
 
         (async () => {
             const session = await getSession();
-            setStoredEmail(session?.user?.email ?? "");
+            setStoredEmail(session?.user?.nome ?? "");
         })();
     }, [visible]);
 

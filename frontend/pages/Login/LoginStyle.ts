@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     },
     button: {
         width: '80%',
+        marginTop: 20,
     },
     textUser: {
         fontSize: 16,

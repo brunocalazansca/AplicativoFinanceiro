@@ -96,7 +96,6 @@ export default function AdditionModal({
                             placeholder={placeholder}
                             value={name}
                             onChangeText={setName}
-                            keyboardType="default"
                         />
 
                         <Text style={[styles.label, { marginTop: 14 }]}>Cor</Text>

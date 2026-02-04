@@ -2,7 +2,7 @@ package com.financeiro.spring.jpa.postgresql.service;
 
 import com.financeiro.spring.jpa.postgresql.dto.*;
 import com.financeiro.spring.jpa.postgresql.exception.ApiException;
-import com.financeiro.spring.jpa.postgresql.model.Users;
+import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.UsersRepository;
 import com.financeiro.spring.jpa.postgresql.security.JwtDTO;
 import org.springframework.http.HttpStatus;
@@ -32,19 +32,19 @@ public class UserService {
             throw new ApiException(HttpStatus.CONFLICT, "Email já cadastrado", "email");
         }
 
-        Users user = new Users();
+        User user = new User();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
         user.setSenha(passwordEncoder.encode(dto.getSenha()));
 
-        Users saved = usersRepository.save(user);
+        User saved = usersRepository.save(user);
 
         return new UserResponseDTO(saved.getId(), saved.getNome(), saved.getEmail());
     }
 
     public AuthResponseDTO login(LoginRequestDTO dto) {
 
-        Users user = usersRepository.findByEmail(dto.getEmail())
+        User user = usersRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuário não encontrado", "email"));
 
         if (!passwordEncoder.matches(dto.getSenha(), user.getSenha())) {

@@ -1,6 +1,6 @@
 package com.financeiro.spring.jpa.postgresql.security;
 
-import com.financeiro.spring.jpa.postgresql.model.Users;
+import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.UsersRepository;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +21,7 @@ public class UsersDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Users user = usersRepository.findByEmail(email)
+        User user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         // Aqui você pode mapear roles/perfis se existir no seu Users

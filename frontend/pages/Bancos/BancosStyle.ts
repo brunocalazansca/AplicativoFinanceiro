@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        backgroundColor: 'white',
     },
     countText: {
         fontSize: 18,
@@ -34,6 +35,7 @@ export const styles = StyleSheet.create({
     cardsContainer: {
         marginTop: '13%',
         alignItems: "center",
+        paddingBottom: 120,
     },
     card: {
         width: '90%'

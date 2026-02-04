@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.financeiro.spring.jpa.postgresql.model.Users;
+import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.UsersRepository;
 
 import jakarta.servlet.FilterChain;
@@ -64,7 +64,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String email = jwtTokenProvider.getEmailFromToken(token);
-        Users user = usersRepository.findByEmail(email).orElse(null);
+        User user = usersRepository.findByEmail(email).orElse(null);
 
         if (user == null) {
             filterChain.doFilter(request, response);

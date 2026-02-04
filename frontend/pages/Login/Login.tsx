@@ -43,8 +43,6 @@ export default function LoginForm() {
         }, 2500)
     })
 
-
-
     async function handleSubmit() {
         const err = validateAuthForm({
             mode,

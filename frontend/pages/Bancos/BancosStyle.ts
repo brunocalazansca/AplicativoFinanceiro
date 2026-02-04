@@ -1,43 +1,43 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
-    },
-    headerWrapper: {
-        zIndex: 20,
-        elevation: 20,
-    },
-    button: {
-        width: "40%",
-        marginHorizontal: '3%'
+        backgroundColor: "white",
     },
     buttonContainer: {
         position: "absolute",
-        top: 16,
+        top: 0,
         left: 0,
         right: 0,
         zIndex: 10,
+        elevation: 4,
+        backgroundColor: "#fff",
+        paddingTop: 16,
+        paddingBottom: 12,
         paddingHorizontal: 16,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        backgroundColor: 'white',
     },
     countText: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         color: "#6B7280",
-        marginTop: '5%',
-        marginHorizontal: '3%'
+        marginTop: 0,
+        marginLeft: 8
     },
     cardsContainer: {
-        marginTop: '13%',
+        paddingTop: 70,
         alignItems: "center",
         paddingBottom: 120,
     },
+    button: {
+        width: "40%",
+        marginHorizontal: "3%",
+        margin: 12,
+    },
     card: {
-        width: '90%'
-    }
+        width: "90%",
+    },
 });

@@ -1,12 +1,11 @@
 import { styles } from './BancosStyle';
-import {FlatList, ScrollView, StatusBar, Text, View} from "react-native";
+import { ScrollView, StatusBar, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Button/Button";
 import AdditionModal from "@/components/AdditionModal/AdditionModal";
 import BankCard from "@/components/BankCard/BankCard";
-import { useEffect, useState } from "react";
-import {router} from "expo-router";
-import { BANKS } from "@/data/bancos";
+import {useCallback, useEffect, useState} from "react";
+import {router, useFocusEffect} from "expo-router";
 import { getSession } from "@/storage/authStorage";
 import { cadastrarBanco, listarBancos } from "@/services/bancoService";
 import { setToken } from "@/api/authToken";
@@ -19,47 +18,47 @@ export default function Bancos() {
     const [session, setSession] = useState<Awaited<ReturnType<typeof getSession>>>(null);
     const [feedback, setFeedback] = useState<FeedbackState | null>(null);
     const [bancos, setBancos] = useState<BancoApi[]>([]);
-    const [loading, setLoading] = useState(false);
 
     async function loadBancos() {
         try {
-            setLoading(true);
             const data = await listarBancos();
             setBancos(data);
         } catch (err: any) {
             console.log("Erro ao listar bancos:", err?.message ?? err);
-        } finally {
-            setLoading(false);
         }
     }
 
-    useEffect(() => {
-        (async () => {
-            const s = await getSession();
-            setSession(s);
+    useFocusEffect(
+        useCallback(() => {
+            let active = true;
 
-            await setToken(s?.token ?? null);
-        })();
-    }, []);
+            (async () => {
+                const s = await getSession();
+                if (!active) return;
+
+                setSession(s);
+                await setToken(s?.token ?? null);
+
+                if (s?.token) {
+                    await loadBancos();
+                }
+            })();
+
+            return () => {
+                active = false;
+            };
+        }, [])
+    );
 
     useEffect(() => {
         if (!feedback) return;
 
-        setTimeout(() =>{
-            setFeedback(null)
-        }, 2500)
-    });
+        const t = setTimeout(() => {
+            setFeedback(null);
+        }, 2500);
 
-    useEffect(() => {
-        (async () => {
-            const s = await getSession();
-            setSession(s);
-
-            if (s?.token) {
-                await loadBancos();
-            }
-        })();
-    }, []);
+        return () => clearTimeout(t);
+    }, [feedback]);
 
     async function handleAddBanco({ name, color }: { name: string; color: string }) {
         try {
@@ -108,7 +107,7 @@ export default function Bancos() {
             />
             <View style={styles.buttonContainer}>
                 <Text style={styles.countText}>
-                    {loading ? "Carregando..." : `${bancos.length} bancos`}
+                    {bancos.length} bancos
                 </Text>
 
                 <Button

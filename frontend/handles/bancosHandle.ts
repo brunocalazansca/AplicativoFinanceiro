@@ -7,7 +7,7 @@ import { BancoApi } from "@/_utils/typeBancoApi";
 
 type AddBancoInput = { name: string; color: string };
 
-export function useBancos() {
+export function useHandleBancos() {
     const [session, setSession] = useState<Awaited<ReturnType<typeof getSession>>>(null);
 
     const [bancos, setBancos] = useState<BancoApi[]>([]);

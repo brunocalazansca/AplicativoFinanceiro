@@ -8,7 +8,7 @@ import AdditionModal from "@/components/AdditionModal/AdditionModal";
 import BankCard from "@/components/BankCard/BankCard";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
 import ConfirmModal from "@/components/Modal/ConfirmModal";
-import { useBancos } from "@/handles/bancosHandle";
+import { useHandleBancos } from "@/handles/bancosHandle";
 
 export default function Bancos() {
     const [openAdd, setOpenAdd] = useState(false);
@@ -21,7 +21,7 @@ export default function Bancos() {
         init,
         addBanco,
         deleteBanco
-    } = useBancos();
+    } = useHandleBancos();
 
     useFocusEffect(
         useCallback(() => {

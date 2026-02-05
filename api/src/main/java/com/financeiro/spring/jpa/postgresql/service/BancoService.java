@@ -6,7 +6,10 @@ import com.financeiro.spring.jpa.postgresql.exception.ApiException;
 import com.financeiro.spring.jpa.postgresql.model.Banco;
 import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.BancoRepository;
+import com.financeiro.spring.jpa.postgresql.repository.UsersRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +17,11 @@ import java.util.List;
 @Service
 public class BancoService {
     private final BancoRepository bancoRepository;
+    private final UsersRepository usersRepository;
 
-    public BancoService(BancoRepository repo) {
+    public BancoService(BancoRepository repo, UsersRepository usersRepository) {
         this.bancoRepository = repo;
+        this.usersRepository = usersRepository;
     }
 
     public BancoResponseDTO criar(User usuario, BancoCreateRequestDTO req) {
@@ -43,10 +48,16 @@ public class BancoService {
                 .toList();
     }
 
-//    public void deletar(Long id, Long usuarioId) {
-//        Banco b = bancoRepository.findByIdAndUsuarioId(id, usuarioId)
-//                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Banco não encontrado", "id"));
-//
-//        bancoRepository.delete(b);
-//    }
+    private User getUsuarioLogado() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return (User) auth.getPrincipal();
+    }
+
+    public void deletarBanco(Long idBanco) {
+        User usuario = usersRepository.findById(getUsuarioLogado().getId()).orElse(null);
+        usuario.getBancos().size();
+        usuario.getBancos().removeIf(b -> b.getId().equals(idBanco));
+
+        usersRepository.save(usuario);
+    }
 }

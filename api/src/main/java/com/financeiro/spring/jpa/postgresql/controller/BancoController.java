@@ -6,6 +6,7 @@ import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.service.BancoService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,13 @@ public class BancoController {
         return ResponseEntity.ok(service.listar(usuarioLogado));
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deletar(@Valid @RequestParam(value = "id-banco") Long idBanco) {
+        service.deletarBanco(idBanco);
+        return ResponseEntity.noContent().build();
+    }
+
+    // TODO: Remover esse método daqui depois.
     private User getUsuarioLogado() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return (User) auth.getPrincipal();

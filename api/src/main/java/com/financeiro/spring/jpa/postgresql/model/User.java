@@ -27,6 +27,6 @@ public class User {
   @Column(name = "senha", nullable = false)
   private String senha;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
   private Set<Banco> bancos = new HashSet<>();
 }

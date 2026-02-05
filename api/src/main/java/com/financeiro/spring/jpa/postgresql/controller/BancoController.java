@@ -46,7 +46,6 @@ public class BancoController {
         return ResponseEntity.ok(Map.of(
         "Nome", nomeBanco
         ));
-
     }
 
     // TODO: Remover esse método daqui depois.

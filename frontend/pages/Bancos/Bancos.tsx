@@ -7,7 +7,7 @@ import BankCard from "@/components/BankCard/BankCard";
 import {useCallback, useEffect, useState} from "react";
 import {router, useFocusEffect} from "expo-router";
 import { getSession } from "@/storage/authStorage";
-import { cadastrarBanco, listarBancos } from "@/services/bancoService";
+import {cadastrarBanco, deletarBanco, listarBancos} from "@/services/bancoService";
 import { setToken } from "@/api/authToken";
 import { FeedbackState } from "@/_utils/typeFeedback";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
@@ -98,6 +98,33 @@ export default function Bancos() {
         }
     }
 
+    async function handleDeletarBanco(bancoId: number) {
+        try {
+            if (!session?.token) {
+                setFeedback({
+                    title: "Sessão expirada!",
+                    description: "Faça login novamente.",
+                });
+                return;
+            }
+
+            const bancoRemovido = await deletarBanco(bancoId);
+
+            setBancos((prev) => prev.filter((b) => b.id !== bancoId));
+
+            setFeedback({
+                title: `${bancoRemovido.nome} deletado com sucesso!`,
+            });
+        } catch (err: any) {
+            const msg =
+                err?.response?.data?.message ??
+                err?.message ??
+                String(err);
+
+            setFeedback({ title: `Erro ao deletar o banco: ${msg}` });
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar
@@ -107,7 +134,9 @@ export default function Bancos() {
             />
             <View style={styles.buttonContainer}>
                 <Text style={styles.countText}>
-                    {bancos.length > 1 ? `${bancos.length} bancos` : `${bancos.length} banco`}
+                    {bancos.length === 0
+                        ? ""
+                        : `${bancos.length} banco${bancos.length === 1 ? "" : "s"}`}
                 </Text>
 
                 <Button
@@ -137,7 +166,7 @@ export default function Bancos() {
                                 params: { nome: b.nome },
                             })
                         }
-                        onDelete={() => console.log("Excluir banco")}
+                        onDelete={() => handleDeletarBanco(b.id)}
                         style={styles.card}
                     />
                 ))}

@@ -48,6 +48,7 @@ public class BancoService {
                 .toList();
     }
 
+    // TODO: Remover esse método daqui depois.
     private User getUsuarioLogado() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return (User) auth.getPrincipal();

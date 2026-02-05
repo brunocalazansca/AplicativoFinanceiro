@@ -1,5 +1,13 @@
 import React from "react";
-import { TouchableOpacity, Text, ActivityIndicator, StyleProp, ViewStyle, View, } from "react-native";
+import {
+    TouchableOpacity,
+    Text,
+    ActivityIndicator,
+    StyleProp,
+    ViewStyle,
+    View,
+    TextStyle,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { styles } from "./ButtonStyle";
 
@@ -12,6 +20,8 @@ interface ButtonProps {
     iconName?: React.ComponentProps<typeof Feather>["name"];
     iconSize?: number;
     iconColor?: string;
+    textColor?: string;
+    textStyle?: StyleProp<TextStyle>;
 }
 
 export default function Button({
@@ -23,6 +33,8 @@ export default function Button({
     iconName,
     iconSize = 18,
     iconColor = "#FFFFFF",
+    textColor = "#FFFFFF",
+    textStyle,
 }: ButtonProps) {
     return (
         <TouchableOpacity
@@ -44,7 +56,9 @@ export default function Button({
                         />
                     ) : null}
 
-                    <Text style={styles.text}>{title}</Text>
+                    <Text style={[styles.text, { color: textColor }, textStyle]}>
+                        {title}
+                    </Text>
                 </View>
             )}
         </TouchableOpacity>

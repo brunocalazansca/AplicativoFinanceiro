@@ -1,11 +1,19 @@
 package com.financeiro.spring.jpa.postgresql.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
@@ -19,22 +27,6 @@ public class User {
   @Column(name = "senha", nullable = false)
   private String senha;
 
-  public User() {}
-
-  public User(String nome, String email, String senha) {
-    this.nome = nome;
-    this.email = email;
-    this.senha = senha;
-  }
-
-  public long getId() { return id; }
-
-  public String getNome() { return nome; }
-  public void setNome(String nome) { this.nome = nome; }
-
-  public String getEmail() { return email; }
-  public void setEmail(String email) { this.email = email; }
-
-  public String getSenha() { return senha; }
-  public void setSenha(String senha) { this.senha = senha; }
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private Set<Banco> bancos = new HashSet<>();
 }

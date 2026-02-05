@@ -1,11 +1,14 @@
 package com.financeiro.spring.jpa.postgresql.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+@Getter
+@Setter
 
 @Entity
 @Table(
@@ -20,8 +23,9 @@ public class Banco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="usuario_id", nullable = false)
-    private Long usuarioId;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private User user;
 
     @Column(nullable = false, length = 120)
     private String nome;
@@ -41,9 +45,6 @@ public class Banco {
     @Column(name = "qtd_transacoes", nullable = false)
     private Long qtdTransacoes = 0L;
 
-    public Long getQtdTransacoes() { return qtdTransacoes; }
-    public void setQtdTransacoes(Long qtdTransacoes) { this.qtdTransacoes = qtdTransacoes; }
-
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
@@ -56,22 +57,4 @@ public class Banco {
         updatedAt = LocalDateTime.now();
         if (saldo == null) saldo = BigDecimal.ZERO;
     }
-
-    // getters/setters
-    public Long getId() { return id; }
-
-    public Long getUsuarioId() { return usuarioId; }
-    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
-
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public String getCorHex() { return corHex; }
-    public void setCorHex(String corHex) { this.corHex = corHex; }
-
-    public BigDecimal getSaldo() { return saldo; }
-    public void setSaldo(BigDecimal saldo) { this.saldo = saldo; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

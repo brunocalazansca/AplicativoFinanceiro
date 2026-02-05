@@ -1,5 +1,6 @@
 package com.financeiro.spring.jpa.postgresql.security;
 
+import com.financeiro.spring.jpa.postgresql.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +33,13 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String generateToken(Long userId, String email) {
+    public String generateToken(User user, String email) {
         Date now = new Date();
         Date exp = new Date(now.getTime() + expirationMs);
 
         return Jwts.builder()
                 .setSubject(email)
-                .claim("uid", userId)
+                .claim("uid", user.getId())
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .signWith(key, SignatureAlgorithm.HS256)

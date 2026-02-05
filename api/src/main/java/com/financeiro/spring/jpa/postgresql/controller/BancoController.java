@@ -26,15 +26,15 @@ public class BancoController {
 
     @PostMapping
     public ResponseEntity<BancoResponseDTO> criar(@Valid @RequestBody BancoCreateRequestDTO req) {
-        Long usuarioId = getUsuarioLogado().getId();
-        BancoResponseDTO res = service.criar(usuarioId, req);
+        User usuarioLogado = getUsuarioLogado();
+        BancoResponseDTO res = service.criar(usuarioLogado, req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
     @GetMapping
     public ResponseEntity<List<BancoResponseDTO>> listar() {
-        Long usuarioId = getUsuarioLogado().getId();
-        return ResponseEntity.ok(service.listar(usuarioId));
+        User usuarioLogado = getUsuarioLogado();
+        return ResponseEntity.ok(service.listar(usuarioLogado));
     }
 
     private User getUsuarioLogado() {

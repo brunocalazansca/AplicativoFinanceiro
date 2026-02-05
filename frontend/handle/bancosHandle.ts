@@ -5,7 +5,10 @@ import { cadastrarBanco, deletarBanco, listarBancos } from "@/services/bancoServ
 import { FeedbackState } from "@/_utils/typeFeedback";
 import { BancoApi } from "@/_utils/typeBancoApi";
 
-type AddBancoInput = { name: string; color: string };
+type AddBancoInput = {
+    name: string;
+    color: string
+};
 
 export function useHandleBancos() {
     const [session, setSession] = useState<Awaited<ReturnType<typeof getSession>>>(null);

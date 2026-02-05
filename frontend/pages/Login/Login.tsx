@@ -1,101 +1,31 @@
 import { View, Text, ActivityIndicator } from "react-native";
 import { styles } from "./LoginStyle";
-import { router, type Href } from "expo-router";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { SwitchMode } from "@/_utils/typeAuthMode";
-import { cadastrarUsuario, login } from "@/services/userService";
-import { FeedbackState } from '@/_utils/typeFeedback'
-import { validateAuthForm } from "@/_utils/validationFormData";
+import { useHandleLogin } from "@/handle/loginHandle";
 
 export default function LoginForm() {
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState<SwitchMode>("login");
 
     const styleCard = mode === "login" ? styles.login : styles.register;
 
-    const [feedback, setFeedback] = useState<FeedbackState | null>(null);
+    const { loading, feedback, setFeedback, handleSubmit } = useHandleLogin();
 
-    const goToHome = () => {
-        router.replace("/(tabs)/home" as Href);
-    };
-
-    function aguardar() {
-        setTimeout(() => {
-            setFeedback(null);
-            goToHome();
-        }, 3000);
-    }
-
-    useEffect(() => {
-        if (!feedback) return;
-
-        setTimeout(() =>{
-            setFeedback(null)
-        }, 2500)
-    })
-
-    async function handleSubmit() {
-        const err = validateAuthForm({
-            mode,
-            nome,
-            email,
-            senha
-        });
-
-        if (err) {
-            setFeedback({ title: err });
-            return;
-        }
-
-        try {
-            setLoading(true);
-
-            if (mode === "cadastro") {
-                await cadastrarUsuario(nome.trim(), email.trim(), senha);
-
-                setFeedback({
-                    title: "Cadastro realizado!",
-                    description: "Sua conta foi criada com sucesso"
-                });
-
-                aguardar();
-
-                return;
-            } else {
-                await login(email.trim(), senha);
-
-                setFeedback({
-                    title: "Login realizado!",
-                    description: "Bem-vindo de volta."
-                });
-
-                aguardar();
-
-                return
-            }
-        } catch (err: any) {
-            const msg =
-                err?.response?.data?.message ||
-                err?.response?.data?.error ||
-                err?.message ||
-                "Erro ao comunicar com o servidor.";
-
-            setFeedback({
-                title: msg,
-            });
-        } finally {
-            setLoading(false);
-        }
-    }
+    const isDisabled =
+        loading ||
+        (mode === "login"
+            ? !email.trim() || !senha.trim() || senha.length < 6
+            : !nome.trim() || !email.trim() || !senha.trim() || senha.length < 6
+        );
 
     return (
         <View style={styles.container}>
@@ -158,10 +88,22 @@ export default function LoginForm() {
                     />
 
                     <Button
-                        title={loading ? "Aguarde..." : mode === "cadastro" ? "Cadastrar" : "Entrar"}
-                        onPress={handleSubmit}
+                        title={
+                            loading ? "Aguarde..."
+                            : mode === "cadastro"
+                            ? "Cadastrar"
+                            : "Entrar"
+                        }
+                        onPress={
+                            () => handleSubmit({
+                                mode,
+                                nome,
+                                email,
+                                senha
+                            })
+                        }
                         style={styles.button}
-                        disabled={loading}
+                        disabled={isDisabled}
                     />
 
                     {loading && (

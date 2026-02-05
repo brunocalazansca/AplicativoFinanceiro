@@ -24,7 +24,7 @@ public class BancoService {
         this.usersRepository = usersRepository;
     }
 
-    public BancoResponseDTO criar(User usuario, BancoCreateRequestDTO req) {
+    public BancoResponseDTO criarBanco(User usuario, BancoCreateRequestDTO req) {
 
         if (bancoRepository.existsByUserAndNomeIgnoreCase(usuario, req.getNome())) {
             throw new ApiException(HttpStatus.CONFLICT, "Banco já cadastrado", "nome");
@@ -42,32 +42,18 @@ public class BancoService {
         );
     }
 
-    public List<BancoResponseDTO> listar(User usuario) {
+    public List<BancoResponseDTO> listarBanco(User usuario) {
         return bancoRepository.findByUserOrderByNomeAsc(usuario).stream()
                 .map(b -> new BancoResponseDTO(b.getId(), b.getNome(), b.getCorHex(), b.getSaldo(), b.getQtdTransacoes()))
                 .toList();
     }
 
-    // TODO: Remover esse método daqui depois.
-    private User getUsuarioLogado() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return (User) auth.getPrincipal();
-    }
+    public String deletarBanco(User usuarioLogado, Long idBanco) {
+        Banco banco = bancoRepository.findByIdAndUser(idBanco, usuarioLogado)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Banco não encontrado", "id-banco"));
 
-    public String deletarBanco(Long idBanco) {
-        User usuario = usersRepository.findById(getUsuarioLogado().getId()).orElse(null);
-        usuario.getBancos().size();
-
-        String nomeBanco = usuario.getBancos()
-                .stream()
-                .filter(b -> b.getId().equals(idBanco))
-                .map(Banco::getNome)
-                .findFirst()
-                .orElse(null);
-
-        usuario.getBancos().removeIf(b -> b.getId().equals(idBanco));
-
-        usersRepository.save(usuario);
+        String nomeBanco = banco.getNome();
+        bancoRepository.delete(banco);
 
         return nomeBanco;
     }

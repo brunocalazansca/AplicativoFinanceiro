@@ -53,11 +53,21 @@ public class BancoService {
         return (User) auth.getPrincipal();
     }
 
-    public void deletarBanco(Long idBanco) {
+    public String deletarBanco(Long idBanco) {
         User usuario = usersRepository.findById(getUsuarioLogado().getId()).orElse(null);
         usuario.getBancos().size();
+
+        String nomeBanco = usuario.getBancos()
+                .stream()
+                .filter(b -> b.getId().equals(idBanco))
+                .map(Banco::getNome)
+                .findFirst()
+                .orElse(null);
+
         usuario.getBancos().removeIf(b -> b.getId().equals(idBanco));
 
         usersRepository.save(usuario);
+
+        return nomeBanco;
     }
 }

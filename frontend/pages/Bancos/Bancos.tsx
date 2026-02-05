@@ -107,7 +107,7 @@ export default function Bancos() {
             />
             <View style={styles.buttonContainer}>
                 <Text style={styles.countText}>
-                    {bancos.length} bancos
+                    {bancos.length > 1 ? `${bancos.length} bancos` : `${bancos.length} banco`}
                 </Text>
 
                 <Button

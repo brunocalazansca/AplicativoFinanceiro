@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/bancos")
@@ -39,9 +40,13 @@ public class BancoController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deletar(@Valid @RequestParam(value = "id-banco") Long idBanco) {
-        service.deletarBanco(idBanco);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Map<String, Object>> deletar(@Valid @RequestParam(value = "id-banco") Long idBanco) {
+        String nomeBanco = service.deletarBanco(idBanco);
+
+        return ResponseEntity.ok(Map.of(
+        "Nome", nomeBanco
+        ));
+
     }
 
     // TODO: Remover esse método daqui depois.

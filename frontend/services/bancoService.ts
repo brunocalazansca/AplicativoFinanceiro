@@ -12,9 +12,9 @@ export async function listarBancos(): Promise<BancoApi[]> {
 }
 
 export async function deletarBanco(idBanco: number): Promise<{ nome: string }> {
-    const { data } = await api.delete<{ Nome: string }>("/bancos", {
+    const { data } = await api.delete<{ nome: string }>("/bancos", {
         params: { "id-banco": idBanco },
     });
 
-    return { nome: data.Nome };
+    return { nome: data.nome };
 }

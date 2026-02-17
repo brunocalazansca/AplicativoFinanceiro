@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleProp, ViewStyle } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { styles } from './BankCardStyle';
 import { formatBRL } from "@/_utils/formatUtils";
+import { withAlpha } from "@/_utils/alfaColors";
 
 type FeatherName = React.ComponentProps<typeof Feather>["name"];
 
@@ -16,21 +17,6 @@ type Props = {
     onDelete?: () => void;
     style?: StyleProp<ViewStyle>;
 };
-
-function withAlpha(hex: string, alpha: number) {
-    const clean = hex.replace("#", "");
-    const full = clean.length === 3
-        ? clean.split("").map((c) => c + c).join("")
-        : clean;
-
-    if (full.length !== 6) return `rgba(0,0,0,${alpha})`;
-
-    const r = parseInt(full.slice(0, 2), 16);
-    const g = parseInt(full.slice(2, 4), 16);
-    const b = parseInt(full.slice(4, 6), 16);
-
-    return `rgba(${r},${g},${b},${alpha})`;
-}
 
 export default function BankCard({
     name,

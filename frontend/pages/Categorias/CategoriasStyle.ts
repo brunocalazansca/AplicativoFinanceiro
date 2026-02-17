@@ -11,21 +11,25 @@ export const styles = StyleSheet.create({
     },
     buttonContainer: {
         position: "absolute",
-        top: 16,
+        top: 0,
         left: 0,
         right: 0,
         zIndex: 10,
+        elevation: 4,
+        backgroundColor: "#fff",
+        paddingTop: 16,
+        paddingBottom: 12,
         paddingHorizontal: 16,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
     },
     countText: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 14,
+        fontWeight: "bold",
         color: "#6B7280",
-        marginTop: '2%',
-        marginHorizontal: '3%'
+        marginTop: 12,
+        marginLeft: 8
     },
     cardContainer: {
         alignItems: 'center',

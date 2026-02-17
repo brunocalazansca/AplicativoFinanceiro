@@ -45,7 +45,7 @@ public class BancoController {
             @RequestParam("id-banco") Long idBanco
     ) {
         String nomeBanco = service.deletarBanco(usuarioLogado, idBanco);
-        return ResponseEntity.ok(Map.of("Nome", nomeBanco));
+        return ResponseEntity.ok(Map.of("nome", nomeBanco));
     }
 
     private User getUsuarioLogado() {

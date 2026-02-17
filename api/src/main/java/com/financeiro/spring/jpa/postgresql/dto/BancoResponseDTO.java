@@ -10,7 +10,7 @@ public class BancoResponseDTO {
     private final String nome;
     private final String corHex;
     private final BigDecimal saldo;
-    private Long qtdTransacoes;
+    private final Long qtdTransacoes;
 
     public BancoResponseDTO(Long id, String nome, String corHex, BigDecimal saldo, Long qtdTransacoes) {
         this.id = id;

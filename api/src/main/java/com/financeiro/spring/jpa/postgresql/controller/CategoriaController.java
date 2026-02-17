@@ -5,7 +5,6 @@ import com.financeiro.spring.jpa.postgresql.dto.CategoriaResponseDTO;
 import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.service.CategoriaService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

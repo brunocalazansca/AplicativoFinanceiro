@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class BancoCreateRequestDTO {
+public class CategoriaCreateRequestDTO {
     @NotBlank
     private String nome;
 

@@ -1,11 +1,11 @@
 package com.financeiro.spring.jpa.postgresql.controller;
 
-import com.financeiro.spring.jpa.postgresql.dto.BancoCreateRequestDTO;
-import com.financeiro.spring.jpa.postgresql.dto.BancoResponseDTO;
+import com.financeiro.spring.jpa.postgresql.dto.CategoriaCreateRequestDTO;
+import com.financeiro.spring.jpa.postgresql.dto.CategoriaResponseDTO;
 import com.financeiro.spring.jpa.postgresql.model.User;
-import com.financeiro.spring.jpa.postgresql.service.BancoService;
-
+import com.financeiro.spring.jpa.postgresql.service.CategoriaService;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,39 +13,38 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/bancos")
-public class BancoController {
+@RequestMapping("/api/categorias")
+public class CategoriaController {
 
-    private final BancoService service;
+    private final CategoriaService service;
 
-    public BancoController(BancoService service) {
+    public CategoriaController(CategoriaService service) {
         this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<BancoResponseDTO> criarBanco(@Valid @RequestBody BancoCreateRequestDTO req) {
+    public ResponseEntity<CategoriaResponseDTO> criarCategoria(@Valid @RequestBody CategoriaCreateRequestDTO req) {
         User usuarioLogado = getUsuarioLogado();
-        BancoResponseDTO res = service.criarBanco(usuarioLogado, req);
+        CategoriaResponseDTO res = service.criarCategoria(usuarioLogado, req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
     @GetMapping
-    public ResponseEntity<List<BancoResponseDTO>> listarBanco() {
+    public ResponseEntity<?> listarCategorias() {
         User usuarioLogado = getUsuarioLogado();
-        return ResponseEntity.ok(service.listarBanco(usuarioLogado));
+        return ResponseEntity.ok(service.listarCategorias(usuarioLogado));
     }
 
     @DeleteMapping
-    public ResponseEntity<Map<String, Object>> deletarBanco(
+    public ResponseEntity<Map<String, Object>> deletarCategoria(
             @AuthenticationPrincipal User usuarioLogado,
-            @RequestParam("id-banco") Long idBanco
+            @RequestParam("id-categoria") Long idCategoria
     ) {
-        String nomeBanco = service.deletarBanco(usuarioLogado, idBanco);
-        return ResponseEntity.ok(Map.of("Nome", nomeBanco));
+        String nomeCategoria = service.deletarCategoria(usuarioLogado, idCategoria);
+        return ResponseEntity.ok(Map.of("nome", nomeCategoria));
     }
 
     private User getUsuarioLogado() {

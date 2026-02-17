@@ -7,7 +7,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class BancoCreateRequestDTO {
+public class CategoriaResponseDTO {
+    @NotBlank
+    private Long id;
+
     @NotBlank
     private String nome;
 
@@ -15,4 +18,9 @@ public class BancoCreateRequestDTO {
     @Pattern(regexp = "^#[0-9A-Fa-f]{6}$", message = "A cor deve estar no formato #RRGGBB")
     private String corHex;
 
+    public CategoriaResponseDTO(Long id, String nome, String corHex) {
+        this.id = id;
+        this.nome = nome;
+        this.corHex = corHex;
+    }
 }

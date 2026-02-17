@@ -37,6 +37,11 @@ export default function FeedbackModal({
                     <Text style={[styles.title, !hasDescription && styles.titleNoDescription]}>
                         {title}
                     </Text>
+                    {hasDescription && (
+                        <Text style={styles.description}>
+                            {description}
+                        </Text>
+                    )}
                 </Pressable>
             </Pressable>
         </Modal>

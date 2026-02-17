@@ -39,7 +39,7 @@ export default function Bancos() {
             <View style={styles.buttonContainer}>
                 <Text style={styles.countText}>
                     {bancos.length === 0
-                        ? ""
+                        ? "Nenhum banco cadastrado"
                         : `${bancos.length} banco${bancos.length === 1 ? "" : "s"}`}
                 </Text>
 

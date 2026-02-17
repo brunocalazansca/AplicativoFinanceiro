@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     countText: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
         color: "#6B7280",
         marginTop: 0,

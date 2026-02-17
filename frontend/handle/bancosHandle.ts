@@ -19,7 +19,6 @@ export function useHandleBancos() {
     const [loadingList, setLoadingList] = useState(false);
     const [loadingAction, setLoadingAction] = useState(false);
 
-    // auto-fecha feedback
     useEffect(() => {
         if (!feedback) return;
         const t = setTimeout(() => setFeedback(null), 2500);
@@ -31,8 +30,8 @@ export function useHandleBancos() {
             setLoadingList(true);
             const data = await listarBancos();
             setBancos(data);
-        } catch (err: any) {
-            setFeedback({ title: `Erro ao listar bancos: ${err?.message ?? err}` });
+        } catch {
+            return;
         } finally {
             setLoadingList(false);
         }
@@ -76,7 +75,14 @@ export function useHandleBancos() {
                 const status = err?.response?.status;
 
                 if (status === 409) {
-                    setFeedback({ title: "Este banco já está cadastrado." });
+                    setFeedback({title: "Este banco já está cadastrado."});
+                    return null;
+
+                } else if (status === 403) {
+                    setFeedback({
+                        title: "Sessão expirada!",
+                        description: "Faça login novamente.",
+                    });
                     return null;
                 }
 
@@ -86,6 +92,7 @@ export function useHandleBancos() {
                     String(err);
 
                 setFeedback({ title: `Erro ao cadastrar banco: ${msg}` });
+
                 return null;
             } finally {
                 setLoadingAction(false);

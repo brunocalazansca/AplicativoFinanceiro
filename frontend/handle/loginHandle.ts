@@ -16,7 +16,6 @@ export function useHandleLogin() {
     const [loading, setLoading] = useState(false);
     const [feedback, setFeedback] = useState<FeedbackState | null>(null);
 
-    // evita setState após unmount
     const mountedRef = useRef(true);
     useEffect(() => {
         mountedRef.current = true;
@@ -25,7 +24,6 @@ export function useHandleLogin() {
         };
     }, []);
 
-    // auto-fecha feedback em 2.5s
     useEffect(() => {
         if (!feedback) return;
         const t = setTimeout(() => {
@@ -60,8 +58,7 @@ export function useHandleLogin() {
                 await cadastrarUsuario(nome.trim(), email.trim(), senha);
 
                 setFeedback({
-                    title: "Cadastro realizado!",
-                    description: "Sua conta foi criada com sucesso",
+                    title: "Sua conta foi criada com sucesso!",
                 });
 
                 aguardarENavegar();

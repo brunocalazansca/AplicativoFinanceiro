@@ -35,8 +35,8 @@ export const styles = StyleSheet.create({
     },
     description: {
         color: "#000",
-        fontSize: 14,
-        fontWeight: "500",
+        fontSize: 16,
+        fontWeight: "700",
         opacity: 0.95,
         includeFontPadding: false,
         textAlign: "center",

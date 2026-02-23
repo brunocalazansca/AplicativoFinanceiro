@@ -38,12 +38,12 @@ export function useHandleBancos() {
     }, []);
 
     // Inicializa sessão + token + lista bancos
-    const init = useCallback(async () => {
-        const s = await getSession();
-        setSession(s);
-        await setToken(s?.token ?? null);
+    const initBanco = useCallback(async () => {
+        const session = await getSession();
+        setSession(session);
+        await setToken(session?.token ?? null);
 
-        if (s?.token) {
+        if (session?.token) {
             await loadBancos();
         } else {
             setFeedback({
@@ -137,7 +137,7 @@ export function useHandleBancos() {
         setFeedback,
         loadingList,
         loadingAction,
-        init,
+        initBanco,
         loadBancos,
         addBanco,
         deleteBanco,

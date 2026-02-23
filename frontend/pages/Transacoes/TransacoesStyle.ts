@@ -44,5 +44,10 @@ export const styles = StyleSheet.create({
     textData: {
         fontSize: 16,
         marginBottom: 10
-    }
+    },
+    limparBtn: {
+        backgroundColor: "#FFFFFF",
+        borderWidth: 1,
+        borderColor: '#2F6EF2',
+    },
 });

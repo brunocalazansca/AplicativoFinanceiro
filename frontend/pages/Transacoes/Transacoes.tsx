@@ -9,8 +9,9 @@ import Select from '@/components/Select/Select'
 import { SelectOption } from "@/_utils/selectOptions";
 import { useFocusEffect } from "expo-router";
 import DateTimePicker from "@/components/DataTimePicker/DataTimePicker";
-import { listaBancos, listaCategorias } from "@/data/listSelect";
 import Button from "@/components/Button/Button";
+import {useHandleCategoria} from "@/handle/categoriaHandle";
+import {useHandleBancos} from "@/handle/bancosHandle";
 
 export default function Transacoes() {
     const [mode, setMode] = useState<SwitchMode>("entrada");
@@ -19,11 +20,30 @@ export default function Transacoes() {
     const [selectResetKey, setSelectResetKey] = useState(0);
     const [dataTransacao, setDataTransacao] = useState<Date | null>(null);
 
+    const handleLimpar = () => {
+        setValor('');
+        setDescricao('');
+        setDataTransacao(null);
+        setSelectResetKey(prev => prev + 1);
+    };
+
+    const {
+        categoria,
+        initCategoria,
+    } = useHandleCategoria();
+
+    const {
+        bancos,
+        initBanco,
+    } = useHandleBancos();
+
     useFocusEffect(
         useCallback(() => {
             setSelectResetKey(prev => prev + 1);
             setDataTransacao(null);
-        }, [])
+            initCategoria();
+            initBanco();
+        }, [initCategoria, initBanco])
     );
 
     const handleBancoSelecionado = (item: SelectOption) => {
@@ -83,7 +103,11 @@ export default function Transacoes() {
                     <Text style={styles.text}>Banco</Text>
                     <Select
                         key={`banco-${selectResetKey}`}
-                        options={listaBancos}
+                        options={bancos.map((b) => ({
+                            id: String(b.id),
+                            nome: b.nome,
+                            cor: b.corHex
+                        }))}
                         onSelect={handleBancoSelecionado}
                         placeholder="Selecione seu banco"
                         style={styles.size}
@@ -91,10 +115,14 @@ export default function Transacoes() {
 
                     {mode === 'despesa' && (
                         <>
-                            <Text style={styles.text}>Categoria (Opcional)</Text>
+                            <Text style={styles.text}>Categoria</Text>
                             <Select
                                 key={`categoria-${selectResetKey}`}
-                                options={listaCategorias}
+                                options={categoria.map((c) => ({
+                                    id: String(c.id),
+                                    nome: c.nome,
+                                    cor: c.corHex
+                                }))}
                                 onSelect={handleCategoriaSelecionada}
                                 placeholder="Selecione a categoria"
                                 style={styles.size}
@@ -116,6 +144,13 @@ export default function Transacoes() {
                     <Button
                         title="Adicionar Despesa"
                         onPress={() => console.log('Despesa adicionada')}
+                    />
+
+                    <Button
+                        title="Limpar"
+                        textColor="#2F6EF2"
+                        onPress={handleLimpar}
+                        style={styles.limparBtn}
                     />
                 </View>
             </ScrollView>

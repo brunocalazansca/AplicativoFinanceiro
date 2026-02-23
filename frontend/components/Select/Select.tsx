@@ -36,7 +36,7 @@ export default function Select({
                     { backgroundColor: item.cor },
                     isSelected && {
                         borderWidth: 2,
-                        borderColor: '#00000060',
+                        borderColor: '#FFFFFF',
                     },
                 ]}
                 onPress={() => handleSelect(item)}

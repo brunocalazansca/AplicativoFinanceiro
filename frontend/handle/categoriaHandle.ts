@@ -38,12 +38,12 @@ export function useHandleCategoria () {
     }, []);
 
     // Inicializa sessão + token + lista de categorias
-    const init = useCallback(async () => {
-        const s = await getSession();
-        setSession(s);
-        await setToken(s?.token ?? null);
+    const initCategoria = useCallback(async () => {
+        const session = await getSession();
+        setSession(session);
+        await setToken(session?.token ?? null);
 
-        if (s?.token) {
+        if (session?.token) {
             await loadCategoria();
         } else {
             setFeedback({
@@ -137,7 +137,7 @@ export function useHandleCategoria () {
         setFeedback,
         loadingList,
         loadingAction,
-        init,
+        initCategoria,
         loadCategoria,
         addCategoria,
         deleteCategoria,

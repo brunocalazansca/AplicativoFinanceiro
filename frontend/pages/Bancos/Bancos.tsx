@@ -18,15 +18,15 @@ export default function Bancos() {
         bancos,
         feedback,
         setFeedback,
-        init,
+        initBanco,
         addBanco,
         deleteBanco
     } = useHandleBancos();
 
     useFocusEffect(
         useCallback(() => {
-            init();
-        }, [init])
+            initBanco();
+        }, [initBanco])
     );
 
     return (

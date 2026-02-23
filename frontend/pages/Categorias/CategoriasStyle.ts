@@ -35,10 +35,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         padding: 12,
-        marginTop: '10%',
+        marginTop: '15%',
     },
     button: {
         width: "40%",
-        marginHorizontal: '3%'
+        marginHorizontal: '3%',
+        margin: 12,
     },
 });

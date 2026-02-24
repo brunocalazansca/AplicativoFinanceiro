@@ -1,11 +1,13 @@
 package com.financeiro.spring.jpa.postgresql.dto;
 
+import lombok.*;
+
+@Setter
+@Getter
 public class AuthResponseDTO {
     private String token;
     private String tokenType;
     private UserResponseDTO user;
-
-    public AuthResponseDTO() {}
 
     public AuthResponseDTO(String token, String tokenType, UserResponseDTO user) {
         this.token = token;
@@ -13,12 +15,4 @@ public class AuthResponseDTO {
         this.user = user;
     }
 
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
-
-    public String getTokenType() { return tokenType; }
-    public void setTokenType(String tokenType) { this.tokenType = tokenType; }
-
-    public UserResponseDTO getUser() { return user; }
-    public void setUser(UserResponseDTO user) { this.user = user; }
 }

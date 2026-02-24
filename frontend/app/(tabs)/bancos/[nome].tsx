@@ -1,27 +1,33 @@
-import React, { useMemo } from "react";
-import {View, Text, FlatList, TouchableOpacity} from "react-native";
-import {router, useLocalSearchParams} from "expo-router";
+import React, {useCallback, useState} from "react";
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
+import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
 
-import CardTransaction from "@/components/CardTransaction/CardTransaction"; // ajuste o caminho
-import { BANKS } from "@/data/bancos";
-import {styles} from "@/app/(tabs)/bancos/[nome]Style";
-import {Feather} from "@expo/vector-icons";
+import CardTransaction from "@/components/CardTransaction/CardTransaction";
+import { styles } from "@/app/(tabs)/bancos/[nome]Style";
+import { Feather } from "@expo/vector-icons";
+
+import { useHandleTransacoes } from "@/handle/transacaoHandle";
+import ConfirmModal from "@/components/Modal/ConfirmModal";
 
 export default function BancoDetalhe() {
-    const { nome } = useLocalSearchParams<{ nome: string }>();
+    const { id } = useLocalSearchParams<{ id: string }>();
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const [transacaoId, setTransacaoId] = useState<number | null>(null);
 
-    const bank = useMemo(() => {
-        const n = nome;
-        return BANKS.find((b) => b.nome === n);
-    }, [nome]);
+    const {
+        transacoes,
+        initTransacao,
+        deleteTransacao,
+        loadingList
+    } = useHandleTransacoes();
 
-    if (!bank) {
-        return (
-            <View style={styles.container}>
-                <Text style={{ fontSize: 16 }}>Banco não encontrado.</Text>
-            </View>
-        );
-    }
+    useFocusEffect(
+        useCallback(() => {
+            if (id) {
+                initTransacao(Number(id));
+            }
+        }, [id, initTransacao])
+    );
 
     return (
         <View style={styles.container}>
@@ -37,24 +43,51 @@ export default function BancoDetalhe() {
                     />
                     <Text style={styles.buttonVoltar}>Voltar</Text>
                 </TouchableOpacity>
+
             </View>
 
-            <FlatList
-                data={bank.transacoes}
-                keyExtractor={(item) => item.id}
-                contentContainerStyle={{ gap: 12, paddingBottom: 24 }}
-                renderItem={({ item }) => (
-                    <CardTransaction
-                        type={item.type}
-                        descricao={item.descricao}
-                        valor={item.valor}
-                        data={item.data}
-                        onDelete={() => console.log("Remover transação", item.id)}
-                    />
-                )}
-                ListEmptyComponent={
-                    <Text style={{ color: "#6B7280" }}>Nenhuma transação nesse banco.</Text>
-                }
+            {loadingList ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color="#2F6EF2" />
+                </View>
+            ) : (
+                <FlatList
+                    data={transacoes}
+                    keyExtractor={(item) => String(item.id)}
+                    contentContainerStyle={{ gap: 12, paddingBottom: 24 }}
+                    renderItem={({ item }) => (
+                        <CardTransaction
+                            type={item.tipoMovimentacao === 'ENTRADA' ? 'Entrada' : 'Despesa'}
+                            descricao={item.descricao}
+                            valor={item.valor}
+                            data={item.data}
+                            onDelete={() => {
+                                setTransacaoId(item.id);
+                                setOpenConfirm(true);
+                            }}
+                        />
+                    )}
+                    ListEmptyComponent={
+                        <Text style={{ color: "#6B7280", textAlign: 'center', marginTop: 20 }}>
+                            Nenhuma transação cadastrada neste banco.
+                        </Text>
+                    }
+                />
+            )}
+
+            <ConfirmModal
+                visible={openConfirm}
+                message="Tem certeza que deletar esta transação?"
+                onClose={() => setOpenConfirm(false)}
+                onConfirm={async () => {
+                    if (transacaoId != null) await deleteTransacao(transacaoId);
+                    setTransacaoId(null);
+                    setOpenConfirm(false);
+                }}
+                onCancel={() => {
+                    setTransacaoId(null);
+                    setOpenConfirm(false);
+                }}
             />
         </View>
     );

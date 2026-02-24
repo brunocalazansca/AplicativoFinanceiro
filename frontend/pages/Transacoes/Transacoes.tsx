@@ -1,68 +1,53 @@
 import { styles } from './TransacoesStyle';
-import {StatusBar, View, Text, ScrollView} from "react-native";
+import { StatusBar, View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Switch from '@/components/Switch/Switch'
 import Input from "@/components/Input/Input";
-import { useCallback, useState } from "react";
-import { SwitchMode } from "@/_utils/typeAuthMode";
+import { useCallback } from "react";
 import Select from '@/components/Select/Select'
-import { SelectOption } from "@/_utils/selectOptions";
 import { useFocusEffect } from "expo-router";
 import DateTimePicker from "@/components/DataTimePicker/DataTimePicker";
 import Button from "@/components/Button/Button";
-import {useHandleCategoria} from "@/handle/categoriaHandle";
-import {useHandleBancos} from "@/handle/bancosHandle";
+import { useHandleCategoria } from "@/handle/categoriaHandle";
+import { useHandleBancos } from "@/handle/bancoHandle";
+import { useHandleTransacoes } from "@/handle/transacaoHandle";
+import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
 
 export default function Transacoes() {
-    const [mode, setMode] = useState<SwitchMode>("entrada");
-    const [valor, setValor] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [selectResetKey, setSelectResetKey] = useState(0);
-    const [dataTransacao, setDataTransacao] = useState<Date | null>(null);
-
-    const handleLimpar = () => {
-        setValor('');
-        setDescricao('');
-        setDataTransacao(null);
-        setSelectResetKey(prev => prev + 1);
-    };
+    const { categoria, initCategoria } = useHandleCategoria();
+    const { bancos, initBanco } = useHandleBancos();
 
     const {
-        categoria,
-        initCategoria,
-    } = useHandleCategoria();
-
-    const {
-        bancos,
-        initBanco,
-    } = useHandleBancos();
+        mode,
+        setMode,
+        valor,
+        setValor,
+        descricao,
+        setDescricao,
+        dataTransacao,
+        setDataTransacao,
+        selectResetKey,
+        feedback,
+        setFeedback,
+        handleLimpar,
+        handleBancoSelecionado,
+        handleCategoriaSelecionada,
+        handleSalvar,
+        initTransacao,
+    } = useHandleTransacoes();
 
     useFocusEffect(
         useCallback(() => {
-            setSelectResetKey(prev => prev + 1);
-            setDataTransacao(null);
+            handleLimpar();
             initCategoria();
             initBanco();
-        }, [initCategoria, initBanco])
+            initTransacao();
+        }, [initCategoria, initBanco, handleLimpar, initTransacao])
     );
 
-    const handleBancoSelecionado = (item: SelectOption) => {
-        console.log("Banco escolhido: ", item.nome);
-    };
-
-    const handleCategoriaSelecionada = (item: SelectOption) => {
-        console.log("Categoria escolhida: ", item.nome);
-    };
-
     return (
-        <SafeAreaView
-            style={styles.container}
-            edges={["left", "right", "bottom"]}
-        >
-            <StatusBar
-                barStyle="dark-content"
-                backgroundColor="#FFFFFF"
-            />
+        <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
+            <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
             <ScrollView
                 style={styles.scrollContainer}
@@ -92,7 +77,7 @@ export default function Transacoes() {
 
                     <Text style={styles.text}>Descrição</Text>
                     <Input
-                        placeholder="Ex: Compra no merdado..."
+                        placeholder="Ex: Compra no mercado..."
                         icon="book-open"
                         type="text"
                         value={descricao}
@@ -142,8 +127,8 @@ export default function Transacoes() {
                     />
 
                     <Button
-                        title="Adicionar Despesa"
-                        onPress={() => console.log('Despesa adicionada')}
+                        title={mode === 'entrada' ? "Adicionar Entrada" : "Adicionar Despesa"}
+                        onPress={handleSalvar}
                     />
 
                     <Button
@@ -154,6 +139,13 @@ export default function Transacoes() {
                     />
                 </View>
             </ScrollView>
+
+            <FeedbackModal
+                visible={!!feedback}
+                title={feedback?.title ?? ""}
+                description={feedback?.description ?? ""}
+                onClose={() => setFeedback(null)}
+            />
         </SafeAreaView>
     )
 }

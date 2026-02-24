@@ -27,7 +27,7 @@ public class CategoriaController {
     @PostMapping
     public ResponseEntity<CategoriaResponseDTO> criarCategoria(@Valid @RequestBody CategoriaCreateRequestDTO req) {
         User usuarioLogado = getUsuarioLogado();
-        CategoriaResponseDTO res = service.criarCategoria(usuarioLogado, req);
+        CategoriaResponseDTO res = service.cadastrarCategoria(usuarioLogado, req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 

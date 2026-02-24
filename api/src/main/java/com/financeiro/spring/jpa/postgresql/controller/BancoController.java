@@ -29,7 +29,7 @@ public class BancoController {
     @PostMapping
     public ResponseEntity<BancoResponseDTO> criarBanco(@Valid @RequestBody BancoCreateRequestDTO req) {
         User usuarioLogado = getUsuarioLogado();
-        BancoResponseDTO res = service.criarBanco(usuarioLogado, req);
+        BancoResponseDTO res = service.cadastrarBanco(usuarioLogado, req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 

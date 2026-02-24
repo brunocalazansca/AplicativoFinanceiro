@@ -23,29 +23,16 @@ export function formatBRL(value: number) {
     }
 }
 
-export const parseDateFromString = (text: string): Date | null => {
-    const parts = text.split("/");
-    if (parts.length !== 3) return null;
-
-    const [ddStr, mmStr, yyyyStr] = parts;
-    const day = Number(ddStr);
-    const month = Number(mmStr) - 1;
-    const year = Number(yyyyStr);
-
-    // @ts-ignore
-    if (!day || !month + 1 || !year) return null;
-
-    const d = new Date(year, month, day);
-    if (
-        d.getFullYear() !== year ||
-        d.getMonth() !== month ||
-        d.getDate() !== day
-    ) {
-        return null;
+export const parseDateFromString = (dateString: string): Date | null => {
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const year = parseInt(parts[2], 10);
+        return new Date(year, month, day);
     }
-
-    return d;
-};
+    return null;
+}
 
 export const formatDate = (date: Date | null) => {
     if (!date) {

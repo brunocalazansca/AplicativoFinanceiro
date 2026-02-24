@@ -19,7 +19,7 @@ public class CategoriaService {
         this.categoriaRepository = repo;
     }
 
-    public CategoriaResponseDTO criarCategoria(User usuario, CategoriaCreateRequestDTO req) {
+    public CategoriaResponseDTO cadastrarCategoria(User usuario, CategoriaCreateRequestDTO req) {
         if (categoriaRepository.existsByUserAndNomeIgnoreCase(usuario, req.getNome())) {
             throw new ApiException(HttpStatus.CONFLICT, "Categoria já cadastrada", "nome");
         }

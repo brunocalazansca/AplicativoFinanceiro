@@ -1,6 +1,7 @@
 package com.financeiro.spring.jpa.postgresql.controller;
 
 import com.financeiro.spring.jpa.postgresql.dto.*;
+import com.financeiro.spring.jpa.postgresql.dto.AuthResponseDTO;
 import com.financeiro.spring.jpa.postgresql.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

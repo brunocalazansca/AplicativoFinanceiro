@@ -1,7 +1,9 @@
 package com.financeiro.spring.jpa.postgresql.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public class ApiException extends RuntimeException {
     private final HttpStatus status;
     private final String field;
@@ -12,6 +14,4 @@ public class ApiException extends RuntimeException {
         this.field = field;
     }
 
-    public HttpStatus getStatus() { return status; }
-    public String getField() { return field; }
 }

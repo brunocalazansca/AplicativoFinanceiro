@@ -19,7 +19,7 @@ public class BancoService {
         this.bancoRepository = repo;
     }
 
-    public BancoResponseDTO criarBanco(User usuario, BancoCreateRequestDTO req) {
+    public BancoResponseDTO cadastrarBanco(User usuario, BancoCreateRequestDTO req) {
 
         if (bancoRepository.existsByUserAndNomeIgnoreCase(usuario, req.getNome())) {
             throw new ApiException(HttpStatus.CONFLICT, "Banco já cadastrado", "nome");

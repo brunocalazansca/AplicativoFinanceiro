@@ -1,6 +1,7 @@
 package com.financeiro.spring.jpa.postgresql.service;
 
 import com.financeiro.spring.jpa.postgresql.dto.*;
+import com.financeiro.spring.jpa.postgresql.dto.AuthResponseDTO;
 import com.financeiro.spring.jpa.postgresql.exception.ApiException;
 import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.UsersRepository;

@@ -14,5 +14,4 @@ public class CategoriaCreateRequestDTO {
     @NotBlank
     @Pattern(regexp = "^#[0-9A-Fa-f]{6}$", message = "A cor deve estar no formato #RRGGBB")
     private String corHex;
-
 }

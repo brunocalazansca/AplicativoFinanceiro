@@ -18,15 +18,15 @@ export default function Categorias() {
         categoria,
         feedback,
         setFeedback,
-        init,
+        initCategoria,
         addCategoria,
         deleteCategoria
     } = useHandleCategoria();
 
     useFocusEffect(
         useCallback(() => {
-            init();
-        }, [init])
+            initCategoria();
+        }, [initCategoria])
     );
 
     return (

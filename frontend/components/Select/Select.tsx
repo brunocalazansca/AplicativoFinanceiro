@@ -90,11 +90,18 @@ export default function Select({
                         </View>
 
                         <FlatList
-                            data={options}
+                            data={options.length > 0 ? options : []}
                             keyExtractor={(item) => item.id}
                             renderItem={renderOption}
                             style={styles.list}
                             showsVerticalScrollIndicator={false}
+                            ListEmptyComponent={
+                                <View style={styles.emptyList}>
+                                    <Text style={styles.emptyText}>
+                                        Nenhuma opção encontrada!
+                                    </Text>
+                                </View>
+                            }
                         />
 
                         <TouchableOpacity

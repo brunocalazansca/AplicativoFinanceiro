@@ -8,7 +8,7 @@ import AdditionModal from "@/components/AdditionModal/AdditionModal";
 import BankCard from "@/components/BankCard/BankCard";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
 import ConfirmModal from "@/components/Modal/ConfirmModal";
-import { useHandleBancos } from "@/handle/bancosHandle";
+import { useHandleBancos } from "@/handle/bancoHandle";
 
 export default function Bancos() {
     const [openAdd, setOpenAdd] = useState(false);
@@ -67,7 +67,10 @@ export default function Bancos() {
                         onPress={() =>
                             router.push({
                                 pathname: "/bancos/[nome]",
-                                params: { nome: b.nome },
+                                params: {
+                                    nome: b.nome,
+                                    id: b.id
+                                },
                             })
                         }
                         onDelete={() => {

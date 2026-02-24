@@ -73,6 +73,14 @@ export const styles = StyleSheet.create({
     list: {
         marginVertical: 5,
     },
+    emptyList: {
+        padding: 20,
+        alignItems: 'center'
+    },
+    emptyText: {
+        color: '#6B7280',
+        fontSize: 16
+    },
     optionItem: {
         paddingVertical: 15,
         marginVertical: 6,

@@ -79,8 +79,13 @@ export default function DateTimePickerInput({
             return;
         }
 
+        if (value && textValue === formatDate(value)) {
+            return;
+        }
+
         const parsed = parseDateFromString(textValue);
-        if (parsed) {
+
+        if (parsed && !isNaN(parsed.getTime())) {
             onChange(parsed);
             setTextValue(formatDate(parsed));
         } else {

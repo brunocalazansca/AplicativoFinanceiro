@@ -4,6 +4,7 @@ export type TransacaoApi = {
     tipoMovimentacao: 'ENTRADA' | 'DESPESA';
     valor: number;
     data: string;
+    bancoId: string;
 };
 
 type TransacaoPayloadBase = {

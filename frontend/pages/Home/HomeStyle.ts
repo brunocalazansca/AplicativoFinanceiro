@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
+        marginTop: 15,
     },
     smallCard: {
         flex: 1,
@@ -27,13 +28,12 @@ export const styles = StyleSheet.create({
     },
     cardTransactionList: {
         flex: 1,
-        marginTop: 16,
     },
     title: {
         fontSize: 18,
         color: '#000000',
         fontWeight: 'bold',
-        padding: 15
+        padding: 18
     },
     headerWrapper: {
         zIndex: 20,

@@ -67,7 +67,8 @@ public class TransacaoService {
                 transacao.getDescricao(),
                 transacao.getTipoMovimentacao().name(),
                 transacao.getValor(),
-                transacao.getData()
+                transacao.getData(),
+                transacao.getBanco().getId()
         );
     }
 
@@ -80,7 +81,8 @@ public class TransacaoService {
                 transacao.getDescricao(),
                 transacao.getTipoMovimentacao().name(),
                 transacao.getValor(),
-                transacao.getData()
+                transacao.getData(),
+                transacao.getBanco().getId()
             ))
             .toList();
     }
@@ -94,7 +96,8 @@ public class TransacaoService {
                 transacao.getDescricao(),
                 transacao.getTipoMovimentacao().name(),
                 transacao.getValor(),
-                transacao.getData()
+                transacao.getData(),
+                transacao.getBanco().getId()
             ))
             .toList();
     }

@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { getSession } from "@/storage/authStorage";
 import { setToken } from "@/api/authToken";
 import { obterResumoTransacoes } from "@/services/resumoService";
-import {ResumoApi} from "@/_utils/typeResumoApi";
+import { ResumoApi } from "@/_utils/typeResumoApi";
 
 export function useHandleResumo() {
     const [resumo, setResumo] = useState<ResumoApi | null>(null);
@@ -13,8 +13,12 @@ export function useHandleResumo() {
             setLoadingResumo(true);
             const data = await obterResumoTransacoes();
             setResumo(data);
-        } catch (err) {
-            console.error("Erro ao buscar o resumo:", err);
+        } catch (err: any) {
+            setResumo({
+                saldoTotal: 0,
+                entradas: 0,
+                despesas: 0
+            });
         } finally {
             setLoadingResumo(false);
         }

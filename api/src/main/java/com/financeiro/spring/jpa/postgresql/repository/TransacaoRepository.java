@@ -13,5 +13,7 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     Optional<Transacao> findByIdAndUser(Long id, User user);
     List<Transacao> findByUserOrderByDataDesc(User user);
     List<Transacao> findByBancoIdAndUserOrderByDataDesc(Long bancoId, User user);
-    List<Transacao> findByUsuarioId(Long usuarioId);
+    boolean existsByBancoId(Long bancoId);
+    boolean existsByCategoriaId(Long categoriaId);
+    List<Transacao> findByUserId(Long userId);
 }

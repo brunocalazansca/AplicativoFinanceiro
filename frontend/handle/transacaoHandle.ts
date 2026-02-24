@@ -113,8 +113,6 @@ export function useHandleTransacoes() {
                     return null;
                 }
 
-                console.log("Passou");
-
                 setLoadingAction(true);
 
                 const novaTransacao = await cadastrarTransacao(payload);

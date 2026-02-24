@@ -14,6 +14,7 @@ export default function Bancos() {
     const [openAdd, setOpenAdd] = useState(false);
     const [openConfirm, setOpenConfirm] = useState(false);
     const [bancoId, setBancoId] = useState<number | null>(null);
+
     const {
         bancos,
         feedback,

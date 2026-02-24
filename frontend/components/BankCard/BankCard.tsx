@@ -31,6 +31,20 @@ export default function BankCard({
     const transText =
         transactionsCount === 1 ? "1 transação" : `${transactionsCount} transações`;
 
+    const isNegativo = amount < 0;
+    const isZero = amount === 0;
+
+    const corDoSaldo = isZero
+        ? '#000000' // Preto se estiver zerado
+        : isNegativo
+            ? '#DC2626' // Vermelho se estiver devendo
+            : '#16A34A'; // Verde se tiver dinheiro na conta
+
+    const saldoFormatado = Math.abs(amount).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+
     return (
         <Pressable
             style={({ pressed }) => [
@@ -52,7 +66,9 @@ export default function BankCard({
                         {name}
                     </Text>
 
-                    <Text style={styles.amount}>{formatBRL(amount)}</Text>
+                    <Text style={[styles.amount, { color: corDoSaldo }]}>
+                        {isNegativo ? '- ' : ''}R$ {saldoFormatado}
+                    </Text>
 
                     <Text style={styles.subtitle}>{transText}</Text>
                 </View>

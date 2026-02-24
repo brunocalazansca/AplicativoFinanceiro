@@ -12,7 +12,6 @@ interface CardTransactionProps {
     valor: number;
     data: string;
     onDelete?: () => void;
-    viewTrash?: boolean;
 }
 
 export default function CardTransaction({
@@ -22,7 +21,6 @@ export default function CardTransaction({
     valor,
     data,
     onDelete,
-    viewTrash,
 }: CardTransactionProps) {
     const isEntrada = type === 'Entrada';
 
@@ -69,13 +67,11 @@ export default function CardTransaction({
                         onPress={onDelete}
                         style={styles.trashButton}
                     >
-                        {viewTrash ?? (
-                            <Feather
-                                name="trash-2"
-                                size={16}
-                                color="#9CA3AF"
-                            />
-                        )}
+                        <Feather
+                            name="trash-2"
+                            size={16}
+                            color="#9CA3AF"
+                        />
                     </TouchableOpacity>
                 )}
             </View>

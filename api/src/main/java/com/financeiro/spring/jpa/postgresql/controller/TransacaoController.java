@@ -1,5 +1,6 @@
 package com.financeiro.spring.jpa.postgresql.controller;
 
+import com.financeiro.spring.jpa.postgresql.dto.ResumoDTO;
 import com.financeiro.spring.jpa.postgresql.dto.TransacaoCreateRequestDTO;
 import com.financeiro.spring.jpa.postgresql.dto.TransacaoResponseDTO;
 import com.financeiro.spring.jpa.postgresql.model.User;
@@ -64,6 +65,16 @@ public class TransacaoController {
         String descricao = transacaoService.deletarTransacao(usuarioLogado, idTransacao);
 
         return ResponseEntity.ok(Map.of("descricao", descricao));
+    }
+
+    @GetMapping("/resumo")
+    public ResponseEntity<ResumoDTO> obterResumo() {
+
+        User usuarioLogado = getUsuarioLogado();
+
+        ResumoDTO resumo = transacaoService.obterResumoTransacoes(usuarioLogado.getId());
+
+        return ResponseEntity.ok(resumo);
     }
 
     private User getUsuarioLogado() {

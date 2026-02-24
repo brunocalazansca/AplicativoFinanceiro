@@ -49,6 +49,10 @@ public class Transacao {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @ManyToOne
+    @JoinColumn(insertable = false, updatable = false)
+    private User usuario;
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();

@@ -1,6 +1,7 @@
 package com.financeiro.spring.jpa.postgresql.service;
 
 import com.financeiro.spring.jpa.postgresql.Enum.TipoMovimentacao;
+import com.financeiro.spring.jpa.postgresql.dto.ResumoDTO;
 import com.financeiro.spring.jpa.postgresql.dto.TransacaoCreateRequestDTO;
 import com.financeiro.spring.jpa.postgresql.dto.TransacaoResponseDTO;
 import com.financeiro.spring.jpa.postgresql.model.Banco;
@@ -13,6 +14,7 @@ import com.financeiro.spring.jpa.postgresql.repository.TransacaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -125,5 +127,27 @@ public class TransacaoService {
         transacaoRepository.delete(transacao);
 
         return descricaoDeletada;
+    }
+
+    public ResumoDTO obterResumoTransacoes(Long usuarioId) {
+        List<Transacao> transacoes = transacaoRepository.findByUsuarioId(usuarioId);
+
+        if (transacoes.isEmpty()) {
+            return new ResumoDTO(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+        }
+
+        BigDecimal totalEntradas = transacoes.stream()
+                .filter(t -> t.getTipoMovimentacao().name().equals("ENTRADA"))
+                .map(Transacao::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal totalDespesas = transacoes.stream()
+                .filter(t -> t.getTipoMovimentacao().name().equals("DESPESA"))
+                .map(Transacao::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal saldoTotal = totalEntradas.subtract(totalDespesas);
+
+        return new ResumoDTO(saldoTotal, totalEntradas, totalDespesas);
     }
 }

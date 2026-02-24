@@ -1,15 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { StatusBar, View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { styles } from './HomeStyle';
 import Card from '../../components/Card/Card';
 import CardTransaction from "@/components/CardTransaction/CardTransaction";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from "expo-router";
-
-import { HOME_MOCK } from "@/data/home";
-
 import { useHandleTransacoes } from "@/handle/transacaoHandle";
 import { useHandleBancos } from "@/handle/bancoHandle";
+import { useHandleResumo } from "@/handle/resumoHandle";
 
 export default function Home() {
 
@@ -24,11 +22,17 @@ export default function Home() {
         initBanco
     } = useHandleBancos();
 
+    const {
+        resumo,
+        initResumo
+    } = useHandleResumo();
+
     useFocusEffect(
         useCallback(() => {
             initTransacao();
             initBanco();
-        }, [initTransacao, initBanco])
+            initResumo();
+        }, [initTransacao, initBanco, initResumo])
     );
 
     return (
@@ -46,7 +50,7 @@ export default function Home() {
                 <Card
                     title="Saldo Total"
                     icon="credit-card"
-                    valor={HOME_MOCK.saldoTotal}
+                    valor={resumo?.saldoTotal ?? 0}
                     valorColor="#000000"
                     color="#E6EEFF"
                     borderColor="#CADBFF"
@@ -57,11 +61,26 @@ export default function Home() {
 
                 <View style={styles.row}>
                     <Card
-                        {...HOME_MOCK.cards.entradas}
+                        title="Entradas"
+                        icon="arrow-up"
+                        valor={resumo?.entradas ?? 0}
+                        valorColor="#16A249"
+                        color="#E8F6ED"
+                        borderColor="#CDEFD6"
+                        iconBackgroundColor="#B6DEC7"
+                        iconColor="#0F9153"
                         style={[styles.smallCard, styles.smallCardLeft]}
                     />
+
                     <Card
-                        {...HOME_MOCK.cards.despesas}
+                        title="Despesas"
+                        icon="arrow-down"
+                        valor={resumo?.despesas ?? 0}
+                        valorColor="#EF4343"
+                        color="#FDEEEF"
+                        borderColor="#F5C2C4"
+                        iconBackgroundColor="#F7C9CB"
+                        iconColor="#E05252"
                         style={[styles.smallCard, styles.smallCardRight]}
                     />
                 </View>

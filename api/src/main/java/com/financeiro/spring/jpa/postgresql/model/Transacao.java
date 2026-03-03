@@ -41,7 +41,7 @@ public class Transacao {
     private String descricao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "forma_pagamento_id", nullable = false)
+    @JoinColumn(name = "forma_pagamento_id")
     private FormaPagamento formaPagamento;
 
     @Column(nullable = false, precision = 18, scale = 2)

@@ -7,10 +7,12 @@ import com.financeiro.spring.jpa.postgresql.dto.TransacaoResponseDTO;
 import com.financeiro.spring.jpa.postgresql.exception.ApiException; // <-- Importado
 import com.financeiro.spring.jpa.postgresql.model.Banco;
 import com.financeiro.spring.jpa.postgresql.model.Categoria;
+import com.financeiro.spring.jpa.postgresql.model.FormaPagamento;
 import com.financeiro.spring.jpa.postgresql.model.Transacao;
 import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.BancoRepository;
 import com.financeiro.spring.jpa.postgresql.repository.CategoriaRepository;
+import com.financeiro.spring.jpa.postgresql.repository.FormaPagamentoRepository;
 import com.financeiro.spring.jpa.postgresql.repository.TransacaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus; // <-- Importado
@@ -24,15 +26,18 @@ public class TransacaoService {
     private final TransacaoRepository transacaoRepository;
     private final BancoRepository bancoRepository;
     private final CategoriaRepository categoriaRepository;
+    private final FormaPagamentoRepository formaPagamentoRepository;
 
     public TransacaoService(
             TransacaoRepository transacaoRepository,
             BancoRepository bancoRepository,
-            CategoriaRepository categoriaRepository
+            CategoriaRepository categoriaRepository,
+            FormaPagamentoRepository formaPagamentoRepository
     ) {
         this.transacaoRepository = transacaoRepository;
         this.bancoRepository = bancoRepository;
         this.categoriaRepository = categoriaRepository;
+        this.formaPagamentoRepository = formaPagamentoRepository;
     }
 
     @Transactional
@@ -47,11 +52,21 @@ public class TransacaoService {
         if (dto.getData() == null) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "A data da transação é obrigatória.", "data");
         }
-        if (dto.getTipoMovimentacao() == null) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "O tipo de movimentação (ENTRADA ou DESPESA) é obrigatório.", "tipoMovimentacao");
+        if (dto.getTipoMovimentacao() == TipoMovimentacao.DESPESA && dto.getFormaPagamentoId() == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "A forma de pagamento é obrigatória para despesas.", "formaPagamentoId");
         }
         if (dto.getBancoId() == null) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "O banco de origem/destino é obrigatório.", "bancoId");
+        }
+
+        FormaPagamento formaPagamento = null;
+        if (dto.getFormaPagamentoId() != null) {
+            formaPagamento = formaPagamentoRepository.findById(dto.getFormaPagamentoId())
+                    .orElseThrow(() -> new ApiException(
+                            HttpStatus.NOT_FOUND,
+                            "Forma de pagamento não encontrada.",
+                            "formaPagamentoId"
+                    ));
         }
 
         Banco banco = bancoRepository.findByIdAndUser(dto.getBancoId(), usuario)
@@ -86,6 +101,7 @@ public class TransacaoService {
                 .data(dto.getData())
                 .banco(banco)
                 .categoria(categoria)
+                .formaPagamento(formaPagamento)
                 .user(usuario)
                 .build();
 
@@ -97,7 +113,8 @@ public class TransacaoService {
                 transacao.getTipoMovimentacao().name(),
                 transacao.getValor(),
                 transacao.getData(),
-                transacao.getBanco().getId()
+                transacao.getBanco().getId(),
+                transacao.getFormaPagamento() != null ? transacao.getFormaPagamento().getId() : null
         );
     }
 
@@ -105,30 +122,32 @@ public class TransacaoService {
         List<Transacao> transacoes = transacaoRepository.findByBancoIdAndUserOrderByDataDesc(bancoId, usuario);
 
         return transacoes.stream()
-                .map(transacao -> new TransacaoResponseDTO(
-                        transacao.getId(),
-                        transacao.getDescricao(),
-                        transacao.getTipoMovimentacao().name(),
-                        transacao.getValor(),
-                        transacao.getData(),
-                        transacao.getBanco().getId()
-                ))
-                .toList();
+            .map(transacao -> new TransacaoResponseDTO(
+                transacao.getId(),
+                transacao.getDescricao(),
+                transacao.getTipoMovimentacao().name(),
+                transacao.getValor(),
+                transacao.getData(),
+                transacao.getBanco().getId(),
+                transacao.getFormaPagamento() != null ? transacao.getFormaPagamento().getId() : null
+            ))
+            .toList();
     }
 
     public List<TransacaoResponseDTO> listarTransacoesPorUsuario(User usuario) {
         List<Transacao> transacoes = transacaoRepository.findByUserOrderByDataDesc(usuario);
 
         return transacoes.stream()
-                .map(transacao -> new TransacaoResponseDTO(
-                        transacao.getId(),
-                        transacao.getDescricao(),
-                        transacao.getTipoMovimentacao().name(),
-                        transacao.getValor(),
-                        transacao.getData(),
-                        transacao.getBanco().getId()
-                ))
-                .toList();
+            .map(transacao -> new TransacaoResponseDTO(
+                transacao.getId(),
+                transacao.getDescricao(),
+                transacao.getTipoMovimentacao().name(),
+                transacao.getValor(),
+                transacao.getData(),
+                transacao.getBanco().getId(),
+                transacao.getFormaPagamento() != null ? transacao.getFormaPagamento().getId() : null
+            ))
+            .toList();
     }
 
     @Transactional

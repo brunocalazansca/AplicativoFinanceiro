@@ -27,7 +27,7 @@ export function useHandleTransacoes() {
     const [dataTransacao, setDataTransacao] = useState<Date | null>(null);
     const [bancoSelecionado, setBancoSelecionado] = useState<number | null>(null);
     const [categoriaSelecionada, setCategoriaSelecionada] = useState<number | null>(null);
-
+    const [formaPagamentoSelecionada, setFormaPagamentoSelecionada] = useState<number | null>(null);
 
     useEffect(() => {
         if (!feedback) return;
@@ -41,6 +41,7 @@ export function useHandleTransacoes() {
         setDataTransacao(null);
         setBancoSelecionado(null);
         setCategoriaSelecionada(null);
+        setFormaPagamentoSelecionada(null);
         setSelectResetKey(prev => prev + 1);
     }, []);
 
@@ -50,6 +51,10 @@ export function useHandleTransacoes() {
 
     const handleCategoriaSelecionada = useCallback((item: SelectOption) => {
         setCategoriaSelecionada(Number(item.id));
+    }, []);
+
+    const handleFormaPagamentoSelecionada = useCallback((item: SelectOption) => {
+        setFormaPagamentoSelecionada(Number(item.id));
     }, []);
 
     const loadTransacoes = useCallback(async (bancoId?: number) => {
@@ -86,21 +91,6 @@ export function useHandleTransacoes() {
             });
         }
     }, [loadTransacoes]);
-
-    // const initBanco = useCallback(async () => {
-    //     const session = await getSession();
-    //     setSession(session);
-    //     await setToken(session?.token ?? null);
-    //
-    //     if (session?.token) {
-    //         await loadBancos();
-    //     } else {
-    //         setFeedback({
-    //             title: "Sessão expirada!",
-    //             description: "Faça login novamente.",
-    //         });
-    //     }
-    // }, [loadBancos]);
 
     const adicionarTransacao = useCallback(
         async (payload: TransacaoPayload) => {
@@ -151,7 +141,7 @@ export function useHandleTransacoes() {
     );
 
     const handleSalvar = useCallback(async () => {
-        if (!valor || !descricao || bancoSelecionado == null || dataTransacao == null) {
+        if (!valor || !descricao || bancoSelecionado == null || dataTransacao == null || (mode === 'despesa' && formaPagamentoSelecionada == null)) {
             setFeedback({ title: "Preencha todos os campos obrigatórios!" });
             return;
         }
@@ -162,6 +152,7 @@ export function useHandleTransacoes() {
             valor: formatarValor(valor),
             descricao: descricao.trim(),
             bancoId: bancoSelecionado,
+            formaPagamentoId: formaPagamentoSelecionada,
             data: formatarData(dataTransacao),
         };
 
@@ -191,6 +182,7 @@ export function useHandleTransacoes() {
         dataTransacao,
         mode,
         categoriaSelecionada,
+        formaPagamentoSelecionada,
         adicionarTransacao,
         handleLimpar,
     ]);
@@ -237,6 +229,7 @@ export function useHandleTransacoes() {
         handleLimpar,
         handleBancoSelecionado,
         handleCategoriaSelecionada,
+        handleFormaPagamentoSelecionada,
         handleSalvar
     };
 }

@@ -5,12 +5,14 @@ export type TransacaoApi = {
     valor: number;
     data: string;
     bancoId: string;
+    formaPagamentoId: number;
 };
 
 type TransacaoPayloadBase = {
     valor: number;
     descricao: string;
     bancoId: number;
+    formaPagamentoId: number;
     data: string;
 };
 

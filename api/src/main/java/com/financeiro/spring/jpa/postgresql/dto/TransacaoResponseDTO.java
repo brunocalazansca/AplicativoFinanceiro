@@ -13,13 +13,15 @@ public class TransacaoResponseDTO {
     private final BigDecimal valor;
     private final LocalDate data;
     private final Long bancoId;
+    private final Long formaPagamentoId;
 
-    public TransacaoResponseDTO(Long id, String descricao, String tipoMovimentacao, BigDecimal valor, LocalDate data, Long bancoId) {
+    public TransacaoResponseDTO(Long id, String descricao, String tipoMovimentacao, BigDecimal valor, LocalDate data, Long bancoId, Long formaPagamentoId) {
         this.id = id;
         this.descricao = descricao;
         this.tipoMovimentacao = tipoMovimentacao;
         this.valor = valor;
         this.data = data;
         this.bancoId = bancoId;
+        this.formaPagamentoId = formaPagamentoId;
     }
 }

@@ -11,6 +11,7 @@ interface CardTransactionProps {
     banco?: string;
     valor: number;
     data: string;
+    formaPagamento: string;
     onDelete?: () => void;
 }
 
@@ -20,6 +21,7 @@ export default function CardTransaction({
     banco,
     valor,
     data,
+    formaPagamento,
     onDelete,
 }: CardTransactionProps) {
     const isEntrada = type === 'Entrada';
@@ -42,8 +44,16 @@ export default function CardTransaction({
 
                 <View style={styles.middleContent}>
                     <Text style={styles.descricao}>{descricao}</Text>
-                    {banco && (
-                        <Text style={styles.banco}>{banco}</Text>
+
+                    {formaPagamento === 'Dinheiro' ? (
+                        <Text style={styles.banco}>Dinheiro</Text>
+                    ) : (
+                        banco && (
+                            <Text style={styles.banco}>
+                                {banco}
+                                {formaPagamento ? ` / ${formaPagamento}` : ''}
+                            </Text>
+                        )
                     )}
                 </View>
             </View>

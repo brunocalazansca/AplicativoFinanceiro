@@ -11,11 +11,13 @@ import Button from "@/components/Button/Button";
 import { useHandleCategoria } from "@/handle/categoriaHandle";
 import { useHandleBancos } from "@/handle/bancoHandle";
 import { useHandleTransacoes } from "@/handle/transacaoHandle";
+import { useHandleFormaPagamento } from "@/handle/formaPagamentoHandle";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
 
 export default function Transacoes() {
     const { categoria, initCategoria } = useHandleCategoria();
     const { bancos, initBanco } = useHandleBancos();
+    const { formaPagamento, initFormaPagamento} = useHandleFormaPagamento();
 
     const {
         mode,
@@ -32,6 +34,7 @@ export default function Transacoes() {
         handleLimpar,
         handleBancoSelecionado,
         handleCategoriaSelecionada,
+        handleFormaPagamentoSelecionada,
         handleSalvar,
         initTransacao,
     } = useHandleTransacoes();
@@ -42,7 +45,8 @@ export default function Transacoes() {
             initCategoria();
             initBanco();
             initTransacao();
-        }, [initCategoria, initBanco, handleLimpar, initTransacao])
+            initFormaPagamento();
+        }, [initCategoria, initBanco, handleLimpar, initTransacao, initFormaPagamento])
     );
 
     return (
@@ -100,6 +104,19 @@ export default function Transacoes() {
 
                     {mode === 'despesa' && (
                         <>
+                            <Text style={styles.text}>Forma de Pagamento</Text>
+                            <Select
+                                key={`forma-pagamento-${selectResetKey}`}
+                                options={formaPagamento.map((f) => ({
+                                    id: String(f.id),
+                                    nome: f.nome,
+                                    cor: f.corHex
+                                }))}
+                                onSelect={handleFormaPagamentoSelecionada}
+                                placeholder="Selecione a forma de pagamento"
+                                style={styles.size}
+                            />
+
                             <Text style={styles.text}>Categoria</Text>
                             <Select
                                 key={`categoria-${selectResetKey}`}

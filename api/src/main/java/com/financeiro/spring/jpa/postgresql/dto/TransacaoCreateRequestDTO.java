@@ -27,4 +27,6 @@ public class TransacaoCreateRequestDTO {
 
     @NotNull(message = "A data é obrigatória")
     private LocalDate data;
+
+    private Long formaPagamentoId;
 }

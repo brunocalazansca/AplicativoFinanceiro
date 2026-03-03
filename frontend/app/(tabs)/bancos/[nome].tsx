@@ -1,12 +1,12 @@
 import React, {useCallback, useState} from "react";
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
-
 import CardTransaction from "@/components/CardTransaction/CardTransaction";
 import { styles } from "@/app/(tabs)/bancos/[nome]Style";
 import { Feather } from "@expo/vector-icons";
-
 import { useHandleTransacoes } from "@/handle/transacaoHandle";
+import { useHandleFormaPagamento } from "@/handle/formaPagamentoHandle";
+import { useHandleBancos } from "@/handle/bancoHandle";
 import ConfirmModal from "@/components/Modal/ConfirmModal";
 
 export default function BancoDetalhe() {
@@ -21,12 +21,24 @@ export default function BancoDetalhe() {
         loadingList
     } = useHandleTransacoes();
 
+    const {
+        formaPagamento,
+        initFormaPagamento
+    } = useHandleFormaPagamento();
+
+    const {
+        bancos,
+        initBanco
+    } = useHandleBancos();
+
     useFocusEffect(
         useCallback(() => {
             if (id) {
                 initTransacao(Number(id));
             }
-        }, [id, initTransacao])
+            initFormaPagamento();
+            initBanco();
+        }, [id, initTransacao, initFormaPagamento, initBanco])
     );
 
     return (
@@ -55,18 +67,28 @@ export default function BancoDetalhe() {
                     data={transacoes}
                     keyExtractor={(item) => String(item.id)}
                     contentContainerStyle={{ gap: 12, paddingBottom: 24 }}
-                    renderItem={({ item }) => (
-                        <CardTransaction
-                            type={item.tipoMovimentacao === 'ENTRADA' ? 'Entrada' : 'Despesa'}
-                            descricao={item.descricao}
-                            valor={item.valor}
-                            data={item.data}
-                            onDelete={() => {
-                                setTransacaoId(item.id);
-                                setOpenConfirm(true);
-                            }}
-                        />
-                    )}
+                    renderItem={({ item }) => {
+                        const bancoEncontrado = bancos.find(b => String(b.id) === String(item.bancoId));
+
+                        const formaEncontrada = item.formaPagamentoId
+                            ? formaPagamento.find(f => String(f.id) === String(item.formaPagamentoId))
+                            : null;
+
+                        return (
+                            <CardTransaction
+                                type={item.tipoMovimentacao === 'ENTRADA' ? 'Entrada' : 'Despesa'}
+                                descricao={item.descricao}
+                                valor={item.valor}
+                                data={item.data}
+                                banco={bancoEncontrado?.nome}
+                                formaPagamento={formaEncontrada?.nome}
+                                onDelete={() => {
+                                    setTransacaoId(item.id);
+                                    setOpenConfirm(true);
+                                }}
+                            />
+                        );
+                    }}
                     ListEmptyComponent={
                         <Text style={{ color: "#6B7280", textAlign: 'center', marginTop: 20 }}>
                             Nenhuma transação cadastrada neste banco.

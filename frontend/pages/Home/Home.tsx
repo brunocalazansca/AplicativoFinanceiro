@@ -8,6 +8,7 @@ import { useFocusEffect } from "expo-router";
 import { useHandleTransacoes } from "@/handle/transacaoHandle";
 import { useHandleBancos } from "@/handle/bancoHandle";
 import { useHandleResumo } from "@/handle/resumoHandle";
+import { useHandleFormaPagamento } from "@/handle/formaPagamentoHandle";
 
 export default function Home() {
 
@@ -27,12 +28,18 @@ export default function Home() {
         initResumo
     } = useHandleResumo();
 
+    const {
+        formaPagamento,
+        initFormaPagamento
+    } = useHandleFormaPagamento();
+
     useFocusEffect(
         useCallback(() => {
             initTransacao();
             initBanco();
             initResumo();
-        }, [initTransacao, initBanco, initResumo])
+            initFormaPagamento();
+        }, [initTransacao, initBanco, initResumo, initFormaPagamento])
     );
 
     return (
@@ -102,6 +109,9 @@ export default function Home() {
                         ) : (
                             transacoes.map((t) => {
                                 const bancoDaTransacao = bancos.find(b => String(b.id) === String(t.bancoId));
+                                const formaEncontrada = t.formaPagamentoId
+                                    ? formaPagamento.find(f => String(f.id) === String(t.formaPagamentoId))
+                                    : null
 
                                 return (
                                     <CardTransaction
@@ -109,6 +119,7 @@ export default function Home() {
                                         type={t.tipoMovimentacao === 'ENTRADA' ? 'Entrada' : 'Despesa'}
                                         descricao={t.descricao}
                                         banco={bancoDaTransacao?.nome}
+                                        formaPagamento={formaEncontrada?.nome}
                                         valor={t.valor}
                                         data={t.data}
                                     />

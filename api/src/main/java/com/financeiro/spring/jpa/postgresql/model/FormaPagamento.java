@@ -19,6 +19,9 @@ public class FormaPagamento {
     @Column(nullable = false, unique = true, length = 50)
     private String nome;
 
+    @Column(name = "cor_hex", length = 7)
+    private String corHex;
+
     @OneToMany(mappedBy = "formaPagamento")
     private List<Transacao> transacoes;
 }

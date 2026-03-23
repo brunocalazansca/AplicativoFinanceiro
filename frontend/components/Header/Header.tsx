@@ -10,6 +10,7 @@ const TITLES: Record<string, string> = {
     categorias: "Categorias",
     relatorios: "Relatórios",
     transacoes: "Nova Transação",
+    configuracoes: "Configurações",
 };
 
 function safeDecode(value: string) {

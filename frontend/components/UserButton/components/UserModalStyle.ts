@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     dropdown: {
         position: 'absolute',
-        top: 60,
         right: 0,
         padding: 16,
         borderRadius: 12,
@@ -13,8 +12,9 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.15,
         shadowRadius: 6,
-        marginRight: '14%',
-        marginTop: '60%',
+        marginRight: '15%',
+        marginTop: '24%',
+        zIndex: 2,
         maxWidth: "85%"
     },
     usernameText: {
@@ -36,13 +36,19 @@ export const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 16,
     },
+    config: {
+        textAlign: 'left',
+        fontWeight: '500',
+        fontSize: 16,
+        color: '#1D47C6',
+    },
     userRow: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
         marginBottom: 5
     },
-    logoutRow: {
+    row: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 12,

@@ -9,5 +9,6 @@ INSERT INTO forma_pagamento (nome, cor_hex) VALUES
     ('Cartão de Débito', '#1E90FF'),
     ('Cartão de Crédito', '#FF4500'),
     ('Dinheiro', '#2E8B57'),
-    ('Boleto', '#696969')
+    ('Boleto', '#696969'),
+    ('Outro', '#0F5681')
 ON CONFLICT (nome) DO NOTHING;

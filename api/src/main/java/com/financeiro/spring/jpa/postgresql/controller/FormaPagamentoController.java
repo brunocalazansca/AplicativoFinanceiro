@@ -18,4 +18,9 @@ public class FormaPagamentoController {
     public ResponseEntity<List<FormaPagamentoDTO>> listarTodasFormasPagamento() {
         return ResponseEntity.ok(service.listarTodas());
     }
+
+    @PostMapping
+    public ResponseEntity<FormaPagamentoDTO> criar(@RequestBody FormaPagamentoDTO dto) {
+        return ResponseEntity.ok(service.criar(dto));
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text, TouchableOpacity, Modal, FlatList, ListRenderItem, StyleProp, ViewStyle} from 'react-native';
 import {Feather} from "@expo/vector-icons";
 import {SelectOption} from "@/_utils/selectOptions";
@@ -8,7 +8,8 @@ interface SelectProps {
     options: SelectOption[];
     onSelect: (item: SelectOption) => void;
     placeholder?: string;
-    style?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>;
+    selectedValue?: SelectOption | null;
 }
 
 export default function Select({
@@ -16,9 +17,14 @@ export default function Select({
     onSelect,
     placeholder,
     style,
+    selectedValue,
 }: SelectProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<SelectOption | null>(null);
+
+    useEffect(() => {
+        if (selectedValue !== undefined) setSelectedItem(selectedValue);
+    }, [selectedValue]);
 
     const handleSelect = (item: SelectOption) => {
         setSelectedItem(item);

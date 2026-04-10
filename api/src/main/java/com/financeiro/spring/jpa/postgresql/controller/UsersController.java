@@ -2,10 +2,12 @@ package com.financeiro.spring.jpa.postgresql.controller;
 
 import com.financeiro.spring.jpa.postgresql.dto.*;
 import com.financeiro.spring.jpa.postgresql.dto.AuthResponseDTO;
+import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -29,5 +31,11 @@ public class UsersController {
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
         AuthResponseDTO resp = userService.login(dto);
         return ResponseEntity.ok(resp);
+    }
+
+    @DeleteMapping("/users/me")
+    public ResponseEntity<Void> deletarConta(@AuthenticationPrincipal User user) {
+        userService.deletarContaPorEmail(user.getEmail());
+        return ResponseEntity.noContent().build();
     }
 }

@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     },
     modal: {
         width: "100%",
-        height: '20%',
         maxWidth: 450,
         backgroundColor: "#fff",
         borderRadius: 16,

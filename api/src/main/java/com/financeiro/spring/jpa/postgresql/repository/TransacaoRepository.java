@@ -16,4 +16,5 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     boolean existsByBancoId(Long bancoId);
     boolean existsByCategoriaId(Long categoriaId);
     List<Transacao> findByUserId(Long userId);
+    void deleteAllByUser(User user);
 }

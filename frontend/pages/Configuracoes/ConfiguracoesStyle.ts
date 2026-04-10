@@ -5,49 +5,16 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
-    headerWrapper: {
-        zIndex: 20,
-        elevation: 20,
-    },
-    switch: {
-        width: '90%',
-        alignSelf: 'center',
-        marginTop: '6%',
-        marginBottom: '6%',
-    },
-    size: {
-        width: '90%',
-        alignSelf: 'center',
-    },
     content: {
-        alignItems: 'center',
-    },
-    text: {
-        marginRight: 'auto',
-        marginLeft: '5%',
-        marginTop: 6,
-        fontSize: 16,
-    },
-    scrollContainer: {
         flex: 1,
+        padding: 20,
+        justifyContent: 'flex-end',
+        paddingBottom: 32,
     },
-    scrollContent: {
-        paddingBottom: 24,
-        paddingTop: 8,
-        flexGrow: 1,
-    },
-    footer: {
-        width: '90%',
-        alignSelf: 'center',
-        marginBottom: '25%'
-    },
-    textData: {
-        fontSize: 16,
-        marginBottom: 10
-    },
-    limparBtn: {
-        backgroundColor: "#FFFFFF",
+    deleteBtn: {
+        backgroundColor: '#FFF1F0',
         borderWidth: 1,
-        borderColor: '#2F6EF2',
+        borderColor: '#FF3B30',
+        marginBottom: '25%'
     },
 });

@@ -41,6 +41,11 @@ export async function logout() {
     await clearSession();
 }
 
+export async function excluirConta() {
+    await api.delete('/users/me');
+    await clearSession();
+}
+
 export async function skipLogin() {
     const session = await getSession();
     if (!session?.token) return null;

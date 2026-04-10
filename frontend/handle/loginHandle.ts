@@ -15,6 +15,7 @@ type AuthForm = {
 export function useHandleLogin() {
     const [loading, setLoading] = useState(false);
     const [feedback, setFeedback] = useState<FeedbackState | null>(null);
+    const [cadastroSucesso, setCadastroSucesso] = useState(false);
 
     const mountedRef = useRef(true);
     useEffect(() => {
@@ -56,12 +57,7 @@ export function useHandleLogin() {
 
             if (mode === "cadastro") {
                 await cadastrarUsuario(nome.trim(), email.trim(), senha);
-
-                setFeedback({
-                    title: "Sua conta foi criada com sucesso!",
-                });
-
-                aguardarENavegar();
+                setCadastroSucesso(true);
                 return;
             }
 
@@ -90,6 +86,9 @@ export function useHandleLogin() {
         loading,
         feedback,
         setFeedback,
+        cadastroSucesso,
+        setCadastroSucesso,
+        goToHome,
         handleSubmit,
     };
 }

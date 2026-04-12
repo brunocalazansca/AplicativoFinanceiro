@@ -45,6 +45,11 @@ export function useHandleTransacoes() {
         setSelectResetKey(prev => prev + 1);
     }, []);
 
+    const customSetMode = useCallback((newMode: SwitchMode) => {
+        setMode(newMode);
+        handleLimpar();
+    }, [handleLimpar]);
+
     const handleBancoSelecionado = useCallback((item: SelectOption) => {
         setBancoSelecionado(Number(item.id));
     }, []);
@@ -215,7 +220,7 @@ export function useHandleTransacoes() {
         loadingList,
         loadingAction,
         mode,
-        setMode,
+        setMode: customSetMode,
         valor,
         setValor,
         descricao,

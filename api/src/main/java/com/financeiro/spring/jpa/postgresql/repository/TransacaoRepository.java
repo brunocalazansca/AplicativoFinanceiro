@@ -5,6 +5,7 @@ import com.financeiro.spring.jpa.postgresql.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +17,6 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     boolean existsByBancoId(Long bancoId);
     boolean existsByCategoriaId(Long categoriaId);
     List<Transacao> findByUserId(Long userId);
+    List<Transacao> findByUserAndDataBetweenOrderByDataDesc(User user, LocalDate dataInicio, LocalDate dataFim);
     void deleteAllByUser(User user);
 }

@@ -1,1 +1,6 @@
-export type PeriodOption = "Este mês" | "7 dias" | "30 dias" | "45 dias";
+export type PeriodOption =
+    "Este mês" |
+    "Últimos 30 dias" |
+    "Este ano" |
+    "Mês específico" |
+    "Personalizado";

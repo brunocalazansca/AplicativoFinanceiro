@@ -5,7 +5,7 @@ import Button from "../../components/Button/Button";
 import CardLogin from "@/components/CardLogin/CardLogin";
 import Switch from "@/components/Switch/Switch";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
 import { SwitchMode } from "@/_utils/typeAuthMode";
 import { useHandleLogin } from "@/handle/loginHandle";
@@ -18,7 +18,26 @@ export default function LoginForm() {
 
     const styleCard = mode === "login" ? styles.login : styles.register;
 
-    const { loading, feedback, setFeedback, handleSubmit } = useHandleLogin();
+    const {
+        loading,
+        feedback,
+        setFeedback,
+        cadastroSucesso,
+        setCadastroSucesso,
+        goToHome,
+        handleSubmit
+    } = useHandleLogin();
+
+    useEffect(() => {
+        if (cadastroSucesso) {
+            const timer = setTimeout(() => {
+                setCadastroSucesso(false);
+                setFeedback(null);
+                goToHome();
+            }, 2500);
+            return () => clearTimeout(timer);
+        }
+    }, [cadastroSucesso, setCadastroSucesso, goToHome, setFeedback]);
 
     const isDisabled =
         loading ||

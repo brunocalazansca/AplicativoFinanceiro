@@ -95,5 +95,45 @@ export const styles = StyleSheet.create({
     },
     scrollContainer: {
         flex: 1
-    }
-});
+    },
+    breakdownRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#F3F4F6",
+    },
+    breakdownLeft: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+    },
+    breakdownDot: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+    },
+    breakdownLabel: {
+        fontSize: 14,
+        fontWeight: "500",
+        color: "#374151",
+    },
+    breakdownValue: {
+        fontSize: 14,
+        fontWeight: "600",
+        color: "#111827",
+    },
+    customDateContainer: {
+        paddingHorizontal: 16,
+        marginBottom: 20,
+    },
+    customDateInputs: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 12,
+    },
+    datePicker: {
+        flex: 1,
+    },
+});

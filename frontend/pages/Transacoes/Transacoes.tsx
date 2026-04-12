@@ -3,7 +3,7 @@ import { StatusBar, View, Text, ScrollView, Modal, TextInput, TouchableOpacity, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import Switch from '@/components/Switch/Switch'
 import Input from "@/components/Input/Input";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Select from '@/components/Select/Select'
 import { useFocusEffect } from "expo-router";
 import DateTimePicker from "@/components/DataTimePicker/DataTimePicker";
@@ -13,7 +13,8 @@ import { useHandleBancos } from "@/handle/bancoHandle";
 import { useHandleTransacoes } from "@/handle/transacaoHandle";
 import { useHandleFormaPagamento } from "@/handle/formaPagamentoHandle";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
-import { CORES } from "@/_utils/coresTransacoes"
+import { CORES } from "@/_utils/coresTransacoes";
+import AdditionModal from "@/components/AdditionModal/AdditionModal";
 
 export default function Transacoes() {
     const { categoria, initCategoria } = useHandleCategoria();
@@ -21,25 +22,8 @@ export default function Transacoes() {
     const { formaPagamento, initFormaPagamento, handleSalvarNovaForma } = useHandleFormaPagamento();
 
     const [modalCadastro, setModalCadastro] = useState(false);
-    const [novoNome, setNovoNome] = useState('');
-    const [novaCor, setNovaCor] = useState('#2F6EF2');
     const [salvandoForma, setSalvandoForma] = useState(false);
     const [formaSelecionada, setFormaSelecionada] = useState<{id: string; nome: string; cor: string} | null>(null);
-
-    const handleSalvarNovaFormaLocal = async () => {
-        await handleSalvarNovaForma(
-            novoNome,
-            novaCor,
-            (novaOption) => {
-                setFormaSelecionada(novaOption);
-                handleFormaPagamentoSelecionada(novaOption);
-                setModalCadastro(false);
-                setNovoNome('');
-                setNovaCor('#2F6EF2');
-            },
-            setSalvandoForma
-        );
-    };
 
     const {
         mode,
@@ -60,6 +44,10 @@ export default function Transacoes() {
         handleSalvar,
         initTransacao,
     } = useHandleTransacoes();
+
+    useEffect(() => {
+        setFormaSelecionada(null);
+    }, [selectResetKey]);
 
     useFocusEffect(
         useCallback(() => {
@@ -190,33 +178,27 @@ export default function Transacoes() {
                 </View>
             </ScrollView>
 
-            <Modal visible={modalCadastro} transparent animationType="fade" onRequestClose={() => setModalCadastro(false)}>
-                <TouchableOpacity style={modalStyles.overlay} activeOpacity={1} onPress={() => setModalCadastro(false)}>
-                    <TouchableOpacity style={modalStyles.box} activeOpacity={1}>
-                        <Text style={modalStyles.title}>Nova Forma de Pagamento</Text>
-
-                        <TextInput
-                            style={modalStyles.input}
-                            placeholder="Nome"
-                            value={novoNome}
-                            onChangeText={setNovoNome}
-                        />
-
-                        <Text style={modalStyles.label}>Cor</Text>
-                        <View style={modalStyles.cores}>
-                            {CORES.map(cor => (
-                                <TouchableOpacity
-                                    key={cor}
-                                    style={[modalStyles.corCirculo, { backgroundColor: cor }, novaCor === cor && modalStyles.corSelecionada]}
-                                    onPress={() => setNovaCor(cor)}
-                                />
-                            ))}
-                        </View>
-
-                        <Button title={salvandoForma ? 'Salvando...' : 'Cadastrar'} onPress={handleSalvarNovaFormaLocal} />
-                    </TouchableOpacity>
-                </TouchableOpacity>
-            </Modal>
+            <AdditionModal
+                title="Forma de Pagamento"
+                placeholder="Ex: Cartão de Crédito, Pix..."
+                descricao="da Forma de Pagamento"
+                visible={modalCadastro}
+                onClose={() => setModalCadastro(false)}
+                onAdd={async (payload) => {
+                    await handleSalvarNovaForma(
+                        payload.name,
+                        payload.color,
+                        (novaOption) => {
+                            setFormaSelecionada(novaOption);
+                            handleFormaPagamentoSelecionada(novaOption);
+                            setModalCadastro(false);
+                        },
+                        setSalvandoForma
+                    );
+                }}
+                loading={salvandoForma}
+                colors={CORES.slice(0, 8)}
+            />
 
             <FeedbackModal
                 visible={!!feedback}
@@ -227,55 +209,3 @@ export default function Transacoes() {
         </SafeAreaView>
     )
 }
-
-const modalStyles = StyleSheet.create({
-    overlay: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    box: {
-        backgroundColor: '#fff',
-        width: '85%',
-        borderRadius: 14,
-        padding: 24,
-    },
-    title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#1F2937',
-        marginBottom: 16,
-        textAlign: 'center',
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#E5E7EB',
-        borderRadius: 10,
-        paddingHorizontal: 14,
-        paddingVertical: 12,
-        fontSize: 16,
-        marginBottom: 16,
-        color: '#1F2937',
-    },
-    label: {
-        fontSize: 14,
-        color: '#6B7280',
-        marginBottom: 10,
-    },
-    cores: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 10,
-        marginBottom: 20,
-    },
-    corCirculo: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-    },
-    corSelecionada: {
-        borderWidth: 3,
-        borderColor: '#1F2937',
-    },
-});

@@ -58,6 +58,11 @@ export function useHandleLogin() {
             if (mode === "cadastro") {
                 await cadastrarUsuario(nome.trim(), email.trim(), senha);
                 setCadastroSucesso(true);
+
+                setFeedback({
+                    title: "Cadastro realizado com sucesso!",
+                });
+
                 return;
             }
 

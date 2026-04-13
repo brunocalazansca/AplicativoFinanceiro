@@ -13,6 +13,8 @@ export const api = axios.create({
     headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        "X-API-KEY": process.env.EXPO_PUBLIC_API_KEY || "",
+        "X-API-SECRET": process.env.EXPO_PUBLIC_API_SECRET || "",
     },
 });
 

@@ -173,9 +173,6 @@ export default function Relatorios() {
 
                         <ReportCard
                             title="Despesas por Banco"
-                            iconName="credit-card"
-                            iconColor="#111827"
-                            iconBgColor="#F3F4F6"
                             emptyText="Nenhuma despesa no período"
                             style={styles.cardSpacing}
                             enableChildren={despesasPorBanco.length > 0}

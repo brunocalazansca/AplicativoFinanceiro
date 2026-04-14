@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- 2. Tabela de Formas de Pagamento (Independente)
 CREATE TABLE IF NOT EXISTS forma_pagamento (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL UNIQUE,
     cor_hex VARCHAR(7)
 );
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS transacoes (
     usuario_id BIGINT NOT NULL,
     banco_id BIGINT NOT NULL,
     categoria_id BIGINT,
-    forma_pagamento_id INTEGER,
+    forma_pagamento_id BIGINT,
     tipo_movimentacao VARCHAR(20) NOT NULL,
     descricao VARCHAR(255) NOT NULL,
     valor DECIMAL(18, 2) NOT NULL,

@@ -44,7 +44,7 @@ export default function Input({
                 value={value}
                 onChangeText={handleChangeText}
                 secureTextEntry={secureTextEntry}
-                inputMode={type}
+                inputMode={secureTextEntry ? undefined : type}
                 autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             />
         </View>

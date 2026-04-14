@@ -4,15 +4,18 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFFFFF',
+    },
+    scrollContent: {
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingVertical: 32,
     },
     content: {
         width: '100%',
-        height: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
         paddingHorizontal: 20,
+        paddingVertical: 10,
     },
     button: {
         width: '80%',
@@ -67,10 +70,6 @@ export const styles = StyleSheet.create({
         padding: 8,
         marginBottom: 3
     },
-    login: {
-        height: '50%'
-    },
-    register: {
-        height: '60%'
-    }
+    login: {},
+    register: {}
 });

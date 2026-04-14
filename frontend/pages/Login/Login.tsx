@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { styles } from "./LoginStyle";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -47,7 +47,15 @@ export default function LoginForm() {
         );
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+        <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+        >
             <Feather name="briefcase" size={80} color="#2A6DF4" />
             <Text style={styles.textNome}>FinnanceApp</Text>
             <Text style={styles.textDescricao}>
@@ -139,6 +147,7 @@ export default function LoginForm() {
                     />
                 </View>
             </CardLogin>
-        </View>
+        </ScrollView>
+        </KeyboardAvoidingView>
     );
 }

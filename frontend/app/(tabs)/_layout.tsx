@@ -21,7 +21,8 @@ export default function TabsLayout() {
                     <Tabs.Screen name="categorias" options={{ title: "Categorias" }} />
                     <Tabs.Screen name="relatorios" options={{ title: "Relatórios" }} />
                     <Tabs.Screen name="transacoes" options={{ title: "Transações" }} />
-                    <Tabs.Screen name="formas-pagamento" options={{ href: null }} />
+                    <Tabs.Screen name="formas-pagamento" options={{ title: "Formas de Pagamento" }} />
+                    <Tabs.Screen name="seu-cadastro" options={{ title: "Seu Cadastro" }} />
                 </Tabs>
             </View>
         </SafeAreaView>

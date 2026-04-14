@@ -4,6 +4,7 @@ import com.financeiro.spring.jpa.postgresql.dto.AuthResponseDTO;
 import com.financeiro.spring.jpa.postgresql.dto.LoginRequestDTO;
 import com.financeiro.spring.jpa.postgresql.dto.UserCreateRequestDTO;
 import com.financeiro.spring.jpa.postgresql.dto.UserResponseDTO;
+import com.financeiro.spring.jpa.postgresql.dto.UserUpdateRequestDTO;
 import com.financeiro.spring.jpa.postgresql.exception.ApiException;
 import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.BancoRepository;
@@ -95,6 +96,30 @@ public class UserService {
 
         UserResponseDTO userResp = new UserResponseDTO(user.getId(), user.getNome(), user.getEmail());
         return new AuthResponseDTO(token, "Bearer", userResp);
+    }
+
+    @Transactional
+    public UserResponseDTO atualizarUsuario(User user, UserUpdateRequestDTO dto) {
+        if (dto.getNome() == null || dto.getNome().trim().isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "O nome é obrigatório.", "nome");
+        }
+        if (dto.getEmail() == null || dto.getEmail().trim().isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "O email é obrigatório.", "email");
+        }
+        if (!user.getEmail().equalsIgnoreCase(dto.getEmail()) &&
+                usersRepository.existsByEmail(dto.getEmail())) {
+            throw new ApiException(HttpStatus.CONFLICT, "Este email já está cadastrado.", "email");
+        }
+        user.setNome(dto.getNome().trim());
+        user.setEmail(dto.getEmail().trim());
+        if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
+            if (dto.getSenha().trim().length() < 6) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "A senha deve ter pelo menos 6 caracteres.", "senha");
+            }
+            user.setSenha(passwordEncoder.encode(dto.getSenha().trim()));
+        }
+        User saved = usersRepository.save(user);
+        return new UserResponseDTO(saved.getId(), saved.getNome(), saved.getEmail());
     }
 
     @Transactional

@@ -41,6 +41,15 @@ export async function logout() {
     await clearSession();
 }
 
+export async function atualizarUsuario(nome: string, email: string, senha?: string) {
+    const res = await api.put('/users/me', { nome, email, ...(senha ? { senha } : {}) });
+    const session = await getSession();
+    if (session) {
+        await saveSession({ ...session, user: { id: res.data.id, nome: res.data.nome, email: res.data.email } });
+    }
+    return res.data;
+}
+
 export async function excluirConta() {
     await api.delete('/users/me');
     await clearSession();

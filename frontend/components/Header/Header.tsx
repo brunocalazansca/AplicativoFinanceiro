@@ -11,6 +11,8 @@ const TITLES: Record<string, string> = {
     relatorios: "Relatórios",
     transacoes: "Nova Transação",
     configuracoes: "Configurações",
+    "formas-pagamento": "Formas de Pagamento",
+    "seu-cadastro": "Seu Cadastro"
 };
 
 function safeDecode(value: string) {

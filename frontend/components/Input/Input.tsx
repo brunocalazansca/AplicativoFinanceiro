@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, TextInput, StyleProp, ViewStyle} from 'react-native';
+import React, { useState } from 'react';
+import {View, TextInput, StyleProp, ViewStyle, TouchableOpacity} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { styles } from './InputStyle'
 import { InputType, inputMask } from "@/_utils/typeInput";
@@ -23,6 +23,8 @@ export default function Input({
     type = 'none',
     style
 }: InputProps) {
+    const [hidden, setHidden] = useState(secureTextEntry);
+
     const handleChangeText = (text: string) => {
         const masked = inputMask(text, type);
         onChangeText?.(masked);
@@ -43,10 +45,16 @@ export default function Input({
                 placeholderTextColor="#9CA3AF"
                 value={value}
                 onChangeText={handleChangeText}
-                secureTextEntry={secureTextEntry}
+                secureTextEntry={hidden}
                 inputMode={secureTextEntry || type === 'none' ? undefined : type}
                 autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             />
+
+            {secureTextEntry && (
+                <TouchableOpacity onPress={() => setHidden(h => !h)} hitSlop={10}>
+                    <Feather name={hidden ? 'eye-off' : 'eye'} size={18} color="#9CA3AF" />
+                </TouchableOpacity>
+            )}
         </View>
     );
 }

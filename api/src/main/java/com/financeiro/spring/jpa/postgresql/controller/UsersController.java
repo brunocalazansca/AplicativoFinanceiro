@@ -33,6 +33,13 @@ public class UsersController {
         return ResponseEntity.ok(resp);
     }
 
+    @PutMapping("/users/me")
+    public ResponseEntity<UserResponseDTO> atualizar(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody UserUpdateRequestDTO dto) {
+        return ResponseEntity.ok(userService.atualizarUsuario(user, dto));
+    }
+
     @DeleteMapping("/users/me")
     public ResponseEntity<Void> deletarConta(@AuthenticationPrincipal User user) {
         userService.deletarContaPorEmail(user.getEmail());

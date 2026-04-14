@@ -34,12 +34,22 @@ export default function Configuracoes() {
         <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
             <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-            <View style={styles.content}>
+            <View style={styles.topContent}>
+                <Button
+                    title="Seu Cadastro"
+                    onPress={() => router.push('/(tabs)/seu-cadastro')}
+                    style={styles.outlineBtn}
+                    textColor="#2F6EF2"
+                />
                 <Button
                     title="Formas de Pagamento"
                     onPress={() => router.push('/(tabs)/formas-pagamento')}
-                    style={styles.formasBtn}
+                    style={styles.outlineBtn}
+                    textColor="#2F6EF2"
                 />
+            </View>
+
+            <View style={styles.bottomContent}>
                 <Button
                     title="Excluir conta"
                     onPress={() => setModalConfirmar(true)}

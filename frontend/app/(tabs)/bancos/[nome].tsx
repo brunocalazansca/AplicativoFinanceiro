@@ -2,7 +2,7 @@ import React, {useCallback, useState} from "react";
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
 import CardTransaction from "@/components/CardTransaction/CardTransaction";
-import { styles } from "@/app/(tabs)/bancos/[nome]Style";
+import { styles } from "@/pages/Bancos/BancoDetalheStyle";
 import { Feather } from "@expo/vector-icons";
 import { useHandleTransacoes } from "@/handle/transacaoHandle";
 import { useHandleFormaPagamento } from "@/handle/formaPagamentoHandle";

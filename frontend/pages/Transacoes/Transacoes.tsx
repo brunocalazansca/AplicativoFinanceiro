@@ -16,9 +16,9 @@ import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
 import AdditionModal from "@/components/AdditionModal/AdditionModal";
 
 export default function Transacoes() {
-    const { categoria, initCategoria, addCategoria } = useHandleCategoria();
-    const { bancos, initBanco, addBanco } = useHandleBancos();
-    const { formaPagamento, initFormaPagamento, handleSalvarNovaForma } = useHandleFormaPagamento();
+    const { categoria, initCategoria, addCategoria, feedback: feedbackCategoria, setFeedback: setFeedbackCategoria } = useHandleCategoria();
+    const { bancos, initBanco, addBanco, feedback: feedbackBanco, setFeedback: setFeedbackBanco } = useHandleBancos();
+    const { formaPagamento, initFormaPagamento, handleSalvarNovaForma, feedback: feedbackForma, setFeedback: setFeedbackForma } = useHandleFormaPagamento();
 
     const [modalCadastro, setModalCadastro] = useState(false);
     const [salvandoForma, setSalvandoForma] = useState(false);
@@ -255,10 +255,10 @@ export default function Transacoes() {
             />
 
             <FeedbackModal
-                visible={!!feedback}
-                title={feedback?.title ?? ""}
-                description={feedback?.description ?? ""}
-                onClose={() => setFeedback(null)}
+                visible={!!(feedback || feedbackBanco || feedbackCategoria || feedbackForma)}
+                title={(feedback ?? feedbackBanco ?? feedbackCategoria ?? feedbackForma)?.title ?? ""}
+                description={(feedback ?? feedbackBanco ?? feedbackCategoria ?? feedbackForma)?.description ?? ""}
+                onClose={() => { setFeedback(null); setFeedbackBanco(null); setFeedbackCategoria(null); setFeedbackForma(null); }}
             />
         </SafeAreaView>
     )

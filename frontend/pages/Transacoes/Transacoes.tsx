@@ -13,17 +13,24 @@ import { useHandleBancos } from "@/handle/bancoHandle";
 import { useHandleTransacoes } from "@/handle/transacaoHandle";
 import { useHandleFormaPagamento } from "@/handle/formaPagamentoHandle";
 import FeedbackModal from "@/components/FeedbackModal/FeedbackModal";
-import { CORES } from "@/_utils/coresTransacoes";
 import AdditionModal from "@/components/AdditionModal/AdditionModal";
 
 export default function Transacoes() {
-    const { categoria, initCategoria } = useHandleCategoria();
-    const { bancos, initBanco } = useHandleBancos();
+    const { categoria, initCategoria, addCategoria } = useHandleCategoria();
+    const { bancos, initBanco, addBanco } = useHandleBancos();
     const { formaPagamento, initFormaPagamento, handleSalvarNovaForma } = useHandleFormaPagamento();
 
     const [modalCadastro, setModalCadastro] = useState(false);
     const [salvandoForma, setSalvandoForma] = useState(false);
     const [formaSelecionada, setFormaSelecionada] = useState<{id: string; nome: string; cor: string} | null>(null);
+
+    const [modalBanco, setModalBanco] = useState(false);
+    const [salvandoBanco, setSalvandoBanco] = useState(false);
+    const [bancoSelecionado, setBancoSelecionado] = useState<{id: string; nome: string; cor: string} | null>(null);
+
+    const [modalCategoria, setModalCategoria] = useState(false);
+    const [salvandoCategoria, setSalvandoCategoria] = useState(false);
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState<{id: string; nome: string; cor: string} | null>(null);
 
     const {
         mode,
@@ -47,6 +54,8 @@ export default function Transacoes() {
 
     useEffect(() => {
         setFormaSelecionada(null);
+        setBancoSelecionado(null);
+        setCategoriaSelecionada(null);
     }, [selectResetKey]);
 
     useFocusEffect(
@@ -107,9 +116,15 @@ export default function Transacoes() {
                             nome: b.nome,
                             cor: b.corHex
                         }))}
-                        onSelect={handleBancoSelecionado}
+                        selectedValue={bancoSelecionado}
+                        onSelect={(item) => {
+                            setBancoSelecionado(item);
+                            handleBancoSelecionado(item);
+                        }}
                         placeholder="Selecione seu banco"
                         style={styles.size}
+                        onAddNew={bancos.length === 0 ? () => setModalBanco(true) : undefined}
+                        addNewLabel="Outro"
                     />
 
                     {mode === 'despesa' && (
@@ -117,25 +132,19 @@ export default function Transacoes() {
                             <Text style={styles.text}>Forma de Pagamento</Text>
                             <Select
                                 key={`forma-pagamento-${selectResetKey}`}
-                                options={[
-                                    ...formaPagamento
-                                        .filter(f => f.nome !== 'Outro')
-                                        .map(f => ({ id: String(f.id), nome: f.nome, cor: f.corHex })),
-                                    ...formaPagamento
-                                        .filter(f => f.nome === 'Outro')
-                                        .map(f => ({ id: String(f.id), nome: f.nome, cor: f.corHex })),
-                                ]}
+                                options={formaPagamento
+                                    .filter(f => f.nome !== 'Outro')
+                                    .map(f => ({ id: String(f.id), nome: f.nome, cor: f.corHex }))
+                                }
                                 selectedValue={formaSelecionada}
                                 onSelect={(item) => {
-                                    if (item.nome === 'Outro') {
-                                        setModalCadastro(true);
-                                    } else {
-                                        setFormaSelecionada(item);
-                                        handleFormaPagamentoSelecionada(item);
-                                    }
+                                    setFormaSelecionada(item);
+                                    handleFormaPagamentoSelecionada(item);
                                 }}
                                 placeholder="Selecione a forma de pagamento"
                                 style={styles.size}
+                                onAddNew={() => setModalCadastro(true)}
+                                addNewLabel="Outro"
                             />
 
                             <Text style={styles.text}>Categoria</Text>
@@ -146,9 +155,15 @@ export default function Transacoes() {
                                     nome: c.nome,
                                     cor: c.corHex
                                 }))}
-                                onSelect={handleCategoriaSelecionada}
+                                selectedValue={categoriaSelecionada}
+                                onSelect={(item) => {
+                                    setCategoriaSelecionada(item);
+                                    handleCategoriaSelecionada(item);
+                                }}
                                 placeholder="Selecione a categoria"
                                 style={styles.size}
+                                onAddNew={categoria.length === 0 ? () => setModalCategoria(true) : undefined}
+                                addNewLabel="Outro"
                             />
                         </>
                     )}
@@ -197,7 +212,46 @@ export default function Transacoes() {
                     );
                 }}
                 loading={salvandoForma}
-                colors={CORES.slice(0, 8)}
+            />
+
+            <AdditionModal
+                title="Banco"
+                placeholder="Ex: Nubank, Itaú..."
+                descricao="do Banco"
+                visible={modalBanco}
+                onClose={() => setModalBanco(false)}
+                onAdd={async (payload) => {
+                    setSalvandoBanco(true);
+                    const novo = await addBanco({ name: payload.name, color: payload.color });
+                    setSalvandoBanco(false);
+                    if (novo) {
+                        const option = { id: String(novo.id), nome: novo.nome, cor: novo.corHex };
+                        setBancoSelecionado(option);
+                        handleBancoSelecionado(option);
+                        setModalBanco(false);
+                    }
+                }}
+                loading={salvandoBanco}
+            />
+
+            <AdditionModal
+                title="Categoria"
+                placeholder="Ex: Alimentação, Transporte..."
+                descricao="da Categoria"
+                visible={modalCategoria}
+                onClose={() => setModalCategoria(false)}
+                onAdd={async (payload) => {
+                    setSalvandoCategoria(true);
+                    const nova = await addCategoria({ name: payload.name, color: payload.color });
+                    setSalvandoCategoria(false);
+                    if (nova) {
+                        const option = { id: String(nova.id), nome: nova.nome, cor: nova.corHex };
+                        setCategoriaSelecionada(option);
+                        handleCategoriaSelecionada(option);
+                        setModalCategoria(false);
+                    }
+                }}
+                loading={salvandoCategoria}
             />
 
             <FeedbackModal

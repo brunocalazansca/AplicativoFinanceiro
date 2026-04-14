@@ -93,6 +93,22 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold'
     },
+    addNewButton: {
+        marginTop: 10,
+        padding: 10,
+        borderRadius: 14,
+        borderWidth: 1,
+        borderColor: '#2F6EF2',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 6,
+    },
+    addNewButtonText: {
+        color: '#2F6EF2',
+        fontWeight: '600',
+        fontSize: 14,
+    },
     closeButton: {
         marginTop: 15,
         padding: 10,

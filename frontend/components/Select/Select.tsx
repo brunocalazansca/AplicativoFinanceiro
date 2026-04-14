@@ -10,6 +10,8 @@ interface SelectProps {
     placeholder?: string;
     style?: StyleProp<ViewStyle>;
     selectedValue?: SelectOption | null;
+    onAddNew?: () => void;
+    addNewLabel?: string;
 }
 
 export default function Select({
@@ -18,6 +20,8 @@ export default function Select({
     placeholder,
     style,
     selectedValue,
+    onAddNew,
+    addNewLabel = 'Adicionar',
 }: SelectProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<SelectOption | null>(null);
@@ -109,6 +113,19 @@ export default function Select({
                                 </View>
                             }
                         />
+
+                        {onAddNew && (
+                            <TouchableOpacity
+                                style={styles.addNewButton}
+                                onPress={() => {
+                                    setModalVisible(false);
+                                    onAddNew();
+                                }}
+                            >
+                                <Feather name="plus" size={15} color="#2F6EF2" />
+                                <Text style={styles.addNewButtonText}>{addNewLabel}</Text>
+                            </TouchableOpacity>
+                        )}
 
                         <TouchableOpacity
                             style={styles.closeButton}

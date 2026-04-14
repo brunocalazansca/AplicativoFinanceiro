@@ -17,4 +17,7 @@ export const styles = StyleSheet.create({
         borderColor: '#FF3B30',
         marginBottom: '25%'
     },
+    formasBtn: {
+        marginBottom: 12,
+    },
 });

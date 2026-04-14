@@ -3,7 +3,7 @@ import { getSession } from "@/storage/authStorage";
 import { setToken } from "@/api/authToken";
 import { FormaPagamentoApi } from "@/_utils/typeFormaPagamentoApi";
 import { FeedbackState } from "@/_utils/typeFeedback";
-import { criarFormaPagamento, obterFormaPagamento } from "@/services/formaPagamentoService";
+import { criarFormaPagamento, obterFormaPagamento, atualizarFormaPagamento, deletarFormaPagamento } from "@/services/formaPagamentoService";
 
 export function useHandleFormaPagamento() {
     const [formaPagamento, setFormaPagamento] = useState<FormaPagamentoApi[]>([]);
@@ -37,6 +37,30 @@ export function useHandleFormaPagamento() {
         return nova;
     }, []);
 
+    const deleteForma = useCallback(async (id: number) => {
+        try {
+            await deletarFormaPagamento(id);
+            setFormaPagamento(prev => prev.filter(f => f.id !== id));
+            setFeedback({ title: 'Forma de pagamento deletada com sucesso!' });
+        } catch (err: any) {
+            const msg = err?.response?.data?.message ?? err?.message ?? String(err);
+            setFeedback({ title: `Erro ao deletar: ${msg}` });
+        }
+    }, []);
+
+    const updateForma = useCallback(async (id: number, nome: string) => {
+        try {
+            const atualizada = await atualizarFormaPagamento(id, nome);
+            setFormaPagamento(prev => prev.map(f => f.id === id ? atualizada : f));
+            setFeedback({ title: `${atualizada.nome} atualizado com sucesso!` });
+            return atualizada;
+        } catch (err: any) {
+            const msg = err?.response?.data?.message ?? err?.message ?? String(err);
+            setFeedback({ title: `Erro ao atualizar: ${msg}` });
+            return null;
+        }
+    }, []);
+
     const handleSalvarNovaForma = useCallback(async (
         nome: string,
         corHex: string,
@@ -66,5 +90,7 @@ export function useHandleFormaPagamento() {
         initFormaPagamento,
         criarNovaFormaPagamento,
         handleSalvarNovaForma,
+        deleteForma,
+        updateForma,
     };
 }

@@ -36,6 +36,11 @@ export default function Configuracoes() {
 
             <View style={styles.content}>
                 <Button
+                    title="Formas de Pagamento"
+                    onPress={() => router.push('/(tabs)/formas-pagamento')}
+                    style={styles.formasBtn}
+                />
+                <Button
                     title="Excluir conta"
                     onPress={() => setModalConfirmar(true)}
                     style={styles.deleteBtn}

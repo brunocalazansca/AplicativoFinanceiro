@@ -23,4 +23,15 @@ public class FormaPagamentoController {
     public ResponseEntity<FormaPagamentoDTO> criar(@RequestBody FormaPagamentoDTO dto) {
         return ResponseEntity.ok(service.criar(dto));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable Long id, @RequestBody FormaPagamentoDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }

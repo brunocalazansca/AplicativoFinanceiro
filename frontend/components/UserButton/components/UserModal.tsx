@@ -41,9 +41,10 @@ export default function UserModal({
     }
 
     const navigateToSettings = () => {
+        close?.();
         router.push({
             pathname: "/(tabs)/configuracoes",
-        })
+        });
     };
 
     return (

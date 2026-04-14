@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {Modal, View, Text, Pressable, Platform, KeyboardAvoidingView,} from "react-native";
+import {Modal, View, Text, Pressable, Platform, KeyboardAvoidingView, TouchableWithoutFeedback,} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { styles } from './AdditionModalStyle'
 import Button from "../Button/Button";
@@ -72,12 +72,14 @@ export default function AdditionModal({
             animationType="fade"
             onRequestClose={onClose}
         >
-            <Pressable style={styles.backdrop} onPress={onClose}>
+            <TouchableWithoutFeedback onPress={onClose}>
+                <View style={styles.backdrop}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : undefined}
                     style={styles.center}
                 >
-                    <Pressable style={styles.card} onPress={() => {}}>
+                    <TouchableWithoutFeedback>
+                    <View style={styles.card}>
                         <View style={styles.header}>
                             <Text style={styles.title}>Adicionar {title}</Text>
 
@@ -124,9 +126,11 @@ export default function AdditionModal({
                             disabled={!canSubmit}
                             style={styles.addButton}
                         />
-                    </Pressable>
+                    </View>
+                    </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
-            </Pressable>
+                </View>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 }

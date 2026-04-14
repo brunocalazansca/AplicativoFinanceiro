@@ -15,10 +15,11 @@ export default function Configuracoes() {
 
     const handleExcluirConta = async () => {
         if (loading) return;
+        setModalConfirmar(false);
         setLoading(true);
         try {
             await excluirConta();
-            setModalConfirmar(false);
+            setLoading(false);
             setSucesso(true);
             setTimeout(() => {
                 setSucesso(false);
@@ -26,7 +27,6 @@ export default function Configuracoes() {
             }, 2500);
         } catch {
             setLoading(false);
-            setModalConfirmar(false);
         }
     };
 
@@ -45,15 +45,15 @@ export default function Configuracoes() {
 
             <ConfirmModal
                 visible={modalConfirmar}
-                message={loading ? 'Excluindo...' : 'Tem certeza que deseja excluir sua conta? Todos os seus dados serão permanentemente removidos.'}
+                message="Tem certeza que deseja excluir sua conta? Todos os seus dados serão permanentemente removidos."
                 onClose={() => setModalConfirmar(false)}
                 onConfirm={handleExcluirConta}
                 onCancel={() => setModalConfirmar(false)}
             />
 
             <FeedbackModal
-                visible={sucesso}
-                title="Conta excluída com sucesso!"
+                visible={loading || sucesso}
+                title={sucesso ? 'Conta excluída com sucesso!' : 'Excluindo...'}
                 onClose={() => {
                     setSucesso(false);
                     router.replace('/login');

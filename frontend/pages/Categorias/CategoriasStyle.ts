@@ -29,13 +29,13 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#6B7280",
         marginTop: 12,
-        marginLeft: 8
+        marginLeft: '4.5%'
     },
     cardContainer: {
         alignItems: 'center',
         flex: 1,
         padding: 12,
-        marginTop: '15%',
+        paddingTop: '25%',
     },
     button: {
         width: "40%",

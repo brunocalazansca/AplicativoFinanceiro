@@ -25,10 +25,10 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#6B7280",
         marginTop: 0,
-        marginLeft: 8
+        marginLeft: '4.5%'
     },
     cardsContainer: {
-        paddingTop: 70,
+        paddingTop: '25%',
         alignItems: "center",
         paddingBottom: 120,
     },

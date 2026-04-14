@@ -1,0 +1,1 @@
+ALTER TABLE forma_pagamento ALTER COLUMN id TYPE BIGINT;

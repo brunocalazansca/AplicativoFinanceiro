@@ -3,6 +3,7 @@ package com.financeiro.spring.jpa.postgresql.service;
 import com.financeiro.spring.jpa.postgresql.dto.FormaPagamentoDTO;
 import com.financeiro.spring.jpa.postgresql.exception.ApiException;
 import com.financeiro.spring.jpa.postgresql.model.FormaPagamento;
+import com.financeiro.spring.jpa.postgresql.model.User;
 import com.financeiro.spring.jpa.postgresql.repository.FormaPagamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,43 +17,42 @@ import java.util.stream.Collectors;
 public class FormaPagamentoService {
     private final FormaPagamentoRepository repository;
 
-    public List<FormaPagamentoDTO> listarTodas() {
-        return repository.findAll().stream()
-            .map(forma -> FormaPagamentoDTO.builder()
-                .id(forma.getId())
-                .nome(forma.getNome())
-                .corHex(forma.getCorHex())
-                .build())
+    private FormaPagamentoDTO toDTO(FormaPagamento f) {
+        return FormaPagamentoDTO.builder()
+            .id(f.getId())
+            .usuarioId(f.getUser() != null ? f.getUser().getId() : null)
+            .nome(f.getNome())
+            .corHex(f.getCorHex())
+            .build();
+    }
+
+    public List<FormaPagamentoDTO> listarTodas(User user) {
+        return repository.findByUserOrGlobal(user).stream()
+            .map(this::toDTO)
             .collect(Collectors.toList());
     }
 
-    public FormaPagamentoDTO criar(FormaPagamentoDTO dto) {
+    public FormaPagamentoDTO criar(User user, FormaPagamentoDTO dto) {
+        if (repository.existsByUserAndNomeIgnoreCase(user, dto.getNome())) {
+            throw new ApiException(HttpStatus.CONFLICT, "Forma de pagamento já cadastrada.", "nome");
+        }
         FormaPagamento forma = new FormaPagamento();
+        forma.setUser(user);
         forma.setNome(dto.getNome());
         forma.setCorHex(dto.getCorHex());
-        FormaPagamento salvo = repository.save(forma);
-        return FormaPagamentoDTO.builder()
-            .id(salvo.getId())
-            .nome(salvo.getNome())
-            .corHex(salvo.getCorHex())
-            .build();
+        return toDTO(repository.save(forma));
     }
 
-    public FormaPagamentoDTO atualizar(Long id, FormaPagamentoDTO dto) {
-        FormaPagamento forma = repository.findById(id)
-            .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Forma de pagamento não encontrada.", "id"));
+    public FormaPagamentoDTO atualizar(User user, Long id, FormaPagamentoDTO dto) {
+        FormaPagamento forma = repository.findByIdAndUser(id, user)
+            .orElseThrow(() -> new ApiException(HttpStatus.FORBIDDEN, "Você não tem permissão para editar esta forma de pagamento.", "id"));
         forma.setNome(dto.getNome());
-        FormaPagamento salvo = repository.save(forma);
-        return FormaPagamentoDTO.builder()
-            .id(salvo.getId())
-            .nome(salvo.getNome())
-            .corHex(salvo.getCorHex())
-            .build();
+        return toDTO(repository.save(forma));
     }
 
-    public void deletar(Long id) {
-        FormaPagamento forma = repository.findById(id)
-            .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Forma de pagamento não encontrada.", "id"));
+    public void deletar(User user, Long id) {
+        FormaPagamento forma = repository.findByIdAndUser(id, user)
+            .orElseThrow(() -> new ApiException(HttpStatus.FORBIDDEN, "Você não tem permissão para excluir esta forma de pagamento.", "id"));
         repository.delete(forma);
     }
 }

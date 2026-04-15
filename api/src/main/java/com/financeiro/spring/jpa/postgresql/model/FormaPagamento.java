@@ -6,7 +6,10 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "forma_pagamento")
+@Table(
+    name = "forma_pagamento",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "nome"})
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +19,11 @@ public class FormaPagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = true)
+    private User user;
+
+    @Column(nullable = false, length = 50)
     private String nome;
 
     @Column(name = "cor_hex", length = 7)

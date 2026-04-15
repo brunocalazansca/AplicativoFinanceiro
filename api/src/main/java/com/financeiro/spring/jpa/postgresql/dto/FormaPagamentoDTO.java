@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 public class FormaPagamentoDTO {
     private Long id;
+    private Long usuarioId;
     private String nome;
     private String corHex;
 }
